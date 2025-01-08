@@ -9,6 +9,10 @@
 
 We demonstrate how to deploy to simple command line apps using uvx.
 
+## Install gh
+
+Install GitHub's command line tool.
+
 ## Install uvx
 
 The current way to deploy apps is to use [uvx](https://docs.astral.sh/uv/guides/tools/).
