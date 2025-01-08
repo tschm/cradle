@@ -1,22 +1,48 @@
-#    Copyright 2023 Stanford University Convex Optimization Group
-#
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#
-#        http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS,
-#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#    See the License for the specific language governing permissions and
-#    limitations under the License.
-
 project_name:
   type: str
-  help: Your project name?
-  ## Validate that there is no / and . in the name, no -
+  help: "Your project name? It must start with a lowercase letter, followed by letters, digits, or underscores."
   validator: >-
-      {% if not (project_name | regex_search('^[a-z][a-z0-9\_]+$')) %}
-      project_name must start with a letter, followed one or more letters, digits or dashes all lowercase.
-      {% endif %}
+    {% if not (project_name | regex_search('^[a-z][a-z0-9_]+$')) %}
+      project_name must start with a lowercase letter, followed by one or more lowercase letters, digits, or underscores.
+    {% endif %}
+
+username:
+  type: str
+  default: 'tschm'
+  help: "Home of your future repo (either 'cvxgrp' or your private GitHub account name)"
+  validator: >-
+    {% if not username %}
+      Username cannot be empty.
+    {% endif %}
+
+description:
+  type: str
+  help: "Enter a brief description of your project."
+  default: "Some computations"
+  validator: >-
+    {% if not description %}
+      Description cannot be empty.
+    {% endif %}
+
+status:
+  type: str
+  help: "What is the visibility status of the repository?"
+  choices:
+    - "public"
+    - "private"
+    - "internal"
+  default: "public"
+  validator: >-
+    {% if status not in ['public', 'private', 'internal'] %}
+      Status must be one of: public, private, or internal.
+    {% endif %}
+
+command:
+  type: str
+  default: "gh repo create {{username}}/{{ project_name | lower }} --{{status}} --description '{{description}}'"
+  when: false
+
+ssh_uri:
+  type: str
+  default: "git@github.com:{{username}}//{{ project_name | lower }}.git"
+  when: false
