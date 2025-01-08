@@ -27,7 +27,7 @@ dev = [
 ]
 
 [project.scripts]
-cradle = "cvx.cradle.main:main"
+cradle = "cvx.cradle.cli:cli"
 
 [tool.ruff]
 line-length = 120
