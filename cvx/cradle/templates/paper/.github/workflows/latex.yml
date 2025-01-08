@@ -15,7 +15,7 @@ jobs:
         with:
           paper: paper1/main1.tex
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          draft: draft_main1
+          draft: draft
 
       - uses: cvxgrp/.github/actions/latex@v2.0.1
         with:

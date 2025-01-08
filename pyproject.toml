@@ -1,19 +1,14 @@
 [project]
-name = "cvxcli"
+name = "cradle"
 version = "0.0.0"
-description = "Simple command line app demo"
+description = "CLI to create repos"
 readme = "README.md"
 authors = [{name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com"}]
 requires-python = ">=3.10"
 dependencies = [
-"fire>=0.7.0",
 "copier>=9.3.1",
 "questionary>=2.0.1",
 "loguru>=0.7.2",
-"pygithub",
-#typing_extensions = "*"
-#pydantic_core = "*"
-#annotated_types = "*"
 "GitPython>=0.0.0"
 ]
 
