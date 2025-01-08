@@ -13,7 +13,7 @@ Please install GitHub's official command line tool [gh](https://github.com/cli/c
 
 ## Install taskfile
 
-Please install [Taskfile](https://taskfile.dev/installation/). 
+Please install [Taskfile](https://taskfile.dev/installation/).
 
 ## Using the cradle tool
 
