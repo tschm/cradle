@@ -121,7 +121,7 @@ toml = [
 ]
 
 [[package]]
-name = "cradle"
+name = "cvxcradle"
 version = "0.0.0"
 source = { editable = "." }
 dependencies = [

@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/cradle.svg)](https://badge.fury.io/py/cradle)
 [![Apache 2.0 License](https://img.shields.io/badge/License-APACHEv2-brightgreen.svg)](https://github.com/cvxgrp/cradle/blob/master/LICENSE)
-[![Downloads](https://static.pepy.tech/personalized-badge/cradle?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cradle)
+[![Downloads](https://static.pepy.tech/personalized-badge/cvx-cradle?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cvx-cradle)
 [![Coverage Status](https://coveralls.io/repos/github/cvxgrp/cradle/badge.png?branch=main)](https://coveralls.io/github/cvxgrp/cradle?branch=main)
 
 cradle is a command line tool to create repos based on a group of templates.
