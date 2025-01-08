@@ -11,3 +11,12 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+
+project_name:
+  type: str
+  help: Your project name?
+  ## Validate that there is no / and . in the name, no -
+  validator: >-
+      {% if not (project_name | regex_search('^[a-z][a-z0-9\_]+$')) %}
+      project_name must start with a letter, followed one or more letters, digits or dashes all lowercase.
+      {% endif %}

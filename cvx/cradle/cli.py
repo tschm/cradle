@@ -50,7 +50,7 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
     CLI for Factory
 
     Args:
-        template: (optional) template. Use a git URI, e.g. 'git@qromatiq.codes:adia/black/templates/package.git'
+        template: (optional) template. Use a git URI, e.g. 'git@...'
         dst: (optional) destination. Use a path
     """
     # check the git version
