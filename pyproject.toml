@@ -1,5 +1,5 @@
 [project]
-name = "cradle"
+name = "cvx-cradle"
 version = "0.0.0"
 description = "CLI to create repos"
 readme = "README.md"
