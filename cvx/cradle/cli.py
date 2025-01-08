@@ -18,8 +18,7 @@ from pathlib import Path
 import questionary
 from loguru import logger
 
-from cvx.cradle.utils.git import assert_git_version
-
+from .utils.git import assert_git_version
 from .utils.shell import run_shell_command
 from .utils.ui import worker
 
@@ -63,36 +62,31 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
     # Copy material into the random path
     _worker = worker(template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults)
 
-    logger.info("Values entered and defined")
-    for name, value in _worker.answers.user.items():
-        logger.info(f"{name}: {value}")
-
     command = _worker.answers.user["command"]
 
-    run_shell_command(command)
+    run_shell_command(command, logger=logger)
 
     ssh_uri = _worker.answers.user["ssh_uri"]
 
     home = os.getcwd()
-    logger.info(f"Home: {home}")
 
     # move into the folder used by the Factory
     os.chdir(path)
 
     # Initialize the git repository
-    run_shell_command("git init --initial-branch=main")
+    run_shell_command("git init --initial-branch=main", logger=logger)
 
     # add everything
-    run_shell_command("git add .")
+    run_shell_command("git add .", logger=logger)
 
     # make the initial commit
-    run_shell_command("git commit -am.")
+    run_shell_command("git commit -am.", logger=logger)
 
     # add the remote origin
-    run_shell_command(f"git remote add origin {ssh_uri}")
+    run_shell_command(f"git remote add origin {ssh_uri}", logger=logger)
 
     # push everything into the repo
-    os.system("git push -u origin main")
+    run_shell_command("git push -u origin main", logger=logger)
 
     # go back to the repo
     os.chdir(home)

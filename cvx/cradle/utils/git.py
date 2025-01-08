@@ -17,13 +17,11 @@ This module provides functionality to check and validate Git version requirement
 using the GitPython package, with support for vendor-specific version formats.
 """
 
-import logging
 import re
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Optional, Tuple, Union
 
-from git import Git, GitCommandError, GitCommandNotFound, InvalidGitRepositoryError, NoSuchPathError, Repo
+from git import Git, GitCommandError, GitCommandNotFound, InvalidGitRepositoryError, NoSuchPathError
 
 
 class GitVersionError(Exception):
@@ -225,42 +223,3 @@ def get_git_info(repo_path: Optional[str] = None) -> dict:
         }
     except Exception as e:
         raise GitVersionError(f"Failed to retrieve Git information: {str(e)}")
-
-
-def init_git_repo(path: Path, ssh_uri: str, logger=None):
-    logger = logger or logging.getLogger(__name__)
-    """Initialize a Git repository using GitPython and push to remote"""
-    try:
-        # Initialize Git repository
-        repo = Repo.init(path)
-        logger.info(f"Git repository initialized at {path}")
-
-        # add all files
-        repo.git.add(".")
-        repo.index.commit("Initial commit")
-
-        repo.create_remote("origin", ssh_uri)
-        # Add the remote origin
-        origin = repo.create_remote("origin", ssh_uri)
-        logger.info(f"Remote origin set to {ssh_uri}")
-
-        # Add all files
-        repo.git.add(A=True)
-        logger.info("Staged all files.")
-
-        # Commit the changes
-        repo.index.commit("Initial commit")
-        logger.info("Committed the changes.")
-
-        # Push the changes to remote
-        origin.push(refspec="main:main")
-        logger.info("Pushed to remote repository.")
-
-    except GitCommandError as e:
-        logger.error(f"Git command failed: {e}")
-        return False
-    except Exception as e:
-        logger.error(f"Failed to initialize or push the Git repository: {e}")
-        return False
-
-    return True
