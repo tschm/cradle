@@ -3,3 +3,17 @@ version: '3'
 includes:
     cradle:
         taskfile: https://github.com/cvxgrp/.github.git//tasks/setup.yml?ref=main
+
+tasks:
+  verify:
+    desc: Verify GitHub SSH connection
+    cmds:
+      - |
+        if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+          echo "✓ GitHub SSH connection verified"
+          exit 0
+        else
+          echo "✗ GitHub SSH connection failed"
+          exit 1
+        fi
+    silent: true
