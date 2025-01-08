@@ -18,8 +18,7 @@ from pathlib import Path
 import questionary
 from loguru import logger
 
-from cvx.cradle.utils.git import assert_git_version
-
+from .utils.git import assert_git_version
 from .utils.shell import run_shell_command
 from .utils.ui import worker
 
