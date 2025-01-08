@@ -18,7 +18,7 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.0
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.1
 
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2
@@ -27,7 +27,7 @@ jobs:
           format: lcov
 
   # reactivate later
-  #deptry:
+  # deptry:
   #  runs-on: ubuntu-latest
   #  steps:
   #    - name: Checkout [${{ github.repository }}]
