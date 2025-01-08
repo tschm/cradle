@@ -56,3 +56,4 @@ repos:
     rev: v1.29.0
     hooks:
       - id: typos
+        exclude: \.gitignore
