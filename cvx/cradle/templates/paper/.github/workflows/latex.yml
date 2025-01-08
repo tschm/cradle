@@ -3,8 +3,8 @@ name: Build LaTeX document
 on:
   push
 
-permission:
-  content: write
+permissions:
+  contents: write
 
 jobs:
   build_paper:
