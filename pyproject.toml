@@ -10,6 +10,7 @@ dependencies = [
 "copier>=9.3.1",
 "questionary>=2.0.1",
 "loguru>=0.7.2",
+"pygithub",
 #typing_extensions = "*"
 #pydantic_core = "*"
 #annotated_types = "*"

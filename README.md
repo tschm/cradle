@@ -5,9 +5,13 @@
 [![Downloads](https://static.pepy.tech/personalized-badge/cradle?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cradle)
 [![Coverage Status](https://coveralls.io/repos/github/cvxgrp/cradle/badge.png?branch=main)](https://coveralls.io/github/cvxgrp/cradle?branch=main)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/cvxgrp/cradle)
+cradle is a command line tool to create repos based on a group of templates.
 
-We demonstrate how to deploy to simple command line apps using uvx.
+## Install gh
+
+Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
+
+## Using the cradle tool
 
 ## Install uvx
 

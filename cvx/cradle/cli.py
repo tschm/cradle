@@ -11,38 +11,19 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-"""
-cli to get weather data
-"""
-
+import os
+import tempfile
 from pathlib import Path
 
 import questionary
-from copier import run_copy
 from loguru import logger
 
-from .git import assert_git_version
+from cvx.cradle.utils.git import assert_git_version
+
+from .utils.shell import run_shell_command
+from .utils.ui import worker
 
 _templates = Path(__file__).parent / "templates"
-
-
-def worker(template: str, dst_path, vcs_ref="HEAD", user_defaults=None):
-    """Run copier to copy the template to the destination path"""
-    if user_defaults is None:
-        _worker = run_copy(src_path=template, dst_path=dst_path, vcs_ref=vcs_ref)
-        return _worker
-
-    # important for testing
-    _worker = run_copy(
-        src_path=template,
-        dst_path=dst_path,
-        vcs_ref=vcs_ref,
-        unsafe=True,
-        defaults=True,
-        user_defaults=user_defaults,
-    )
-
-    return _worker
 
 
 def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defaults=None) -> None:
@@ -50,7 +31,7 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
     CLI for Factory
 
     Args:
-        template: (optional) template. Use a git URI, e.g. 'git@qromatiq.codes:adia/black/templates/package.git'
+        template: (optional) template. Use a git URI, e.g. 'git@...'
         dst: (optional) destination. Use a path
     """
     # check the git version
@@ -74,3 +55,46 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
         ).ask()
 
         template = templates[result]
+
+    # Create a random path
+    path = dst or Path(tempfile.mkdtemp())
+    logger.info(f"Path to (re)construct your project: {path}")
+
+    # Copy material into the random path
+    _worker = worker(template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults)
+
+    logger.info("Values entered and defined")
+    for name, value in _worker.answers.user.items():
+        logger.info(f"{name}: {value}")
+
+    command = _worker.answers.user["command"]
+
+    run_shell_command(command)
+
+    ssh_uri = _worker.answers.user["ssh_uri"]
+
+    home = os.getcwd()
+    logger.info(f"Home: {home}")
+
+    # move into the folder used by the Factory
+    os.chdir(path)
+
+    # Initialize the git repository
+    run_shell_command("git init --initial-branch=main")
+
+    # add everything
+    run_shell_command("git add .")
+
+    # make the initial commit
+    run_shell_command("git commit -am.")
+
+    # add the remote origin
+    run_shell_command(f"git remote add origin {ssh_uri}")
+
+    # push everything into the repo
+    os.system("git push -u origin main")
+
+    # go back to the repo
+    os.chdir(home)
+
+    logger.info(f"You may have to perform 'git clone {ssh_uri}'")

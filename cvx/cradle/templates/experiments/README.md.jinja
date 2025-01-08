@@ -1,0 +1,47 @@
+# {{project_name | lower}}
+
+Simple Notebook repo without heavy ci/cd.
+
+Good choice for experiments without the ambition to move the
+resulting software further down to pypi, etc. A more complete
+setup is provided in the blueprints for packages.
+
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)]({{ repository }})
+
+
+## The Makefile
+
+Please start the day with
+
+```bash
+make
+```
+
+If you prefer working on a clean sheet do
+
+```bash
+make clean
+```
+
+## The virtual environment
+
+Please use
+
+```bash
+make install
+```
+
+to build a virtual environment containing all dependencies declared in your
+`requirements.txt` file. This will run a simple pip install.
+
+
+## Marimo
+
+We use Marimo (instead of Jupyter) to perform our experiments. Start with
+
+```bash
+make marimo
+```
+
+For smaller projects we recommend the installing jupyter route and work locally.
