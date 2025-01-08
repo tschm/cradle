@@ -11,10 +11,9 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-"""
-cli to get weather data
-"""
-
+import os
+import subprocess
+import tempfile
 from pathlib import Path
 
 import questionary
@@ -74,3 +73,51 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
         ).ask()
 
         template = templates[result]
+
+    # Create a random path
+    path = dst or Path(tempfile.mkdtemp())
+    logger.info(f"Path to (re)construct your project: {path}")
+
+    # Copy material into the random path
+    _worker = worker(template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults)
+
+    logger.info("Values entered and defined")
+    for name, value in _worker.answers.user.items():
+        logger.info(f"{name}: {value}")
+
+    command = _worker.answers.user["command"]
+    try:
+        # Execute the command using subprocess
+        subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Error: {str(e)}")
+        return False
+
+    ssh_uri = _worker.answers.user["ssh_uri"]
+
+    # get the current working directory
+    home = os.getcwd()
+    logger.info(f"Home: {home}")
+
+    # move into the folder used by the Factory
+    os.chdir(path)
+
+    # Initialize the git repository
+    os.system("git init --initial-branch=main")
+
+    # add the remote origin, e.g. create the repo
+    os.system(f"git remote add origin {ssh_uri}")
+
+    # add everything
+    os.system("git add .")
+
+    # make the initial commit
+    os.system("git commit -am.")
+
+    # push everything into the repo
+    os.system("git push -u origin main")
+
+    # go back to the repo
+    os.chdir(home)
+
+    logger.info(f"You may have to perform 'git clone {ssh_uri}'")

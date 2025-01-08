@@ -21,8 +21,7 @@ import re
 from dataclasses import dataclass
 from typing import Optional, Tuple, Union
 
-from git import Git, GitCommandError, InvalidGitRepositoryError, NoSuchPathError
-from git.cmd import GitCommandNotFound
+from git import Git, GitCommandError, GitCommandNotFound, InvalidGitRepositoryError, NoSuchPathError
 
 
 class GitVersionError(Exception):
