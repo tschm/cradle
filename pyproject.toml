@@ -6,26 +6,28 @@ readme = "README.md"
 authors = [{name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com"}]
 requires-python = ">=3.10"
 dependencies = [
-    "cvxbson>=0.1.0",
-    "fire>=0.7.0",
-    "numpy>=2.2.1",
-    "requests>=2.32.3",
+"fire>=0.7.0",
+"copier>=9.3.1",
+"questionary>=2.0.1",
+"loguru>=0.7.2",
+#typing_extensions = "*"
+#pydantic_core = "*"
+#annotated_types = "*"
+"GitPython>=0.0.0"
 ]
 
 [project.urls]
-repository = "https://github.com/cvxgrp/cvxcli"
+repository = "https://github.com/cvxgrp/cradle"
 
 [dependency-groups]
 dev = [
     "pytest-cov>=6.0.0",
     "pytest>=8.3.3",
     "pre-commit>=4.0.1",
-    "mock"
 ]
 
 [project.scripts]
-weather = "cvx.cli.weather:main"
-smallest-eigenvalue = "cvx.cli.smallest_eigenvalue:main"
+cradle = "cvx.cradle.main:main"
 
 [tool.ruff]
 line-length = 120
