@@ -1,8 +1,8 @@
-# cradle
+# cvxcradle
 
-[![PyPI version](https://badge.fury.io/py/cradle.svg)](https://badge.fury.io/py/cradle)
+[![PyPI version](https://badge.fury.io/py/cradle.svg)](https://badge.fury.io/py/cvxcradle)
 [![Apache 2.0 License](https://img.shields.io/badge/License-APACHEv2-brightgreen.svg)](https://github.com/cvxgrp/cradle/blob/master/LICENSE)
-[![Downloads](https://static.pepy.tech/personalized-badge/cvx-cradle?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cvx-cradle)
+[![Downloads](https://static.pepy.tech/personalized-badge/cvxcradle?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cvxcradle)
 [![Coverage Status](https://coveralls.io/repos/github/cvxgrp/cradle/badge.png?branch=main)](https://coveralls.io/github/cvxgrp/cradle?branch=main)
 
 cradle is a command line tool to create repos based on a group of templates.
@@ -10,6 +10,10 @@ cradle is a command line tool to create repos based on a group of templates.
 ## Install gh
 
 Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
+
+## Install taskfile
+
+Please install [Taskfile](https://taskfile.dev/installation/). 
 
 ## Using the cradle tool
 
@@ -20,20 +24,20 @@ The tool creates a temporary virtual environment for each app.
 
 For the installation of uv/uvx please refer to the [uvx documentation](https://docs.astral.sh/uv/getting-started/installation/).
 
-## Install cvxcli with uvx
+## Install cvxcradle with uvx
 
-cvxcli has been deployed to PyPI like any other Python package. It could be
+cvxcradle has been deployed to PyPI like any other Python package. It could be
 installed via pip but we advise against that.
 
-cvxcli is not exactly a package you should use as a dependency in your own code.
-cvxcli is the home for two apps that are meant to be used from the command line.
+cvxcradle is a command line app rather than a package you install into your projects.
+
 So please run via uvx
 
 ```bash
-uvx --from cvxcli weather
+uvx --from cvxcradle cradle
 ```
 
-This command will create a temporary virtual environment for cvxcli
+This command will create a temporary virtual environment for cvxcradle
 and install the package into that environment.
 
 Please note that you **do need uvx** to be installed on your machine.
