@@ -11,17 +11,3 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from cvx.cradle.git import GitNotFoundError, GitVersionError, check_git_version, get_git_info
-
-
-def main():
-    print(get_git_info())
-
-    # Basic version check
-    try:
-        if check_git_version("2.28.0", verbose=True):
-            print("Git version is sufficient")
-    except GitNotFoundError:
-        print("Git is not installed")
-    except GitVersionError as e:
-        print(f"Version error: {e}")

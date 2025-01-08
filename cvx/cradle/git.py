@@ -168,34 +168,30 @@ def check_git_version(
         raise GitVersionError(f"Invalid repository path: {repo_path}") from e
 
 
-# def assert_git_version(
-#     min_version: Union[str, GitVersion, Tuple[int, int], Tuple[int, int, int]],
-#     repo_path: Optional[str] = None
-# ):
-#     """Assert that Git version meets minimum requirements.
-#
-#     Args:
-#         min_version: Minimum required version (same format as check_git_version).
-#         repo_path: Optional path to Git repository to check.
-#
-#     Raises:
-#         GitVersionError: If version requirements are not met.
-#         GitNotFoundError: If Git is not installed.
-#     """
-#     if not check_git_version(min_version, repo_path=repo_path):
-#         git = Git(repo_path) if repo_path else Git()
-#         version_str = git.execute(["git", "--version"])
-#         installed_version = parse_version(version_str)
-#         if isinstance(min_version, (str, tuple)):
-#             min_version = (
-#                 parse_version(f"git version {min_version}")
-#                 if isinstance(min_version, str)
-#                 else GitVersion(*min_version)
-#             )
-#         raise GitVersionError(
-#             f"Insufficient Git version: {installed_version} "
-#             f"(required: >= {min_version})"
-#         )
+def assert_git_version(
+    min_version: Union[str, GitVersion, Tuple[int, int], Tuple[int, int, int]], repo_path: Optional[str] = None
+):
+    """Assert that Git version meets minimum requirements.
+
+    Args:
+        min_version: Minimum required version (same format as check_git_version).
+        repo_path: Optional path to Git repository to check.
+
+    Raises:
+        GitVersionError: If version requirements are not met.
+        GitNotFoundError: If Git is not installed.
+    """
+    if not check_git_version(min_version, repo_path=repo_path):
+        git = Git(repo_path) if repo_path else Git()
+        version_str = git.execute(["git", "--version"])
+        installed_version = parse_version(version_str)
+        if isinstance(min_version, (str, tuple)):
+            min_version = (
+                parse_version(f"git version {min_version}")
+                if isinstance(min_version, str)
+                else GitVersion(*min_version)
+            )
+        raise GitVersionError(f"Insufficient Git version: {installed_version} " f"(required: >= {min_version})")
 
 
 def get_git_info(repo_path: Optional[str] = None) -> dict:
