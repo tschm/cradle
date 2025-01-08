@@ -6,10 +6,10 @@ readme = "README.md"
 authors = [{name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com"}]
 requires-python = ">=3.10"
 dependencies = [
-"copier>=9.3.1",
-"questionary>=2.0.1",
-"loguru>=0.7.2",
-"GitPython>=0.0.0"
+    "copier>=9.3.1",
+    "questionary>=2.0.1",
+    "loguru>=0.7.2",
+    "GitPython>=0.0.0"
 ]
 
 [project.urls]
