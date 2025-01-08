@@ -12,36 +12,18 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import os
-import subprocess
 import tempfile
 from pathlib import Path
 
 import questionary
-from copier import run_copy
 from loguru import logger
 
-from .git import assert_git_version
+from cvx.cradle.utils.git import assert_git_version
+
+from .utils.shell import run_shell_command
+from .utils.ui import worker
 
 _templates = Path(__file__).parent / "templates"
-
-
-def worker(template: str, dst_path, vcs_ref="HEAD", user_defaults=None):
-    """Run copier to copy the template to the destination path"""
-    if user_defaults is None:
-        _worker = run_copy(src_path=template, dst_path=dst_path, vcs_ref=vcs_ref)
-        return _worker
-
-    # important for testing
-    _worker = run_copy(
-        src_path=template,
-        dst_path=dst_path,
-        vcs_ref=vcs_ref,
-        unsafe=True,
-        defaults=True,
-        user_defaults=user_defaults,
-    )
-
-    return _worker
 
 
 def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defaults=None) -> None:
@@ -86,16 +68,11 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
         logger.info(f"{name}: {value}")
 
     command = _worker.answers.user["command"]
-    try:
-        # Execute the command using subprocess
-        subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Error: {str(e)}")
-        return False
+
+    run_shell_command(command)
 
     ssh_uri = _worker.answers.user["ssh_uri"]
 
-    # get the current working directory
     home = os.getcwd()
     logger.info(f"Home: {home}")
 
@@ -103,16 +80,16 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
     os.chdir(path)
 
     # Initialize the git repository
-    os.system("git init --initial-branch=main")
-
-    # add the remote origin, e.g. create the repo
-    os.system(f"git remote add origin {ssh_uri}")
+    run_shell_command("git init --initial-branch=main")
 
     # add everything
-    os.system("git add .")
+    run_shell_command("git add .")
 
     # make the initial commit
-    os.system("git commit -am.")
+    run_shell_command("git commit -am.")
+
+    # add the remote origin
+    run_shell_command(f"git remote add origin {ssh_uri}")
 
     # push everything into the repo
     os.system("git push -u origin main")
