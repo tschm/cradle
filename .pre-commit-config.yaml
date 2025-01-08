@@ -37,7 +37,7 @@ repos:
     rev: v1.5.5
     hooks:
         - id: insert-license
-          files: ^(cvx)/*.py
+          files: ^cvx/.*\.py$
           args:
             ['--license-filepath', 'copyright.txt', '--no-extra-eol']
 
