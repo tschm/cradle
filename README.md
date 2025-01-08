@@ -1,11 +1,11 @@
-# cvxcli
+# cradle
 
-[![PyPI version](https://badge.fury.io/py/cvxcli.svg)](https://badge.fury.io/py/cvxcli)
-[![Apache 2.0 License](https://img.shields.io/badge/License-APACHEv2-brightgreen.svg)](https://github.com/cvxgrp/cvxcli/blob/master/LICENSE)
-[![Downloads](https://static.pepy.tech/personalized-badge/cvxcli?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cvxcli)
-[![Coverage Status](https://coveralls.io/repos/github/cvxgrp/simulator/badge.png?branch=main)](https://coveralls.io/github/cvxgrp/cvxcli?branch=main)
+[![PyPI version](https://badge.fury.io/py/cradle.svg)](https://badge.fury.io/py/cradle)
+[![Apache 2.0 License](https://img.shields.io/badge/License-APACHEv2-brightgreen.svg)](https://github.com/cvxgrp/cradle/blob/master/LICENSE)
+[![Downloads](https://static.pepy.tech/personalized-badge/cradle?period=month&units=international_system&left_color=black&right_color=orange&left_text=PyPI%20downloads%20per%20month)](https://pepy.tech/project/cradle)
+[![Coverage Status](https://coveralls.io/repos/github/cvxgrp/cradle/badge.png?branch=main)](https://coveralls.io/github/cvxgrp/cradle?branch=main)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/cvxgrp/cvxcli)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/cvxgrp/cradle)
 
 We demonstrate how to deploy to simple command line apps using uvx.
 
