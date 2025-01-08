@@ -44,7 +44,7 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
         templates = {
             "(Marimo) Experiments": str(_templates / "experiments"),
             "A package (complete with a release process)": str(_templates / "package"),
-            "A paper1": str(_templates / "paper1"),
+            "A paper": str(_templates / "paper"),
         }
 
         # result is the value related to the key you pick

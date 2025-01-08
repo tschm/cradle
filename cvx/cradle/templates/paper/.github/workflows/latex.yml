@@ -3,6 +3,9 @@ name: Build LaTeX document
 on:
   push
 
+permission:
+  content: write
+
 jobs:
   build_paper:
     runs-on: ubuntu-latest
