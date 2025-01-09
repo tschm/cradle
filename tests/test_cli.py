@@ -3,10 +3,19 @@ import pytest
 from cvx.cradle.cli import cli
 
 
-def test_trivial(templates_dir, tmp_path):
+def test_experiments(templates_dir, tmp_path):
     with pytest.raises(RuntimeError):
         cli(
             template=str(templates_dir / "experiments"),
-            dst=tmp_path,
+            dst=str(tmp_path),
+            user_defaults={"username": "Peter Maffay", "project_name": "test"},
+        )
+
+
+def test_paper(templates_dir, tmp_path):
+    with pytest.raises(RuntimeError):
+        cli(
+            template=str(templates_dir / "paper"),
+            dst=str(tmp_path),
             user_defaults={"username": "Peter Maffay", "project_name": "test"},
         )
