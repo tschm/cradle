@@ -57,38 +57,54 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
 
     # Create a random path
     path = dst or Path(tempfile.mkdtemp())
+    home = os.getcwd()
+    # move into the folder used by the Factory
+    os.chdir(path)
+
     logger.info(f"Path to (re)construct your project: {path}")
 
     # Copy material into the random path
     _worker = worker(template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults)
 
     command = _worker.answers.user["command"]
-
-    run_shell_command(command, logger=logger)
-
     ssh_uri = _worker.answers.user["ssh_uri"]
 
-    home = os.getcwd()
+    commands = [
+        "git init --initial-branch=main",
+        "git add --all",
+        "git commit -m 'initial commit'",
+        command,
+        f"git remote add origin {ssh_uri}",
+        "git push origin main",
+    ]
 
-    # move into the folder used by the Factory
-    os.chdir(path)
+    try:
+        for cmd in commands:
+            run_shell_command(cmd, logger=logger)
 
-    # Initialize the git repository
-    run_shell_command("git init --initial-branch=main", logger=logger)
+        # # Initialize the git repository
+        # run_shell_command("git init --initial-branch=main", logger=logger)
+        #
+        # # add everything
+        # run_shell_command("git add .", logger=logger)
+        #
+        # # make the initial commit
+        # run_shell_command("git commit -am.", logger=logger)
+        #
+        # run_shell_command(command, logger=logger)
+        #
+        # # add the remote origin
+        # run_shell_command(f"git remote add origin {ssh_uri}", logger=logger)
+        #
+        # # push everything into the repo
+        # run_shell_command("git push -u origin main", logger=logger)
 
-    # add everything
-    run_shell_command("git add .", logger=logger)
+    except RuntimeError as e:
+        logger.error(f"Failed to create project: {str(e)}")
+        raise
 
-    # make the initial commit
-    run_shell_command("git commit -am.", logger=logger)
+    finally:
+        # go back to the repo
+        os.chdir(home)
 
-    # add the remote origin
-    run_shell_command(f"git remote add origin {ssh_uri}", logger=logger)
-
-    # push everything into the repo
-    run_shell_command("git push -u origin main", logger=logger)
-
-    # go back to the repo
-    os.chdir(home)
-
-    logger.info(f"You may have to perform 'git clone {ssh_uri}'")
+        logger.info(f"You may have to perform 'git clone {ssh_uri}'")

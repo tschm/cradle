@@ -1,3 +1,5 @@
+import pytest
+
 from cvx.cradle.utils.shell import run_shell_command
 
 
@@ -7,5 +9,5 @@ def test_shell():
 
 
 def test_shell_bad_command():
-    results = run_shell_command("Peter Maffay")
-    assert results is None
+    with pytest.raises(RuntimeError):
+        run_shell_command("Peter Maffay")
