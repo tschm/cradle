@@ -22,8 +22,6 @@ import subprocess
 from dataclasses import dataclass
 from typing import Optional, Tuple, Union
 
-from git import Git, GitCommandError, GitCommandNotFound
-
 
 class GitVersionError(Exception):
     """Raised when there are issues with Git version requirements."""
@@ -42,39 +40,11 @@ class _GitVersion:
     patch: Optional[int] = None
     vendor_info: Optional[str] = None
 
-    def __str__(self) -> str:
-        """Convert version to string representation."""
-        version = f"{self.major}.{self.minor}"
-        if self.patch is not None:
-            version = f"{version}.{self.patch}"
-        if self.vendor_info:
-            version = f"{version} ({self.vendor_info})"
-        return version
-
     def __ge__(self, other):
         if not isinstance(other, _GitVersion):
             raise TypeError(f"Cannot compare _GitVersion with {type(other)}")
         # Compare major, minor, and patch numbers
         return (self.major, self.minor, self.patch) >= (other.major, other.minor, other.patch)
-
-
-def _get_git_version() -> str:
-    """Get the installed Git version string using GitPython.
-
-    Returns:
-        str: Raw version string from Git.
-
-    Raises:
-        GitNotFoundError: If Git is not installed or accessible.
-        GitVersionError: If the Git version command fails.
-    """
-    try:
-        git = Git()
-        return git.version()
-    except GitCommandNotFound:
-        raise GitNotFoundError("Git is not installed or not found in PATH")
-    except GitCommandError as e:
-        raise GitVersionError(f"Git version check failed: {e.stderr.strip()}")
 
 
 def _check_git_version(min_version: Union[str, Tuple[int, int], Tuple[int, int, int]]) -> bool:
