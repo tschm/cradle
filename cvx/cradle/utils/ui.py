@@ -18,6 +18,8 @@ from copier import run_copy
 
 def worker(template: str, dst_path: Path, vcs_ref="HEAD", user_defaults=None):
     """Run copier to copy the template to the destination path"""
+    # user_defaults = user_defaults or {}
+
     if user_defaults is None:
         _worker = run_copy(src_path=template, dst_path=dst_path, vcs_ref=vcs_ref)
         return _worker
