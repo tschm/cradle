@@ -22,3 +22,5 @@ jobs:
           paper: paper2/main2.tex
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           draft: draft_main2
+
+      # add or remove papers here

@@ -46,3 +46,8 @@ ssh_uri:
   type: str
   default: "git@github.com:{{username}}/{{ project_name | lower }}.git"
   when: false
+
+repository:
+  type: str
+  default: "https://github.com/{{username}}/{{ project_name | lower }}"
+  when: false
