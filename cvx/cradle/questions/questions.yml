@@ -40,9 +40,14 @@ status:
 command:
   type: str
   default: "gh repo create {{username}}/{{ project_name | lower }} --{{status}} --description '{{description}}'"
-  when: false
+  #when: false
 
 ssh_uri:
   type: str
   default: "git@github.com:{{username}}/{{ project_name | lower }}.git"
-  when: false
+  #when: false
+
+repository:
+  type: str
+  default: "https://github.com/{{username}}/{{ project_name | lower }}"
+  #when: false

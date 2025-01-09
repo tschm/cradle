@@ -7,6 +7,7 @@ help:  ## Display this help screen
 	@grep -E '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' | sort
 
 
+# list the papers here
 .PHONY: compile
 compile: ## Compile document(s)
 	@tectonic paper1/main1.tex
