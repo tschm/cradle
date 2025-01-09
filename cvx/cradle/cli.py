@@ -82,23 +82,6 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
         for cmd in commands:
             run_shell_command(cmd, logger=logger)
 
-        # # Initialize the git repository
-        # run_shell_command("git init --initial-branch=main", logger=logger)
-        #
-        # # add everything
-        # run_shell_command("git add .", logger=logger)
-        #
-        # # make the initial commit
-        # run_shell_command("git commit -am.", logger=logger)
-        #
-        # run_shell_command(command, logger=logger)
-        #
-        # # add the remote origin
-        # run_shell_command(f"git remote add origin {ssh_uri}", logger=logger)
-        #
-        # # push everything into the repo
-        # run_shell_command("git push -u origin main", logger=logger)
-
     except RuntimeError as e:
         logger.error(f"Failed to create project: {str(e)}")
         raise
