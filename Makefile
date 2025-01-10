@@ -11,7 +11,6 @@ verify:  ## Run a simple verification
 
 .PHONY: install
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt
-	#@uv pip install --upgrade pip
 	@uv sync --dev --frozen
 
 
@@ -29,3 +28,9 @@ test: install ## Run all notebooks in a test
 .PHONY: cradle
 cradle: install ## Run the cradle app
 	@uv run cradle
+
+.PHONY: fmt
+fmt: venv ## Run autoformatting and linting
+	@uv pip install pre-commit
+	@uv run pre-commit install
+	@uv run pre-commit run --all-files

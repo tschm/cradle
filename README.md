@@ -9,13 +9,14 @@ cradle is a command line tool to create repos based on a group of templates.
 
 We currently assume the reader is doing a clone of this repo via
 
-```
+```bash
 git clone git@github.com:cvxgrp/cradle.git
 ```
 
 ### Install gh
 
-Please install GitHub's official command line tool [gh](https://github.com/cli/cli). This tool is used to create GitHub repos from the command line.
+Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
+This tool is used to create GitHub repos from the command line.
 
 ### Install taskfile
 
