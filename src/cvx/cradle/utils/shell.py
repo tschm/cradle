@@ -31,6 +31,4 @@ def run_shell_command(command: str, logger=None):
         return result
     except subprocess.CalledProcessError as e:
         logger.error(f"Error while running command `{command}`: {e.stderr.decode()}")
-        raise RuntimeError(
-            f"Error while running command `{command}`: {e.stderr.decode()}"
-        )
+        raise RuntimeError(f"Error while running command `{command}`: {e.stderr.decode()}")

@@ -73,9 +73,7 @@ def _check_git_version(
     # Convert min_version to GitVersion object
     if isinstance(min_version, str):
         parts = min_version.split(".")
-        min_version = _GitVersion(
-            int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else None
-        )
+        min_version = _GitVersion(int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else None)
     elif isinstance(min_version, tuple):
         min_version = _GitVersion(
             min_version[0],

@@ -25,9 +25,7 @@ from .utils.ui import worker
 _templates = Path(__file__).parent / "templates"
 
 
-def cli(
-    template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defaults=None
-) -> None:
+def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defaults=None) -> None:
     """
     CLI for Factory
 
@@ -66,9 +64,7 @@ def cli(
     logger.info(f"Path to (re)construct your project: {path}")
 
     # Copy material into the random path
-    _worker = worker(
-        template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults
-    )
+    _worker = worker(template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults)
 
     command = _worker.answers.user["command"]
     ssh_uri = _worker.answers.user["ssh_uri"]

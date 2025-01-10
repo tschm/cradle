@@ -21,7 +21,4 @@ def test_dst_path(worker):
 
 def test_command(worker):
     command = worker.answers.user["command"]
-    assert (
-        command
-        == "gh repo create PeterMaffay/test --public --description 'Some computations'"
-    )
+    assert command == "gh repo create PeterMaffay/test --public --description 'Some computations'"
