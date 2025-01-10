@@ -7,8 +7,16 @@ venv:
 
 .PHONY: install
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt
-	@uv pip install --upgrade pip
-	@uv pip install -r requirements.txt
+	#@uv pip install --upgrade pip
+	@uv sync --frozen
+
+	#@uv pip install -r requirements.txt
+
+
+    #    # Add venv to PATH
+    #    echo ".venv/bin" >> $GITHUB_PATH
+    #    uv sync --all-extras --dev --frozen
+
 
 
 .PHONY: help
