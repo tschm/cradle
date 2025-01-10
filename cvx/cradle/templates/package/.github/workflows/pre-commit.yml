@@ -1,0 +1,35 @@
+name: pre-commit
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
+
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.2
+        with:
+          source-folder: ${{ env.SOURCE_FOLDER }}
+          tests-folder: ${{ env.TESTS_FOLDER }}
+
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2
+        with:
+          files: artifacts/tests/coverage/coverage.info
+          format: lcov
+
+  deptry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - uses: cvxgrp/.github/actions/uv/deptry@v2.0.2
+        with:
+          source-folder: ${{ env.SOURCE_FOLDER }}

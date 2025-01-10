@@ -1,0 +1,28 @@
+name: "ci"
+
+on:
+- push
+
+jobs:
+  test:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10', '3.11', '3.12', '3.13' ]
+        mongodb-version: ['4.4', '5.0', '6.0']
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
+
+      - uses: cvxgrp/.github/actions/uv/test@v2.0.2
+        with:
+          python-version: ${{ matrix.python-version }}
+          tests-folder: ${{ env.TESTS_FOLDER }}
