@@ -52,3 +52,8 @@ repos:
     hooks:
       - id: typos
         exclude: \.gitignore
+
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.23
+    hooks:
+      - id: validate-pyproject
