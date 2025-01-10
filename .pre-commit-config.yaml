@@ -5,7 +5,6 @@ repos:
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-      #- id: check-yaml
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: 'v0.8.4'
@@ -47,13 +46,13 @@ repos:
       - id: actionlint
         args: [-ignore, SC]
 
-  - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.23
-    hooks:
-      - id: validate-pyproject
-
   - repo: https://github.com/crate-ci/typos
     rev: v1.29.0
     hooks:
       - id: typos
         exclude: \.gitignore
+
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.23
+    hooks:
+      - id: validate-pyproject

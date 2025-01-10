@@ -16,11 +16,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      #- name: Configure Git
-      #  run: |
-      #    git config --global core.protectNTFS false
-      #    git config --global core.longpaths true
-
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
         with:
