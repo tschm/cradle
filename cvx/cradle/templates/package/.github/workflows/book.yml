@@ -35,23 +35,16 @@ jobs:
   test:
     runs-on: "ubuntu-latest"
     steps:
-      # uses MongoMock
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.12.0
-        with:
-          mongodb-version: '5.0'
-          mongodb-db: test
-          mongodb-port: 27017
-
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
 
-      - uses: cvxgrp/.github/actions/uv/test@v2.0.2
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.2
         with:
           tests-folder: ${{ env.TESTS_FOLDER }}
+          source-folder: ${{ env.SOURCE_FOLDER }}
 
   jupyter:
     runs-on: "ubuntu-latest"
