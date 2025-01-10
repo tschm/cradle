@@ -14,22 +14,19 @@ jobs:
         python-version: [ '3.10', '3.11', '3.12', '3.13' ]
 
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      #- name: Configure Git
-      #  run: |
-      #    git config --global core.protectNTFS false
-      #    git config --global core.longpaths true
-
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Load .env file
-        uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
-
-      - uses: cvxgrp/.github/actions/uv/test@v2.0.3
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
-          tests-folder: ${{ env.test-folder }}
+          python-version: ${{ inputs.python-version }}
+
+      - name: Run tests
+        shell: bash
+        run: |
+          uv pip install pytest
+          uv run pytest src/tests
