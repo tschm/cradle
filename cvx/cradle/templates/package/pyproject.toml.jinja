@@ -2,12 +2,11 @@
 name = '{{project_name | lower}}'
 version = "0.0.0"
 description = "{{ description }}"
-authors = [{name='{{ username }}', email= '...'}]
+# please correct your email address
+authors = [{name='{{ username }}', email= '{{ username }}@mailinator.com'}]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=2",
-    "pandas>=2",
 ]
 
 [project.urls]
@@ -15,9 +14,9 @@ repository = "{{ repository }}"
 
 [dependency-groups]
 dev = [
-    "pytest-cov>=6.0.0",
-    "pytest>=8.3.3",
-    "pre-commit>=4.0.1",
+    #"pytest-cov>=6.0.0",
+    #"pytest>=8.3.3",
+    #"pre-commit>=4.0.1",
 ]
 
 [tool.ruff]
