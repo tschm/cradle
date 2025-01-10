@@ -5,6 +5,10 @@ venv:
 	@uv venv --python 3.12
 
 
+.PHONY: verify
+verify:  ## Run a simple verification
+	ssh -T git@github.com
+
 .PHONY: install
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt
 	#@uv pip install --upgrade pip

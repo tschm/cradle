@@ -31,9 +31,7 @@ ssh -T git@github.com
 
 or use
 
-```bash
-task verify
-```
+
 
 ### Build the virtual environment
 
