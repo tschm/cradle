@@ -13,7 +13,7 @@ jobs:
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
 
-      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.2
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.3
         with:
           source-folder: ${{ env.SOURCE_FOLDER }}
           tests-folder: ${{ env.TESTS_FOLDER }}
@@ -33,6 +33,6 @@ jobs:
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
 
-      - uses: cvxgrp/.github/actions/uv/deptry@v2.0.2
+      - uses: cvxgrp/.github/actions/uv/deptry@v2.0.3
         with:
           source-folder: ${{ env.SOURCE_FOLDER }}

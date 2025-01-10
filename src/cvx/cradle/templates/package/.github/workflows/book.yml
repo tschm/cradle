@@ -27,7 +27,7 @@ jobs:
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
 
-      - uses: cvxgrp/.github/actions/uv/pdoc@v2.0.2
+      - uses: cvxgrp/.github/actions/uv/pdoc@v2.0.3
         with:
           source-folder: ${{ env.SOURCE_FOLDER }}
 
@@ -41,7 +41,7 @@ jobs:
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
 
-      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.2
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.3
         with:
           tests-folder: ${{ env.TESTS_FOLDER }}
           source-folder: ${{ env.SOURCE_FOLDER }}
@@ -52,7 +52,7 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      - uses: cvxgrp/.github/actions/uv/jupyter@v2.0.2
+      - uses: cvxgrp/.github/actions/uv/jupyter@v2.0.3
 
   book:
     runs-on: "ubuntu-latest"
@@ -65,4 +65,4 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      - uses: cvxgrp/.github/actions/book@v2.0.2
+      - uses: cvxgrp/.github/actions/book@v2.0.3
