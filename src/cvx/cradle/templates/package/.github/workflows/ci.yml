@@ -10,28 +10,19 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest ]
         python-version: [ '3.10', '3.11', '3.12', '3.13' ]
-
+        mongodb-version: ['4.4', '5.0', '6.0']
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Configure Git
-        run: |
-          git config --global core.protectNTFS false
-          git config --global core.longpaths true
-
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch all history for all branches and tags
-          #git-config:
-            #core.protectNTFS=false
 
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
 
-      - uses: cvxgrp/.github/actions/uv/test@v2.0.3
+      - uses: cvxgrp/.github/actions/uv/test@v2.0.2
         with:
           python-version: ${{ matrix.python-version }}
-          tests-folder: ${{ env.test-folder }}
+          tests-folder: ${{ env.TESTS_FOLDER }}

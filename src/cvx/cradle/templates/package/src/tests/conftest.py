@@ -11,27 +11,16 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+"""global fixtures"""
+
+from __future__ import annotations
+
 from pathlib import Path
 
-from copier import run_copy
+import pytest
 
 
-def worker(template: str, dst_path: Path, vcs_ref="HEAD", user_defaults=None):
-    """Run copier to copy the template to the destination path"""
-    # user_defaults = user_defaults or {}
-
-    if user_defaults is None:
-        _worker = run_copy(src_path=template, dst_path=dst_path, vcs_ref=vcs_ref)
-        return _worker
-
-    # important for testing
-    _worker = run_copy(
-        src_path=template,
-        dst_path=dst_path,
-        vcs_ref=vcs_ref,
-        unsafe=True,
-        defaults=True,
-        user_defaults=user_defaults,
-    )
-
-    return _worker
+@pytest.fixture(scope="session", name="resource_dir")
+def resource_fixture():
+    """resource fixture"""
+    return Path(__file__).parent / "resources"

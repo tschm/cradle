@@ -1,3 +1,4 @@
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -5,7 +6,7 @@ repos:
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-      #- id: check-yaml
+      - id: check-yaml
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: 'v0.8.4'
@@ -19,6 +20,7 @@ repos:
     rev: v0.43.0
     hooks:
       - id: markdownlint-fix
+        args: [ "--ignore", "book/**/*.md" ]
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.19.1
@@ -32,14 +34,6 @@ repos:
         args: ["--verbose"]
       - id: check-github-workflows
         args: ["--verbose"]
-
-  - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
-    hooks:
-        - id: insert-license
-          files: ^src/cvx/.*\.py$
-          args:
-            ['--license-filepath', 'copyright.txt', '--no-extra-eol']
 
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.5
@@ -56,4 +50,3 @@ repos:
     rev: v1.29.0
     hooks:
       - id: typos
-        exclude: \.gitignore
