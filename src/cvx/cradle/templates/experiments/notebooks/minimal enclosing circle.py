@@ -25,7 +25,9 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md("""We compute the radius and center of the smallest enclosing ball for $N$ points in $d$ dimensions.""")
+    mo.md(
+        """We compute the radius and center of the smallest enclosing ball for $N$ points in $d$ dimensions."""
+    )
     return
 
 
@@ -59,7 +61,11 @@ def _(np):
 @app.cell
 def _(go, pos):
     # Create the scatter plot
-    fig = go.Figure(data=go.Scatter(x=pos[:, 0], y=pos[:, 1], mode="markers", marker=dict(symbol="x", size=10)))
+    fig = go.Figure(
+        data=go.Scatter(
+            x=pos[:, 0], y=pos[:, 1], mode="markers", marker=dict(symbol="x", size=10)
+        )
+    )
 
     # Update layout for equal aspect ratio and axis labels
     fig.update_layout(

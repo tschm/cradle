@@ -20,9 +20,17 @@ def run_shell_command(command: str, logger=None):
     logger = logger or logging.getLogger(__name__)
 
     try:
-        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(
+            command,
+            shell=True,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
         logger.info(f"Command succeeded: {command}")
         return result
     except subprocess.CalledProcessError as e:
         logger.error(f"Error while running command `{command}`: {e.stderr.decode()}")
-        raise RuntimeError(f"Error while running command `{command}`: {e.stderr.decode()}")
+        raise RuntimeError(
+            f"Error while running command `{command}`: {e.stderr.decode()}"
+        )

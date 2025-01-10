@@ -44,10 +44,16 @@ class _GitVersion:
         if not isinstance(other, _GitVersion):
             raise TypeError(f"Cannot compare _GitVersion with {type(other)}")
         # Compare major, minor, and patch numbers
-        return (self.major, self.minor, self.patch) >= (other.major, other.minor, other.patch)
+        return (self.major, self.minor, self.patch) >= (
+            other.major,
+            other.minor,
+            other.patch,
+        )
 
 
-def _check_git_version(min_version: Union[str, Tuple[int, int], Tuple[int, int, int]]) -> bool:
+def _check_git_version(
+    min_version: Union[str, Tuple[int, int], Tuple[int, int, int]],
+) -> bool:
     """Check if the installed Git version meets minimum requirements.
 
     Args:
@@ -67,9 +73,15 @@ def _check_git_version(min_version: Union[str, Tuple[int, int], Tuple[int, int, 
     # Convert min_version to GitVersion object
     if isinstance(min_version, str):
         parts = min_version.split(".")
-        min_version = _GitVersion(int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else None)
+        min_version = _GitVersion(
+            int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else None
+        )
     elif isinstance(min_version, tuple):
-        min_version = _GitVersion(min_version[0], min_version[1], min_version[2] if len(min_version) > 2 else None)
+        min_version = _GitVersion(
+            min_version[0],
+            min_version[1],
+            min_version[2] if len(min_version) > 2 else None,
+        )
 
     # Run the git --version command using subprocess
     result = subprocess.run(["git", "--version"], capture_output=True, text=True)
@@ -88,7 +100,9 @@ def _check_git_version(min_version: Union[str, Tuple[int, int], Tuple[int, int, 
         raise GitNotFoundError("Git is not installed or is not available in the PATH")
 
     installed_version = _GitVersion(
-        major=int(installed_version[0]), minor=int(installed_version[1]), patch=int(installed_version[2])
+        major=int(installed_version[0]),
+        minor=int(installed_version[1]),
+        patch=int(installed_version[2]),
     )
 
     return installed_version >= min_version

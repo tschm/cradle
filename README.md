@@ -29,7 +29,7 @@ Try with
 ssh -T git@github.com
 ```
 
-or use 
+or use
 
 ```bash
 task verify
@@ -42,8 +42,6 @@ Creating the virtual environment also installs [uv](https://docs.astral.sh/uv/ge
 ```bash
 task cradle:install
 ```
-
-
 
 ## Using the cradle tool
 
