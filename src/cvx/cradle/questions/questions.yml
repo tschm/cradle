@@ -62,5 +62,5 @@ email:
 
 project_name_lower:
   type: str
-  default: "{{ project_name | lower }}
+  default: "{{ project_name | lower }}"
   when: false
