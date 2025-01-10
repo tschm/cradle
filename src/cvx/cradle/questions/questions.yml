@@ -59,3 +59,8 @@ page:
 email:
   type: str
   default: "{{ username }}@mailinator.com"
+
+project_name_lower:
+  type: str
+  default: "{{ project_name | lower }}
+  when: false
