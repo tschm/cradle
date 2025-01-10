@@ -1,8 +1,8 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: cvxbson
-author: Thomas Schmelzer
+title: {{ project_name | lower }}
+author: {{ username }}
 only_build_toc_files: true
 
 # needed for plotly
@@ -13,7 +13,7 @@ sphinx:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/cvxgrp/cvxbson
+  url: {{ repository }}
   path_to_book: book
   branch: main
 
