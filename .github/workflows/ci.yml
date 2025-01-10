@@ -16,17 +16,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Configure Git
-        run: |
-          git config --global core.protectNTFS false
-          git config --global core.longpaths true
+      #- name: Configure Git
+      #  run: |
+      #    git config --global core.protectNTFS false
+      #    git config --global core.longpaths true
 
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch all history for all branches and tags
-          #git-config:
-            #core.protectNTFS=false
+          fetch-depth: 0
 
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
