@@ -17,6 +17,11 @@ jobs:
     steps:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+          #git-config:
+          set-safe-directory: false
+            #core.protectNTFS=false
 
       - name: Load .env file
         uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
