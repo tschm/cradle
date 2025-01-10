@@ -5,13 +5,45 @@
 
 cradle is a command line tool to create repos based on a group of templates.
 
-## Install gh
+## Install gradle
 
-Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
+We currently assume the reader is doing a clone of this repo via
 
-## Install taskfile
+```
+git clone git@github.com:cvxgrp/cradle.git
+```
+
+### Install gh
+
+Please install GitHub's official command line tool [gh](https://github.com/cli/cli). This tool is used to create GitHub repos from the command line.
+
+### Install taskfile
 
 Please install [Taskfile](https://taskfile.dev/installation/).
+
+### Verify a working SSH GitHub connection
+
+Try with
+
+```bash
+ssh -T git@github.com
+```
+
+or use 
+
+```bash
+task verify
+```
+
+### Build the virtual environment
+
+Creating the virtual environment also installs [uv](https://docs.astral.sh/uv/getting-started/installation/)
+
+```bash
+task cradle:install
+```
+
+
 
 ## Using the cradle tool
 
