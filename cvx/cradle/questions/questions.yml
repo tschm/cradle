@@ -55,3 +55,7 @@ repository:
 page:
   type: str
   default: "https://{{ username }}.github.io/{{ project_name | lower }}"
+
+email:
+  type: str
+  default: "{{ username }}@mailinator.com"
