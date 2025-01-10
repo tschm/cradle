@@ -31,8 +31,6 @@ ssh -T git@github.com
 
 or use
 
-
-
 ### Build the virtual environment
 
 Creating the virtual environment also installs [uv](https://docs.astral.sh/uv/getting-started/installation/)
