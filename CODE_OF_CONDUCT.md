@@ -1,4 +1,4 @@
-# cvxcli Code of Conduct
+# cradle Code of Conduct
 
 ## Our Pledge
 

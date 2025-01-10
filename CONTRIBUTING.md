@@ -1,6 +1,6 @@
-# Contributing to cvxcli
+# Contributing to cradle
 
-This document is a guide to contributing to cvxcli
+This document is a guide to contributing to cradle
 
 We welcome all contributions. You don't need to be an expert (in optimization)
 to help out.
@@ -16,10 +16,10 @@ Before sending a pull request, make sure you do the following:
 - [Write unit tests](#writing-unit-tests)
 - Run the [unit tests](#running-unit-tests) and check that they're passing
 
-## Building cvxcli from source
+## Building cradle from source
 
-You'll need to build cvxcli locally in order to start editing code.
-To install cvxcli from source, clone the Github
+You'll need to build cradle locally in order to start editing code.
+To install cradle from source, clone the Github
 repository, navigate to its root, and run the following command:
 
 ```bash
@@ -30,26 +30,26 @@ We assume you have [poetry](https://python-poetry.org) installed.
 
 ## Contributing code
 
-To contribute to cvxcli, send us pull requests.
+To contribute to cradle, send us pull requests.
 For those new to contributing, check out Github's
 [guide](https://help.github.com/articles/using-pull-requests/).
 
-Once you've made your pull request, a member of the cvxcli
+Once you've made your pull request, a member of the cradle
 development team will assign themselves to review it. You might have a few
 back-and-forths with your reviewer before it is accepted, which is completely normal.
 Your pull request will trigger continuous integration tests for many different
 Python versions and different platforms. If these tests start failing, please
 fix your code and send another commit, which will re-trigger the tests.
 
-If you'd like to add a new feature to cvxcli, please do propose your
+If you'd like to add a new feature to cradle, please do propose your
 change on a Github issue, to make sure that your priorities align with ours.
 
 If you'd like to contribute code but don't know where to start, try one of the
 following:
 
-- Read the cvxcli source and enhance the documentation,
+- Read the cradle source and enhance the documentation,
   or address TODOs
-- Browse the [issue tracker](https://github.com/cvxgrp/cvxcli/issues),
+- Browse the [issue tracker](https://github.com/cvxgrp/cradle/issues),
   and look for the issues tagged "help wanted".
 
 ## License
@@ -73,7 +73,7 @@ errors that are reported before sending the pull request.
 
 Most code changes will require new unit tests. Even bug fixes require unit tests,
 since the presence of bugs usually indicates insufficient tests.
-cvxcli tests live in the directory `tests`,
+cradle tests live in the directory `tests`,
 which contains many files, each of which contains many unit tests.
 When adding tests, try to find a file in which your tests should belong;
 if you're testing a new feature, you might want to create a new test file.
