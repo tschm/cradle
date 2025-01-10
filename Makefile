@@ -8,15 +8,7 @@ venv:
 .PHONY: install
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt
 	#@uv pip install --upgrade pip
-	@uv sync --frozen
-
-	#@uv pip install -r requirements.txt
-
-
-    #    # Add venv to PATH
-    #    echo ".venv/bin" >> $GITHUB_PATH
-    #    uv sync --all-extras --dev --frozen
-
+	@uv sync --dev --frozen
 
 
 .PHONY: help
@@ -26,13 +18,10 @@ help:  ## Display this help screen
 
 
 .PHONY: test
-test: ## Run all notebooks in a test
-	#export PYTHONWARNINGS="default"
+test: install ## Run all notebooks in a test
 	@uv pip install pytest
 	@uv run pytest src/tests
 
 .PHONY: cradle
 cradle: install ## Run the cradle app
-	./.venv/bin/python -m script
-
-#./.venv/bin/python -m script
+	@uv run cradle
