@@ -11,5 +11,7 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-def test_trivial():
-    assert True
+from {{ project_name | lower }}.add import add
+
+def test_add():
+    assert add(2,3) == 5
