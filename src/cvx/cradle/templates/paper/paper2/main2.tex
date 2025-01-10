@@ -1,0 +1,43 @@
+\documentclass{article}  % Add this line to specify the document class
+\usepackage{natbib}      % For citation management
+
+\title{A Brief Overview of the Simple Harmonic Oscillator}
+\author{Peter Maffay}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper provides a brief overview of the simple harmonic oscillator,
+focusing on its mathematical description and physical significance. We discuss
+the fundamental equation of motion and its solution, demonstrating why this
+system serves as a cornerstone model in physics.
+\end{abstract}
+
+\section{Introduction}
+The simple harmonic oscillator is one of the most fundamental models in physics.
+Its applications range from the motion of pendulums to the behavior of atoms
+in crystal lattices \citep{feynman1963}.
+
+\section{Mathematical Description}
+The equation of motion for a simple harmonic oscillator is given by:
+
+\begin{equation}
+    \frac{d^2x}{dt^2} + \omega^2x = 0
+\end{equation}
+
+where $\omega$ is the angular frequency of oscillation. The general solution
+to this equation is:
+
+\begin{equation}
+    x(t) = A\cos(\omega t + \phi)
+\end{equation}
+
+where $A$ is the amplitude and $\phi$ is the phase constant
+\citep{goldstein2002}.
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+
+\end{document}
