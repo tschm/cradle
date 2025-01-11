@@ -18,10 +18,6 @@ git clone git@github.com:cvxgrp/cradle.git
 Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
 This tool is used to create GitHub repos from the command line.
 
-### Install taskfile
-
-Please install [Taskfile](https://taskfile.dev/installation/).
-
 ### Verify a working SSH GitHub connection
 
 Try with
@@ -32,12 +28,18 @@ ssh -T git@github.com
 
 or use
 
+```bash
+make verify
+```
+
+using the Makefile.
+
 ### Build the virtual environment
 
 Creating the virtual environment also installs [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
 ```bash
-task cradle:install
+make install
 ```
 
 ## Using the cradle tool
