@@ -1,4 +1,4 @@
-#    Copyright 2023 Stanford University Convex Optimization Group
+#    Copyright 2025 Stanford University Convex Optimization Group
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -68,6 +68,7 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
 
     command = _worker.answers.user["command"]
     ssh_uri = _worker.answers.user["ssh_uri"]
+    # print(_worker.answers.user)
 
     commands = [
         "git init --initial-branch=main",
