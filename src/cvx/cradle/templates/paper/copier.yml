@@ -1,6 +1,6 @@
 # questions
 ---
-!include ../../questions/questions.yml
+!include questions.yml
 ---
 
 ###
