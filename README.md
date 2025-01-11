@@ -53,12 +53,65 @@ across your team or organization.
 It's essentially a project scaffolding tool that helps maintain consistency
 in Python projects.
 
+## :warning: Private repositories
+
+Using workflows in private repos will eat into your monthly GitHub bill.
+You may want to restrict the workflow to operate only when merging on the main branch
+while operating on a different branch or deactivate the flow.
+
 We currently distinguish
 
 * The document template
 * The experiment template
 * The package template
 
+## Templates
+
 ### The document template
 
-The
+The template supports the fast creation of repositories of LaTeX documents.
+
+```bash
+    create  paper
+    create  paper/references.bib
+    create  paper/{{ project_name }}.tex
+    create  README.md
+    create  .gitignore
+    create  .github
+    create  .github/workflows
+    create  .github/workflows/latex.yml
+    create  Makefile
+```
+
+When you run cradle, it prompts for these variables
+and replaces them in filenames and file contents.
+
+With every push into the repo the document is compiled
+and published on a draft branch.
+
+### The experiment template
+
+Here we support the creation of notebooks without the ambition to release software.
+The repo is not minimalistic but comes with a curated set of pre-commit hooks and
+follows modern and established guidelines.
+
+```bash
+    create  requirements.txt
+    create  .pre-commit-config.yaml
+    create  README.md
+    create  .devcontainer
+    create  .devcontainer/startup.sh
+    create  .devcontainer/devcontainer.json
+    create  .gitignore
+    create  .github
+    create  .github/workflows
+    create  .github/workflows/marimo.yml
+    create  .github/dependabot.yml
+    create  .python-version
+    create  Makefile
+    create  notebooks
+    create  notebooks/minimal enclosing circle.py
+    create  notebooks/{{ project_lower }}.py
+```
+
+### The package template
