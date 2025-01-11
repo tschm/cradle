@@ -1,6 +1,6 @@
 # questions
 ---
-!include ../../questions/questions.yml
+!include questions.yml
 ---
 
 ###
@@ -11,6 +11,6 @@
 # Earliest version with "multiselect" support.
 _min_copier_version: "9.1.0"
 
-_name: "notebooks"
+_name: "experiments"
 _version: "0.1.0"
 _destination_path: "."

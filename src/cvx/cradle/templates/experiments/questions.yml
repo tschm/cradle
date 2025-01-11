@@ -37,6 +37,14 @@ status:
       Status must be one of: public, private, or internal.
     {% endif %}
 
+#devcontainer:
+#  type: str
+#  help: "Do you want to include a DevContainer?"
+#  choices:
+#    - "Yes"
+#    - "No"
+#  default: "No"
+
 command:
   type: str
   default: "gh repo create {{username}}/{{ project_name | lower }} --{{status}} --description '{{description}}'"
