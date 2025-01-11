@@ -71,6 +71,10 @@ We currently distinguish
 
 The template supports the fast creation of repositories of LaTeX documents.
 
+* curated pre-commit-hooks (e.g. for spelling)
+* github ci/cd workflows
+* Makefile
+
 ```bash
     create  paper
     create  paper/references.bib
@@ -95,6 +99,13 @@ Here we support the creation of notebooks without the ambition to release softwa
 The repo is not minimalistic but comes with a curated set of pre-commit hooks and
 follows modern and established guidelines.
 
+* uv support
+* curated pre-commit-hooks
+* DevContainer
+* github ci/cd workflows
+* Makefile
+* marimo support
+
 ```bash
     create  requirements.txt
     create  .pre-commit-config.yaml
@@ -115,3 +126,61 @@ follows modern and established guidelines.
 ```
 
 ### The package template
+
+The package template is most useful when the final
+goal is the real of software to a registry, e.g. pypi.
+It features include
+
+* uv support
+* curated set of pre-commit hooks
+* DevContainer
+* Makefile
+* github ci/cd workflows
+* marimo support
+* JupyterBook
+* pdoc documentation
+
+```bash
+    create  uv.lock
+    create  .pre-commit-config.yaml
+    create  README.md
+    create  .devcontainer
+    create  .devcontainer/startup.sh
+    create  .devcontainer/devcontainer.json
+    create  Makefile
+    create  .gitignore
+    create  LICENSE.txt
+    create  questions.yml
+    create  .github
+    create  .github/CONTRIBUTING.md
+    create  .github/workflows
+    create  .github/workflows/release.yml
+    create  .github/workflows/pre-commit.yml
+    create  .github/workflows/book.yml
+    create  .github/workflows/ci.yml
+    create  .github/CODE_OF_CONDUCT.md
+    create  .github/dependabot.yml
+    create  book
+    create  book/docs
+    create  book/docs/api.md
+    create  book/docs/reports.md
+    create  book/docs/index.md
+    create  book/docs/marimo.md
+    create  book/_config.yml
+    create  book/_toc.yml
+    create  book/marimo
+    create  book/marimo/demo.py
+    create  pyproject.toml
+    create  .env
+    create  src
+    create  src/tests
+    create  src/tests/conftest.py
+    create  src/tests/test_trivial.py
+    create  src/tests/resources
+    create  src/tests/resources/.gitkeep
+    create  src/tests/__init__.py
+    create  src/{{ project_name }}
+    create  src/{{ project_name }}/add.py
+    create  src/{{ project_name }}/__init__.py
+
+```
