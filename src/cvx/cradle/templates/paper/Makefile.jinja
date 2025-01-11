@@ -1,5 +1,9 @@
 .DEFAULT_GOAL := help
 
+venv:
+	@curl -LsSf https://astral.sh/uv/install.sh | sh
+	@uv venv
+
 
 .PHONY: help
 help:  ## Display this help screen
@@ -21,3 +25,10 @@ clean: ## clean the folder
 .PHONY: install
 install: ## install tectonic
 	@curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh
+
+
+.PHONY: fmt
+fmt: venv ## Run autoformatting and linting
+	@uv pip install pre-commit
+	@uv run pre-commit install
+	@uv run pre-commit run --all-files
