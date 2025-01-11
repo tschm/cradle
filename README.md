@@ -32,7 +32,7 @@ or use
 make verify
 ```
 
-using the Makefile.
+using the Makefile. A new SSH connection can be established [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
 ### Build the virtual environment
 
@@ -44,27 +44,21 @@ make install
 
 ## Using the cradle tool
 
-## Install uvx
+Cradle is a command-line utility that creates projects from templates.
+It is similar to the popular
+[Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/#) project.
 
-The current way to deploy apps is to use [uvx](https://docs.astral.sh/uv/guides/tools/).
-The tool creates a temporary virtual environment for each app.
+You could create your own templates and standardize project structures
+across your team or organization.
+It's essentially a project scaffolding tool that helps maintain consistency
+in Python projects.
 
-For the installation of uv/uvx please refer to the [uvx documentation](https://docs.astral.sh/uv/getting-started/installation/).
+We currently distinguish
 
-## Install cvxcradle with uvx
+* The document template
+* The experiment template
+* The package template
 
-cvxcradle has been deployed to PyPI like any other Python package. It could be
-installed via pip but we advise against that.
+### The document template
 
-cvxcradle is a command line app rather than a package you install into your projects.
-
-So please run via uvx
-
-```bash
-uvx --from cvxcradle cradle
-```
-
-This command will create a temporary virtual environment for cvxcradle
-and install the package into that environment.
-
-Please note that you **do need uvx** to be installed on your machine.
+The

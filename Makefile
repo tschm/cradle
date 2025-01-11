@@ -7,7 +7,7 @@ venv:
 
 .PHONY: verify
 verify:  ## Run a simple verification
-	ssh -T git@github.com
+	ssh -T git@github.com || true
 
 .PHONY: install
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt

@@ -10,8 +10,7 @@ help:  ## Display this help screen
 # list the papers here
 .PHONY: compile
 compile: ## Compile document(s)
-	@tectonic paper1/main1.tex
-	@tectonic paper2/main2.tex
+	@tectonic paper/{{ project_name_lower }}.tex
 
 
 .PHONY: clean
