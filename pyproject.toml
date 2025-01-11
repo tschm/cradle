@@ -9,6 +9,7 @@ dependencies = [
     "copier>=9.3.1",
     "questionary>=2.0.1",
     "loguru>=0.7.2",
+    "fire>=0.7.0"
 ]
 
 
@@ -24,7 +25,7 @@ dev = [
 ]
 
 [project.scripts]
-cradle = "cvx.cradle.cli:cli"
+cradle = "cvx.cradle.cli:main"
 
 [tool.ruff]
 line-length = 120

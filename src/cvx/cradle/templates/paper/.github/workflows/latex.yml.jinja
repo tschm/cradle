@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: cvxgrp/.github/actions/latex@v2.0.3
         with:
-          paper: paper/{{ project_name_lower }}.tex
+          paper: paper/{{ project_name }}.tex
           GITHUB_TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
           draft: draft
 

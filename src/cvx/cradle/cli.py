@@ -15,17 +15,19 @@ import os
 import tempfile
 from pathlib import Path
 
-import questionary
+# import questionary
+import copier
+import fire
 from loguru import logger
 
 from .utils.git import assert_git_version
+from .utils.questions import ask
 from .utils.shell import run_shell_command
-from .utils.ui import worker
 
 _templates = Path(__file__).parent / "templates"
 
 
-def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defaults=None) -> None:
+def cli(template: str) -> None:
     """
     CLI for Factory
 
@@ -39,43 +41,45 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
     # answer a bunch of questions
     logger.info("cradle will ask a group of questions to create a repository for you")
 
-    if template is None:
-        # which template you want to pick?
-        templates = {
-            "(Marimo) Experiments": str(_templates / "experiments"),
-            "A package (complete with a release process)": str(_templates / "package"),
-            "A paper": str(_templates / "paper"),
-        }
+    # if template is None:
+    #    # which template you want to pick?
+    #    templates = {
+    #        "(Marimo) Experiments": str(_templates / "experiments"),
+    #        "A package (complete with a release process)": str(_templates / "package"),
+    #        "A paper": str(_templates / "paper"),
+    #    }
 
-        # result is the value related to the key you pick
-        result = questionary.select(
-            "What kind of project do you want to create?",
-            choices=list(templates.keys()),
-        ).ask()
+    #    # result is the value related to the key you pick
+    #    result = questionary.select(
+    #        "What kind of project do you want to create?",
+    #        choices=list(templates.keys()),
+    #    ).ask()
 
-        template = templates[result]
+    #    template = templates[result]
 
     # Create a random path
-    path = dst or Path(tempfile.mkdtemp())
+    path = Path(tempfile.mkdtemp())
     home = os.getcwd()
     # move into the folder used by the Factory
     os.chdir(path)
 
-    logger.info(f"Path to (re)construct your project: {path}")
+    logger.info(f"Path to construct your project: {path}")
+
+    # context = kwargs.get("context")
+    # print(context)
+
+    # if not context:
+    context = ask()
 
     # Copy material into the random path
-    _worker = worker(template=template, dst_path=path, vcs_ref=vcs_ref, user_defaults=user_defaults)
-
-    command = _worker.answers.user["command"]
-    ssh_uri = _worker.answers.user["ssh_uri"]
-    # print(_worker.answers.user)
+    copier.run_copy(template, path, data=context)
 
     commands = [
         "git init --initial-branch=main",
         "git add --all",
         "git commit -m 'initial commit'",
-        command,
-        f"git remote add origin {ssh_uri}",
+        context["command"],
+        f"git remote add origin { context["ssh_uri"] }",
         "git push origin main",
     ]
 
@@ -91,4 +95,11 @@ def cli(template: str = None, dst: str = None, vcs_ref: str = "HEAD", user_defau
         # go back to the repo
         os.chdir(home)
 
-        logger.info(f"You may have to perform 'git clone {ssh_uri}'")
+        logger.info(f"You may have to perform 'git clone { context["ssh_uri"] }'")
+
+
+def main():  # pragma: no cover
+    """
+    Run the CLI using Fire
+    """
+    fire.Fire(cli)
