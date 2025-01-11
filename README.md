@@ -74,6 +74,7 @@ The template supports the fast creation of repositories of LaTeX documents.
 * curated pre-commit-hooks (e.g. for spelling)
 * github ci/cd workflows
 * Makefile
+* Example *.tex and bib file.
 
 ```bash
     create  paper
