@@ -1,3 +1,0 @@
-sheriff:
-  type: str
-  help: "Who shot the sheriff?"

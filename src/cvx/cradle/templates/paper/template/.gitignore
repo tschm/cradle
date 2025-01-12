@@ -50,9 +50,9 @@ tectonic
 ## Generated if empty string is given at "Please type another file name for output:"
 *.pdf
 !paper/figures/*.pdf
-!paper/essence_logo.pdf
-!paper/now_logo.pdf
-!paper/FnT_agreement/signed_agreement.pdf
+!template/paper/essence_logo.pdf
+!template/paper/now_logo.pdf
+!template/paper/FnT_agreement/signed_agreement.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl

@@ -18,6 +18,7 @@ from pathlib import Path
 # import questionary
 import copier
 import fire
+import questionary
 from loguru import logger
 
 from .utils.git import assert_git_version
@@ -27,13 +28,12 @@ from .utils.shell import run_shell_command
 _templates = Path(__file__).parent / "templates"
 
 
-def cli(template: str) -> None:
+def cli(template: str = None) -> None:
     """
-    CLI for Factory
+    The CRADLE command line interface. Create GitHub repositories with style.
 
     Args:
-        template: (optional) template. Use a git URI, e.g. 'git@...'
-        dst: (optional) destination. Use a path
+        template: (str) template. Use a git URI, e.g. 'git@...'
     """
     # check the git version
     assert_git_version(min_version="2.28.0")
@@ -41,21 +41,25 @@ def cli(template: str) -> None:
     # answer a bunch of questions
     logger.info("cradle will ask a group of questions to create a repository for you")
 
-    # if template is None:
-    #    # which template you want to pick?
-    #    templates = {
-    #        "(Marimo) Experiments": str(_templates / "experiments"),
-    #        "A package (complete with a release process)": str(_templates / "package"),
-    #        "A paper": str(_templates / "paper"),
-    #    }
+    if template is None:
+        # which template you want to pick?
+        templates = {
+            "(Marimo) Experiments": "experiments",
+            "A package (complete with a release process)": "package",
+            "A paper": "paper",
+        }
 
-    #    # result is the value related to the key you pick
-    #    result = questionary.select(
-    #        "What kind of project do you want to create?",
-    #        choices=list(templates.keys()),
-    #    ).ask()
+        # result is the value related to the key you pick
+        result = questionary.select(
+            "What kind of project do you want to create?",
+            choices=list(templates.keys()),
+        ).ask()
 
-    #    template = templates[result]
+        template = templates[result]
+        print(template)
+
+    if Path(_templates / template).exists():
+        template = str(_templates / template)
 
     # Create a random path
     path = Path(tempfile.mkdtemp())
