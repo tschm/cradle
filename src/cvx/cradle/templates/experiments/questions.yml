@@ -68,7 +68,7 @@ email:
   type: str
   default: "{{ username }}@mailinator.com"
 
-project_name_lower:
+project_name:
   type: str
   default: "{{ project_name | lower }}"
   when: false
