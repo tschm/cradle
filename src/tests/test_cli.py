@@ -42,13 +42,15 @@ class Answer:
 def test_no_template(mock_context, mocker, tmp_path, mock_run_shell_command):
     mocker.patch("cvx.cradle.cli.questionary.select", return_value=Answer("A paper"))
     mocker.patch("cvx.cradle.cli.ask", return_value=mock_context)
-
+    mocker.patch("cvx.cradle.cli.copier.run_copy", return_value=None)
     cli(dst_path=str(tmp_path))
+    assert mock_run_shell_command.call_count == 6
 
 
 def test_runtime_error(mock_context, mocker, tmp_path):
     mocker.patch("cvx.cradle.cli.questionary.select", return_value=Answer("A paper"))
     mocker.patch("cvx.cradle.cli.ask", return_value=mock_context)
+    mocker.patch("cvx.cradle.cli.copier.run_copy", return_value=None)
     mocker.patch("cvx.cradle.cli.run_shell_command", side_effect=RuntimeError("An error occurred"))
 
     with pytest.raises(RuntimeError):
