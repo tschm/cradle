@@ -75,7 +75,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         "git add --all",
         "git commit -m 'initial commit'",
         context["gh_create"],
-        f"git remote add origin { context['ssh_uri'] }",
+        f"git remote add origin {context['ssh_uri']}",
         "git push origin main",
     ]
 
@@ -91,7 +91,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         # go back to the repo
         os.chdir(home)
 
-        logger.info(f"You may have to perform 'git clone { context['ssh_uri'] }'")
+        logger.info(f"You may have to perform 'git clone {context['ssh_uri']}'")
 
 
 def main():  # pragma: no cover
