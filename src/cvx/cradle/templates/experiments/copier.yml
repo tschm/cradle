@@ -1,6 +1,11 @@
-# questions
+# additional questions
 ---
-!include questions.yml
+# for questions
+# https://copier.readthedocs.io/en/stable/configuring/#prompt-templating
+
+#sheriff:
+#  type: str
+#  help: "Who shot the sheriff?"
 ---
 
 ###
@@ -10,7 +15,4 @@
 # Require that the user has at least Copier v9.1.0 installed
 # Earliest version with "multiselect" support.
 _min_copier_version: "9.1.0"
-
-_name: "experiments"
-_version: "0.1.0"
-_destination_path: "."
+_subdirectory: "template"
