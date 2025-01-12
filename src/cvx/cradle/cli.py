@@ -15,7 +15,6 @@ import os
 import tempfile
 from pathlib import Path
 
-# import questionary
 import copier
 import fire
 import questionary
@@ -24,8 +23,6 @@ from loguru import logger
 from .utils.git import assert_git_version
 from .utils.questions import ask
 from .utils.shell import run_shell_command
-
-_templates = Path(__file__).parent / "templates"
 
 
 def cli(template: str = None) -> None:
@@ -44,9 +41,9 @@ def cli(template: str = None) -> None:
     if template is None:
         # which template you want to pick?
         templates = {
-            "(Marimo) Experiments": "experiments",
-            "A package (complete with a release process)": "package",
-            "A paper": "paper",
+            "(Marimo) Experiments": "git@github.com:tschm/experiments.git",
+            "A package (complete with a release process)": "git@github.com:tschm/package.git",
+            "A paper": "git@github.com:tschm/paper.git",
         }
 
         # result is the value related to the key you pick
@@ -56,10 +53,6 @@ def cli(template: str = None) -> None:
         ).ask()
 
         template = templates[result]
-        print(template)
-
-    if Path(_templates / template).exists():
-        template = str(_templates / template)
 
     # Create a random path
     path = Path(tempfile.mkdtemp())
@@ -69,10 +62,6 @@ def cli(template: str = None) -> None:
 
     logger.info(f"Path to construct your project: {path}")
 
-    # context = kwargs.get("context")
-    # print(context)
-
-    # if not context:
     context = ask()
 
     # Copy material into the random path
