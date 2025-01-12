@@ -63,7 +63,7 @@ def ask():
     repo_name = project_name.lower()
     repository_url = f"https://github.com/{username}/{repo_name}"
     ssh_uri = f"git@github.com:{username}/{repo_name}.git"
-    command = f"gh repo create {username}/{repo_name} --{status} --description '{description}'"
+    gh_create = f"gh repo create {username}/{repo_name} --{status} --description '{description}'"
 
     # Display the results
     print("\n--- Repository Details ---")
@@ -73,7 +73,7 @@ def ask():
     print(f"Visibility: {status}")
     print(f"Repository URL: {repository_url}")
     print(f"SSH URI: {ssh_uri}")
-    print(f"Command to create the repo: {command}")
+    print(f"Command to create the repo: {gh_create}")
 
     context = {
         "project_name": project_name.lower(),
@@ -82,7 +82,7 @@ def ask():
         "status": status,
         "ssh_uri": ssh_uri,
         "repository_url": repository_url,
-        "command": command,
+        "command": gh_create,
     }
 
     return context

@@ -20,17 +20,20 @@ import fire
 import questionary
 from loguru import logger
 
+from cvx.cradle.utils.questions import ask
+
 from .utils.git import assert_git_version
-from .utils.questions import ask
 from .utils.shell import run_shell_command
 
 
-def cli(template: str = None) -> None:
+def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
     """
     The CRADLE command line interface. Create GitHub repositories with style.
 
     Args:
-        template: (str) template. Use a git URI, e.g. 'git@...'
+        template: optional (str) template. Use a git URI, e.g. 'git@...'
+        dst_path: optional (str) destination path
+        vcs_ref: optional (str) revision number
     """
     # check the git version
     assert_git_version(min_version="2.28.0")
@@ -55,23 +58,23 @@ def cli(template: str = None) -> None:
         template = templates[result]
 
     # Create a random path
-    path = Path(tempfile.mkdtemp())
+    dst_path = dst_path or Path(tempfile.mkdtemp())
     home = os.getcwd()
     # move into the folder used by the Factory
-    os.chdir(path)
+    os.chdir(dst_path)
 
-    logger.info(f"Path to construct your project: {path}")
+    logger.info(f"Path to (re) construct your project: {dst_path}")
 
     context = ask()
 
     # Copy material into the random path
-    copier.run_copy(template, path, data=context)
+    copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
 
     commands = [
         "git init --initial-branch=main",
         "git add --all",
         "git commit -m 'initial commit'",
-        context["command"],
+        context["gh_create"],
         f"git remote add origin { context["ssh_uri"] }",
         "git push origin main",
     ]
