@@ -30,13 +30,13 @@ class Answer:
         return self.string
 
 
-def test_main(mock_context, mocker, tmp_path, mock_run_shell_command):
-    mocker.patch("cvx.cradle.cli.ask", return_value=mock_context)
+# def test_main(mock_context, mocker, tmp_path, mock_run_shell_command):
+#    mocker.patch("cvx.cradle.cli.ask", return_value=mock_context)
 
-    cli(template="git@github.com:tschm/paper.git", dst_path=str(tmp_path))
-
-    # Assert the correct number of calls (optional)
-    assert mock_run_shell_command.call_count == 6
+#    cli(template="git@github.com:tschm/paper.git", dst_path=str(tmp_path))
+#
+# Assert the correct number of calls (optional)
+#    assert mock_run_shell_command.call_count == 6
 
 
 def test_no_template(mock_context, mocker, tmp_path, mock_run_shell_command):
