@@ -112,18 +112,3 @@ def test_ask_with_defaults():
         assert result["username"] == "tschm"  # default value
         assert result["description"] == "Some computations"  # default value
         assert result["status"] == "public"
-
-
-# @pytest.fixture
-# def mock_questionary():
-#     with patch("questionary.text") as mock_text, patch("questionary.select") as mock_select:
-#         yield {"text": mock_text, "select": mock_select}
-#
-#
-# def test_ask_error_handling(mock_questionary):
-#     # Test that invalid inputs are handled appropriately
-#     mock_questionary["text"].return_value.ask.side_effect = ["INVALID_NAME"]
-#
-#     with pytest.raises(ValueError) as exc_info:
-#         ask()
-#     assert "Project name must start with a lowercase letter" in str(exc_info.value)
