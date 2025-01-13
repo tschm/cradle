@@ -67,9 +67,14 @@ We currently distinguish
 
 ## Templates
 
-### The document template
+We follow the one template, one repository policy.
+You are encouraged to create your own templates and we give $3$ examples that
+may serve as an inspiration
+
+### [The document template](https://github.com/tschm/paper)
 
 The template supports the fast creation of repositories of LaTeX documents.
+Out of the box you get
 
 * curated pre-commit-hooks (e.g. for spelling)
 * github ci/cd workflows
@@ -94,7 +99,7 @@ and replaces them in filenames and file contents.
 With every push into the repo the document is compiled
 and published on a draft branch.
 
-### The experiment template
+### [The experiment template](https://github.com/tschm/experiments)
 
 Here we support the creation of notebooks without the ambition to release software.
 The repo is not minimalistic but comes with a curated set of pre-commit hooks and
@@ -126,7 +131,7 @@ follows modern and established guidelines.
     create  notebooks/{{ project_lower }}.py
 ```
 
-### The package template
+### [The package template](https://github.com/tschm/package)
 
 The package template is most useful when the final
 goal is the real of software to a registry, e.g. pypi.
