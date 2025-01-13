@@ -62,7 +62,7 @@ while operating on a different branch or deactivate the flow.
 We currently distinguish
 
 * The document template
-* The experiment template
+* The experiments template
 * The package template
 
 ## Templates
@@ -99,7 +99,7 @@ and replaces them in filenames and file contents.
 With every push into the repo the document is compiled
 and published on a draft branch.
 
-### [The experiment template](https://github.com/tschm/experiments)
+### [The experiments template](https://github.com/tschm/experiments)
 
 Here we support the creation of notebooks without the ambition to release software.
 The repo is not minimalistic but comes with a curated set of pre-commit hooks and
