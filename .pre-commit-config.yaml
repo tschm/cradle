@@ -6,7 +6,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
+  - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: 'v0.9.1'
     hooks:
       - id: ruff
@@ -47,7 +47,7 @@ repos:
         args: [-ignore, SC]
 
   - repo: https://github.com/crate-ci/typos
-    rev: v1.29.4
+    rev: dictgen-v0.3.1
     hooks:
       - id: typos
         exclude: \.gitignore
