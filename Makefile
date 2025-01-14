@@ -10,6 +10,12 @@ verify:  ## Run a simple verification
 	ssh -T git@github.com || true
 	gh --version
 
+
+.PHONY: clean
+clean: ## clean the folder
+	@git clean -d -X -f
+
+
 .PHONY: install
 install: venv ## Install all dependencies (in the virtual environment) defined in requirements.txt
 	@uv sync --dev --frozen
