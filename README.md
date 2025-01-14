@@ -23,16 +23,10 @@ This tool is used to create GitHub repos from the command line.
 Try with
 
 ```bash
-ssh -T git@github.com
-```
-
-or use
-
-```bash
 make verify
 ```
 
-using the Makefile. A new SSH connection can be established [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+A new SSH connection could be established [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
 ### Build the virtual environment
 
@@ -53,13 +47,7 @@ across your team or organization.
 It's essentially a project scaffolding tool that helps maintain consistency
 in Python projects.
 
-## :warning: Private repositories
-
-Using workflows in private repos will eat into your monthly GitHub bill.
-You may want to restrict the workflow to operate only when merging on the main branch
-while operating on a different branch or deactivate the flow.
-
-We currently distinguish
+We currently offer $3$ templates out of the box
 
 * The document template
 * The experiments template
@@ -110,3 +98,10 @@ It features include
 * marimo support
 * JupyterBook
 * pdoc documentation
+
+
+## :warning: Private repositories
+
+Using workflows in private repos will eat into your monthly GitHub bill.
+You may want to restrict the workflow to operate only when merging on the main branch
+while operating on a different branch or deactivate the flow.
