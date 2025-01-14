@@ -81,8 +81,8 @@ def ask():
         "description": description,
         "status": status,
         "ssh_uri": ssh_uri,
-        "repository_url": repository_url,
-        "command": gh_create,
+        "repository": repository_url,
+        "gh_create": gh_create,
     }
 
     return context
