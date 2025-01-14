@@ -81,23 +81,6 @@ Out of the box you get
 * Makefile
 * Example *.tex and bib file.
 
-```bash
-    create  paper
-    create  paper/references.bib
-    create  paper/{{ project_name }}.tex
-    create  README.md
-    create  .gitignore
-    create  .github
-    create  .github/workflows
-    create  .github/workflows/latex.yml
-    create  Makefile
-```
-
-When you run cradle, it prompts for these variables
-and replaces them in filenames and file contents.
-
-With every push into the repo the document is compiled
-and published on a draft branch.
 
 ### [The experiments template](https://github.com/tschm/experiments)
 
