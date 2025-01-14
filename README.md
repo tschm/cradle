@@ -69,7 +69,6 @@ Out of the box you get
 * Makefile
 * Example *.tex and bib file.
 
-
 ### [The experiments template](https://github.com/tschm/experiments)
 
 Here we support the creation of notebooks without the ambition to release software.
@@ -82,7 +81,6 @@ follows modern and established guidelines.
 * github ci/cd workflows
 * Makefile
 * marimo support
-
 
 ### [The package template](https://github.com/tschm/package)
 
@@ -98,7 +96,6 @@ It features include
 * marimo support
 * JupyterBook
 * pdoc documentation
-
 
 ## :warning: Private repositories
 
