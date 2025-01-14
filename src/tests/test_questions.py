@@ -91,9 +91,9 @@ def test_ask_integration():
         assert result["username"] == "testuser"
         assert result["description"] == "Test description"
         assert result["status"] == "public"
-        assert result["repository_url"] == "https://github.com/testuser/testproject"
+        assert result["repository"] == "https://github.com/testuser/testproject"
         assert result["ssh_uri"] == "git@github.com:testuser/testproject.git"
-        assert result["command"] == "gh repo create testuser/testproject --public --description 'Test description'"
+        assert result["gh_create"] == "gh repo create testuser/testproject --public --description 'Test description'"
 
 
 def test_ask_with_defaults():

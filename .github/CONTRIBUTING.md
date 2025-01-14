@@ -90,10 +90,4 @@ To run all unit tests run the following command:
 make test
 ```
 
-We keep a close eye on our coverage via
-
-```bash
-make coverage
-```
-
 Please make sure that your change doesn't cause any of the unit tests to fail.
