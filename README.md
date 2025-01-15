@@ -49,9 +49,9 @@ in Python projects.
 
 We currently offer $3$ templates out of the box
 
-* The document template
-* The experiments template
-* The package template
+- The document template
+- The experiments template
+- The package template
 
 ## Templates
 
@@ -64,10 +64,10 @@ may serve as an inspiration
 The template supports the fast creation of repositories of LaTeX documents.
 Out of the box you get
 
-* curated pre-commit-hooks (e.g. for spelling)
-* github ci/cd workflows
-* Makefile
-* Example *.tex and bib file.
+- curated pre-commit-hooks (e.g. for spelling)
+- github ci/cd workflows
+- Makefile
+- Example *.tex and bib file.
 
 ### [The experiments template](https://github.com/tschm/experiments)
 
@@ -75,12 +75,12 @@ Here we support the creation of notebooks without the ambition to release softwa
 The repo is not minimalistic but comes with a curated set of pre-commit hooks and
 follows modern and established guidelines.
 
-* uv support
-* curated pre-commit-hooks
-* DevContainer
-* github ci/cd workflows
-* Makefile
-* marimo support
+- uv support
+- curated pre-commit-hooks
+- DevContainer
+- github ci/cd workflows
+- Makefile
+- marimo support
 
 ### [The package template](https://github.com/tschm/package)
 
@@ -88,14 +88,14 @@ The package template is most useful when the final
 goal is the release of software to a registry, e.g. pypi.
 It features include
 
-* uv support
-* curated set of pre-commit hooks
-* DevContainer
-* Makefile
-* github ci/cd workflows
-* marimo support
-* JupyterBook
-* pdoc documentation
+- uv support
+- curated set of pre-commit hooks
+- DevContainer
+- Makefile
+- github ci/cd workflows
+- marimo support
+- JupyterBook
+- pdoc documentation
 
 ## :warning: Private repositories
 
