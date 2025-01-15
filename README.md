@@ -5,6 +5,8 @@
 
 cradle is a command line tool to create repos based on a group of templates.
 
+![Creating a repository from the command line](demo.png)
+
 ## Install gradle
 
 We currently assume the reader is doing a clone of this repo via
