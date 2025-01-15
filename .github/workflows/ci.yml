@@ -24,15 +24,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Load .env file
-        uses: xom9ikk/dotenv@v2  # Dedicated action for loading .env files
-
-      #- name: Explicitly set the terminal type to a Windows-compatible\.
-      #  shell: bash
-      #  run: |
-      #    set TERM=ansi
 
       - uses: cvxgrp/.github/actions/uv/test@v2.0.3
         with:
           python-version: ${{ matrix.python-version }}
-          tests-folder: ${{ env.test-folder }}
+          tests-folder: src/tests
