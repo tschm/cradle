@@ -32,9 +32,11 @@ test: install ## Run all notebooks in a test
 	@uv pip install pytest
 	@uv run pytest src/tests
 
+
 .PHONY: cradle
 cradle: install ## Run the cradle app
 	@uv run cradle
+
 
 .PHONY: fmt
 fmt: venv ## Run autoformatting and linting
