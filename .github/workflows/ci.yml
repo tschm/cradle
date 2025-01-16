@@ -40,3 +40,9 @@ jobs:
         with:
           tests-folder: src/tests
           source-folder: src/cvx
+
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2
+        with:
+          files: artifacts/tests/coverage/coverage.info
+          format: lcov
