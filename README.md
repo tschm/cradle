@@ -31,14 +31,6 @@ make verify
 
 A new SSH connection could be established [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
-### Build the virtual environment
-
-Creating the virtual environment also installs [uv](https://docs.astral.sh/uv/getting-started/installation/)
-
-```bash
-make install
-```
-
 ## Using the cradle tool
 
 Cradle is a command-line utility that creates projects from templates.
@@ -60,7 +52,7 @@ We currently offer $3$ templates out of the box
 
 We follow the one template, one repository policy.
 You are encouraged to create your own templates and we give $3$ examples that
-may serve as an inspiration
+may serve as inspiration
 
 ### [The document template](https://github.com/tschm/paper)
 
