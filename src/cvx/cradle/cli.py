@@ -27,12 +27,22 @@ from .utils.git import assert_git_version
 from .utils.shell import run_shell_command
 
 
-def save_answers_to_yaml(answers, dst_path):
-    # Save the answers to a 'copier_answers.yml' file
-    answers_path = os.path.join(dst_path, "copier_answers.yml")
-    with open(answers_path, "w") as file:
-        yaml.dump(answers, file)
-    print(f"Answers saved to: {answers_path}")
+def append_to_yaml_file(new_data, file_path):
+    # Check if the file exists
+    if os.path.exists(file_path):
+        # Load the existing data from the file
+        with open(file_path) as file:
+            existing_data = yaml.safe_load(file) or {}  # Load existing data or empty dict if file is empty
+    else:
+        # If the file doesn't exist, start with an empty dict
+        existing_data = {}
+
+    # Append new data (update or add new keys)
+    existing_data.update(new_data)
+
+    # Write the updated data back to the YAML file
+    with open(file_path, "w") as file:
+        yaml.dump(existing_data, file, default_flow_style=False)
 
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
@@ -78,6 +88,8 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
     # Copy material into the random path
     copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
+
+    append_to_yaml_file(context, ".copier-answers.yml")
 
     commands = [
         "git init --initial-branch=main",

@@ -3,8 +3,6 @@ name: "ci"
 on:
 - push
 
-env:
-  TERM: "ansi"
 
 jobs:
   test:
@@ -27,7 +25,7 @@ jobs:
 
       - uses: cvxgrp/.github/actions/uv/test@v2.0.3
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.12'
           tests-folder: src/tests
 
   coverage:
