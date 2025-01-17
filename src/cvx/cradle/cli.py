@@ -18,12 +18,21 @@ from pathlib import Path
 import copier
 import fire
 import questionary
+import yaml
 from loguru import logger
 
 from cvx.cradle.utils.questions import ask
 
 from .utils.git import assert_git_version
 from .utils.shell import run_shell_command
+
+
+def save_answers_to_yaml(answers, dst_path):
+    # Save the answers to a 'copier_answers.yml' file
+    answers_path = os.path.join(dst_path, "copier_answers.yml")
+    with open(answers_path, "w") as file:
+        yaml.dump(answers, file)
+    print(f"Answers saved to: {answers_path}")
 
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
