@@ -18,6 +18,10 @@ inputs:
   workflow:
     description: 'Workflow, e.g. marimo.yml'
     required: true
+  working-directory:
+    description: 'Directory where the Python project is located'
+    required: false
+    default: 'template'
 
 runs:
   using: "composite"
@@ -36,5 +40,6 @@ runs:
 
     - name: Test workflow
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: |
         act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true'
