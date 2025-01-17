@@ -12,7 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 name: cradle
-description: "Build pdoc documentation"
+description: "Build the framework for the cradle"
 
 inputs:
   python-version:
@@ -22,22 +22,8 @@ inputs:
 
 
 runs:
-
-
   using: "composite"
   steps:
-      - name: Install act
-        shell: bash
-        run: |
-          curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
-          # Add the installation directory to PATH
-          echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
-
-      - name: Verify act installation
-        shell: bash
-        run: |
-          act --version
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
