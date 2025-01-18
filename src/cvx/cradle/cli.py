@@ -12,13 +12,14 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import os
+import shutil
 import tempfile
 from pathlib import Path
 
 import copier
-import fire
 import questionary
 import yaml
+from fire import Fire
 from loguru import logger
 
 from cvx.cradle.utils.questions import ask
@@ -82,7 +83,11 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
         template = templates[result]
 
+    remove_path = False
     # Create a random path
+    if not dst_path:
+        remove_path = True
+
     dst_path = dst_path or Path(tempfile.mkdtemp())
     home = os.getcwd()
     # move into the folder used by the Factory
@@ -111,6 +116,10 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         for cmd in commands:
             run_shell_command(cmd, logger=logger)
 
+        # delete the path you have created
+        if remove_path:
+            shutil.rmtree(dst_path)
+
     except RuntimeError as e:
         logger.error(f"Failed to create project: {str(e)}")
         raise
@@ -126,4 +135,4 @@ def main():  # pragma: no cover
     """
     Run the CLI using Fire
     """
-    fire.Fire(cli)
+    Fire(cli)
