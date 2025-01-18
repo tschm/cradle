@@ -90,6 +90,7 @@ FLAGS
         Default: None
         optional (str) revision number to checkout a particular
         Git ref before generating the project.
+
     Additional flags are accepted.
 ```
 
@@ -100,7 +101,7 @@ across your team or organization.
 It's essentially a project scaffolding tool that helps maintain consistency
 in Python projects.
 
-We currently offer $3$ templates out of the box
+We currently offer $3$ standard templates out of the box
 
 - The document template
 - The experiments template
@@ -167,11 +168,11 @@ This helps to avoid creating projects starting their life in a broken state.
 ##### Usage
 
 We essentially expose the copier interface directly with
-minor modification, e.g. if the user is not submitting a source template
+minor modifications, e.g. if the user is not submitting a source template
 we offer to choose one of the standard templates.
 
-The command line interface supports additional flags, e.g. **kwargs arguments
-for the function exposed. Hence in the standard
+Any cradle template could be used directly as the first 'template'
+argument
 
 ```bash
 uv run cradle --template=git@github.com:tschm/paper.git
