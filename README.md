@@ -63,7 +63,7 @@ It will result in
 ```bash
 NAME
     cradle - The CRADLE interface. Create GitHub repositories from the
-    command line. 
+    command line.
 
 SYNOPSIS
     cradle <flags>
@@ -179,7 +179,7 @@ uv run cradle --template=git@github.com:tschm/paper.git
 ```
 
 If the parameter vcs_ref is not specified this will use the most
-recent released tag By default, Copier will copy from the last 
+recent released tag By default, Copier will copy from the last
 release found in template Git tags, sorted as
 [PEP 440](https://peps.python.org/pep-0440/).
 
