@@ -47,13 +47,19 @@ def append_to_yaml_file(new_data, file_path):
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
     """
-    The CRADLE command line interface. Create GitHub repositories with style.
+    The CRADLE interface. Create GitHub repositories from the command line.
+    It is also possible to create a large number of GitHub repositories.
 
     Args:
-        template: optional (str) template. Use a git URI, e.g. 'git@...'
-        dst_path: optional (str) destination path
-        vcs_ref: optional (str) revision number
+        template: optional (str) template. Use a git URI, e.g. 'git@...'.
+                  Offers a group of standard templates to choose from if not specified.
+
+        dst_path: optional (str) destination path. Useful when updating existing projects.
+
+        vcs_ref: optional (str) revision number to checkout
+        a particular Git ref before generating the project.
     """
+
     # check the git version
     assert_git_version(min_version="2.28.0")
 
