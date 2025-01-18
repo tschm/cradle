@@ -116,9 +116,6 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         for cmd in commands:
             run_shell_command(cmd, logger=logger)
 
-        # delete the path you have created
-        if remove_path:
-            shutil.rmtree(dst_path)
 
     except RuntimeError as e:
         logger.error(f"Failed to create project: {str(e)}")
@@ -128,6 +125,10 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         # go back to the repo
         os.chdir(home)
 
+        # delete the path you have created
+        if remove_path:
+            shutil.rmtree(dst_path)
+            
         logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
