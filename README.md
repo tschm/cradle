@@ -48,7 +48,7 @@ We currently offer $3$ templates out of the box
 - The experiments template
 - The package template
 
-## Templates
+## Standard Templates
 
 We follow the one template, one repository policy.
 You are encouraged to create your own templates and we give $3$ examples that
@@ -91,6 +91,42 @@ It features include
 - marimo support
 - JupyterBook
 - pdoc documentation
+
+## Proprietary templates
+
+### Creation 
+
+You can create your very own templates and we recommend to start with
+forking the
+[dedicated repo](https://github.com/tschm/template/blob/main/README.md).
+Templates rely on [Jinja](https://jinja.palletsprojects.com/en/stable/).
+At the root level the repo needs a 'copier.yml' file and a 'template' folder.
+
+Each template is tested using [act](https://github.com/nektos/act), e.g.
+we render the project template and test the workflows of the created project.
+This helps to avoid creating projects starting their life in a broken state.
+
+### Usage
+
+We essentially expose the copier interface directly with
+minor modification, e.g. if the user is not submitting a source template
+we offer to pick one of the standard templates.
+
+Using the command line interface it is hence possible to
+
+```bash
+uv run cradle --help DOES NOT WORK AT THE MOMENT
+```
+
+but also
+
+```bash
+uv run cradle
+```
+
+
+
+
 
 ## :warning: Private repositories
 
