@@ -70,7 +70,7 @@ SYNOPSIS
 
 DESCRIPTION
     The CRADLE interface. Create GitHub repositories from the command line.
-    
+
 FLAGS
     -t, --template=TEMPLATE
         Type: Optional[str]
