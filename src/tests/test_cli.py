@@ -1,8 +1,9 @@
 import dataclasses
 
 import pytest
+import yaml
 
-from cvx.cradle.cli import cli
+from cvx.cradle.cli import append_to_yaml_file, cli
 
 
 @pytest.fixture
@@ -46,3 +47,19 @@ def test_runtime_error(mock_context, mocker, tmp_path):
 
     with pytest.raises(RuntimeError):
         cli(dst_path=str(tmp_path))
+
+
+def test_append_to_yaml_file(tmp_path):
+    data = {"A": 100, "B": 200}
+    append_to_yaml_file(file_path=tmp_path / "a.yml", new_data=data)
+
+    data = {"C": 300}
+    append_to_yaml_file(file_path=tmp_path / "a.yml", new_data=data)
+
+    # Read the file and verify the content
+    with open(tmp_path / "a.yml") as f:
+        content = yaml.safe_load(f)
+
+    # Check that all data was correctly appended
+    expected = {"A": 100, "B": 200, "C": 300}
+    assert content == expected
