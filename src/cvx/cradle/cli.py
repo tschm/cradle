@@ -84,11 +84,12 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
     logger.info(f"Path to (re) construct your project: {dst_path}")
 
-    context = ask()
-
+    context = ask(logger=logger)
+    logger.info("*** Copier is parsing the template ***")
     # Copy material into the random path
     copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
 
+    logger.info("*** Create a file with the answers given ***\n")
     append_to_yaml_file(context, ".copier-answers.yml")
 
     commands = [
@@ -112,7 +113,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         # go back to the repo
         os.chdir(home)
 
-        logger.info(f"You may have to perform 'git clone {context['ssh_uri']}'")
+        logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
 def main():  # pragma: no cover

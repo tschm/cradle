@@ -94,21 +94,3 @@ def test_ask_integration():
         assert result["repository"] == "https://github.com/testuser/testproject"
         assert result["ssh_uri"] == "git@github.com:testuser/testproject.git"
         assert result["gh_create"] == "gh repo create testuser/testproject --public --description 'Test description'"
-
-
-def test_ask_with_defaults():
-    # Mock user inputs with empty values to test defaults
-    with patch.object(questionary.Question, "ask") as mock_ask:
-        mock_ask.side_effect = [
-            "testproject",  # project name
-            "",  # username (should default to "tschm")
-            "",  # description (should default to "Some computations")
-            "public",  # status
-        ]
-
-        result = ask()
-
-        assert result["project_name"] == "testproject"
-        assert result["username"] == "tschm"  # default value
-        assert result["description"] == "Some computations"  # default value
-        assert result["status"] == "public"

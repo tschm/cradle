@@ -11,6 +11,7 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+import logging
 import re
 
 import questionary
@@ -43,15 +44,17 @@ def _validate_status(status):
     return status
 
 
-def ask():
+def ask(logger=None):
+    logger = logger or logging.getLogger(__name__)
+
     # Get user inputs with questionary
     project_name = questionary.text("Enter your project name:").ask()
     project_name = _validate_project_name(project_name.lower())
 
-    username = questionary.text("Enter your GitHub username (e.g., 'cvxgrp'):").ask() or "tschm"
+    username = questionary.text("Enter your GitHub username (e.g. 'cvxgrp'):").ask()
     username = _validate_username(username)
 
-    description = questionary.text("Enter a brief description of your project:").ask() or "Some computations"
+    description = questionary.text("Enter a brief description of your project:", default="...").ask()
     description = _validate_description(description)
 
     status = questionary.select(
@@ -66,14 +69,14 @@ def ask():
     gh_create = f"gh repo create {username}/{repo_name} --{status} --description '{description}'"
 
     # Display the results
-    print("\n--- Repository Details ---")
-    print(f"Project Name: {repo_name}")
-    print(f"GitHub Username: {username}")
-    print(f"Description: {description}")
-    print(f"Visibility: {status}")
-    print(f"Repository URL: {repository_url}")
-    print(f"SSH URI: {ssh_uri}")
-    print(f"Command to create the repo: {gh_create}")
+    logger.info("\n--- Repository Details ---\n")
+    logger.info(f"Project Name: {repo_name}")
+    logger.info(f"GitHub Username: {username}")
+    logger.info(f"Description: {description}")
+    logger.info(f"Visibility: {status}")
+    logger.info(f"Repository URL: {repository_url}")
+    logger.info(f"SSH URI: {ssh_uri}")
+    logger.info(f"Command to create the repo: {gh_create}\n")
 
     context = {
         "project_name": project_name.lower(),
