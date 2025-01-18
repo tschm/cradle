@@ -148,7 +148,7 @@ It features include
 ##### Creation
 
 You can create your very own templates and we recommend to start with
-forking the 
+forking the
 [dedicated repo](https://github.com/tschm/template/blob/main/README.md).
 Templates rely on [Jinja](https://jinja.palletsprojects.com/en/stable/).
 At the root level the repo needs a 'copier.yml' file and a 'template' folder.
