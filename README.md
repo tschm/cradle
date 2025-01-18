@@ -94,7 +94,7 @@ It features include
 
 ## Proprietary templates
 
-### Creation 
+### Creation
 
 You can create your very own templates and we recommend to start with
 forking the
