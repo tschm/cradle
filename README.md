@@ -170,8 +170,9 @@ for the function exposed. Hence in the standard
 uv run cradle --template=git@github.com:tschm/paper.git
 ```
 
-If the vcs_
-
+If the parameter vcs_ref is not specified this will use the most recent released tag
+By default, Copier will copy from the last release found in 
+template Git tags, sorted as [PEP 440](https://peps.python.org/pep-0440/).
 
 ## :warning: Private repositories
 
