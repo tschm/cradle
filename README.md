@@ -70,8 +70,7 @@ SYNOPSIS
 
 DESCRIPTION
     The CRADLE interface. Create GitHub repositories from the command line.
-    It is also possible to create a large number of GitHub repositories.
-
+    
 FLAGS
     -t, --template=TEMPLATE
         Type: Optional[str]
@@ -178,8 +177,7 @@ for the function exposed. Hence in the standard
 uv run cradle --template=git@github.com:tschm/paper.git
 ```
 
-If the parameter vcs_ref is not specified this will use the most
-recent released tag By default, Copier will copy from the last
+By default, Copier (and hence the cradle) will copy from the last
 release found in template Git tags, sorted as
 [PEP 440](https://peps.python.org/pep-0440/).
 
