@@ -62,27 +62,35 @@ It will result in
 
 ```bash
 NAME
-    cradle - The CRADLE interface. Create GitHub repositories from the command line. It is also possible to create a large number of GitHub repositories.
+    cradle - The CRADLE interface. Create GitHub repositories from the
+    command line. 
 
 SYNOPSIS
     cradle <flags>
 
 DESCRIPTION
-    The CRADLE interface. Create GitHub repositories from the command line. It is also possible to create a large number of GitHub repositories.
+    The CRADLE interface. Create GitHub repositories from the command line.
+    It is also possible to create a large number of GitHub repositories.
 
 FLAGS
     -t, --template=TEMPLATE
         Type: Optional[str]
         Default: None
-        optional (str) template. Use a git URI, e.g. 'git@...'. Offers a group of standard templates to choose from if not specified.
+        optional (str) template. Use a git URI, e.g. 'git@...'.
+        Offers a group of standard templates to choose
+        from if not specified.
+
     -d, --dst_path=DST_PATH
         Type: Optional[str]
         Default: None
-        optional (str) destination path. Useful when updating existing projects.
+        optional (str) destination path. Useful when updating
+        existing projects.
+
     -v, --vcs_ref=VCS_REF
         Type: Optional[str | None]
         Default: None
-        optional (str) revision number to checkout a particular Git ref before generating the project.
+        optional (str) revision number to checkout a particular
+        Git ref before generating the project.
     Additional flags are accepted.
 ```
 
@@ -170,9 +178,10 @@ for the function exposed. Hence in the standard
 uv run cradle --template=git@github.com:tschm/paper.git
 ```
 
-If the parameter vcs_ref is not specified this will use the most recent released tag
-By default, Copier will copy from the last release found in
-template Git tags, sorted as [PEP 440](https://peps.python.org/pep-0440/).
+If the parameter vcs_ref is not specified this will use the most
+recent released tag By default, Copier will copy from the last 
+release found in template Git tags, sorted as
+[PEP 440](https://peps.python.org/pep-0440/).
 
 ## :warning: Private repositories
 
