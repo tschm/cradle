@@ -28,6 +28,16 @@ from .utils.git import assert_git_version
 from .utils.shell import run_shell_command
 
 
+def load_templates(yaml_path: Path) -> dict[str, str]:
+    """
+    Load templates from YAML file and return a dictionary mapping display names to URLs.
+    """
+    with open(yaml_path) as f:
+        config = yaml.safe_load(f)
+
+    return {details["display_name"]: details["url"] for template_name, details in config["templates"].items()}
+
+
 def append_to_yaml_file(new_data, file_path):
     # Check if the file exists
     if os.path.exists(file_path):
@@ -68,21 +78,17 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     logger.info("cradle will ask a group of questions to create a repository for you")
 
     if template is None:
-        # which template you want to pick?
-        templates = {
-            "(Marimo) Experiments": "git@github.com:tschm/experiments.git",
-            "A package (complete with a release process)": "git@github.com:tschm/package.git",
-            "A paper": "git@github.com:tschm/paper.git",
-        }
+        # Load templates from YAML file
+        yaml_path = Path(__file__).parent / "templates.yaml"  # Adjust path as needed
+        templates = load_templates(yaml_path)
 
-        # result is the value related to the key you pick
+        # Let user select from the display names
         result = questionary.select(
             "What kind of project do you want to create?",
             choices=list(templates.keys()),
         ).ask()
 
         template = templates[result]
-
     remove_path = False
     # Create a random path
     if not dst_path:

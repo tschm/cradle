@@ -1,0 +1,10 @@
+templates:
+  marimo_experiments:
+    url: "git@github.com:tschm/experiments.git"
+    display_name: "(Marimo) Experiments"
+  package:
+    url: "git@github.com:tschm/package.git"
+    display_name: "A python package"
+  paper:
+    url: "git@github.com:tschm/paper.git"
+    display_name: "A LaTeX document"
