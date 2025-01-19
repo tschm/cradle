@@ -37,6 +37,21 @@ Cradle is a command-line utility that creates projects from templates.
 It is similar to the popular
 [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/#) project.
 
+To use the tool in its current shape do
+
+```bash
+make install
+```
+
+to setup the virtual environment for it (which also installs uv). Then do
+
+```bash
+uv run cradle
+```
+
+to run the tool. 
+
+
 ### Help
 
 We essentially expose the copier interface directly with
