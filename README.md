@@ -49,8 +49,7 @@ to setup the virtual environment for it (which also installs uv). Then do
 uv run cradle
 ```
 
-to run the tool. 
-
+to run the tool.
 
 ### Help
 
