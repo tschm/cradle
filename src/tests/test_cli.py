@@ -63,3 +63,11 @@ def test_append_to_yaml_file(tmp_path):
     # Check that all data was correctly appended
     expected = {"A": 100, "B": 200, "C": 300}
     assert content == expected
+
+
+def test_without_dst_path(mock_context, mocker, mock_run_shell_command):
+    mocker.patch("cvx.cradle.cli.questionary.select", return_value=Answer("A LaTeX document"))
+    mocker.patch("cvx.cradle.cli.ask", return_value=mock_context)
+    mocker.patch("cvx.cradle.cli.copier.run_copy", return_value=None)
+    cli()
+    assert mock_run_shell_command.call_count == 6
