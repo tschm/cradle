@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
 
-      - uses: cvxgrp/.github/actions/uv/test@v2.0.3
+      - uses: cvxgrp/.github/actions/uv/test@v2.0.6
         with:
           python-version: '3.12'
           tests-folder: src/tests
@@ -34,7 +34,7 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.3
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.6
         with:
           tests-folder: src/tests
           source-folder: src/cvx
