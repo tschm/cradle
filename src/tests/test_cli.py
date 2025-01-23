@@ -3,7 +3,7 @@ import dataclasses
 import pytest
 import yaml
 
-from cvx.cradle.cli import append_to_yaml_file, cli
+from cradle.cli import append_to_yaml_file, cli
 
 
 @pytest.fixture

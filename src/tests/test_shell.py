@@ -1,6 +1,6 @@
 import pytest
 
-from cvx.cradle.utils.shell import run_shell_command
+from cradle.utils.shell import run_shell_command
 
 
 def test_shell():

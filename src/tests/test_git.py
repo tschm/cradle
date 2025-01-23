@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from cvx.cradle.utils.git import (
+from cradle.utils.git import (
     GitNotFoundError,
     GitVersionError,
     _GitVersion,
