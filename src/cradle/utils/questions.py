@@ -51,7 +51,7 @@ def ask(logger=None):
     project_name = questionary.text("Enter your project name:").ask()
     project_name = _validate_project_name(project_name.lower())
 
-    username = questionary.text("Enter your GitHub username (e.g. 'cvxgrp'):").ask()
+    username = questionary.text("Enter your GitHub username (e.g. 'tschm' or 'cvxgrp' or ...):").ask()
     username = _validate_username(username)
 
     description = questionary.text("Enter a brief description of your project:", default="...").ask()
