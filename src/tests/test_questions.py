@@ -5,7 +5,7 @@ import questionary
 
 # Import the module with your functions
 # Assuming the original code is in a file called project_setup.py
-from cradle.utils import (
+from cradle.utils.questions import (
     _validate_description,
     _validate_project_name,
     _validate_status,
