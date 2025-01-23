@@ -36,7 +36,7 @@ repos:
     rev: v1.5.5
     hooks:
         - id: insert-license
-          files: ^src/cvx/.*\.py$
+          files: ^src/cradle/.*\.py$
           args:
             ['--license-filepath', 'copyright.txt', '--no-extra-eol']
 

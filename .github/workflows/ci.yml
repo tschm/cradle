@@ -37,7 +37,7 @@ jobs:
       - uses: cvxgrp/.github/actions/uv/coverage@v2.0.6
         with:
           tests-folder: src/tests
-          source-folder: src/cvx
+          source-folder: src/cradle
 
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2
