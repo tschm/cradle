@@ -1,5 +1,5 @@
 [project]
-name = "cvxcradle"
+name = "repo-launcher"
 version = "0.0.0"
 description = "CLI to create repos"
 readme = "README.md"
@@ -25,8 +25,7 @@ dev = [
 ]
 
 [project.scripts]
-cradle = "cradle.cli:main"
-cvxcradle = "cradle.cli:main"
+launch = "cradle.cli:main"
 
 [tool.ruff]
 line-length = 120
