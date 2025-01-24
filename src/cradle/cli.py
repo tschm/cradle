@@ -58,7 +58,7 @@ def append_to_yaml_file(new_data, file_path):
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
     """
-    The CRADLE interface. Create GitHub repositories from the command line.
+    The repo-launcher interface. Create GitHub repositories from the command line.
     It is also possible to create a large number of GitHub repositories.
 
     Args:

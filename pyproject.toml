@@ -25,7 +25,6 @@ dev = [
 ]
 
 [project.scripts]
-launch = "cradle.cli:main"
 repo-launcher = "cradle.cli:main"
 
 [tool.ruff]
