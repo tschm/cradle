@@ -81,6 +81,7 @@ def test_ask_integration():
             "testproject",  # project name
             "testuser",  # username
             "Test description",  # description
+            "https://testuser.github.io/testproject",
             "public",  # status
         ]
 
@@ -94,3 +95,4 @@ def test_ask_integration():
         assert result["repository"] == "https://github.com/testuser/testproject"
         assert result["ssh_uri"] == "git@github.com:testuser/testproject.git"
         assert result["gh_create"] == "gh repo create testuser/testproject --public --description 'Test description'"
+        assert result["page"] == "https://testuser.github.io/testproject"

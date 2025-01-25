@@ -37,6 +37,7 @@ def ask(logger=None):
     # Get user inputs with questionary
     project_name = questionary.text("Enter your project name:").ask()
     project_name = _validate_project_name(project_name.lower())
+    repo_name = project_name.lower()
 
     username = questionary.text("Enter your GitHub username (e.g. 'tschm' or 'cvxgrp' or ...):").ask()
     username = _validate_username(username)
@@ -44,16 +45,18 @@ def ask(logger=None):
     description = questionary.text("Enter a brief description of your project:", default="...").ask()
     description = _validate_description(description)
 
+    page = questionary.text("Companion website:", default=f"https://{username}.github.io/{repo_name}").ask()
+
     status = questionary.select(
         "What is the visibility status of the repository?", choices=["public", "private", "internal"], default="public"
     ).ask()
     status = _validate_status(status)
 
     # Generate dynamic values
-    repo_name = project_name.lower()
     repository_url = f"https://github.com/{username}/{repo_name}"
     ssh_uri = f"git@github.com:{username}/{repo_name}.git"
     gh_create = f"gh repo create {username}/{repo_name} --{status} --description '{description}'"
+    # page = f"https://{username}.github.io/{repo_name}"
 
     # Display the results
     logger.info("\n--- Repository Details ---\n")
@@ -62,6 +65,8 @@ def ask(logger=None):
     logger.info(f"Description: {description}")
     logger.info(f"Visibility: {status}")
     logger.info(f"Repository URL: {repository_url}")
+    logger.info(f"Page: {page}")
+
     logger.info(f"SSH URI: {ssh_uri}")
     logger.info(f"Command to create the repo: {gh_create}\n")
 
@@ -73,6 +78,7 @@ def ask(logger=None):
         "ssh_uri": ssh_uri,
         "repository": repository_url,
         "gh_create": gh_create,
+        "page": page,
     }
 
     return context
