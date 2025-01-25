@@ -36,6 +36,8 @@ For macOS and Linux:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
+For Windows follow the instructions [here](https://docs.astral.sh/uv/getting-started/installation/)
+
 ## Understanding uvx
 
 uvx is a command provided by uv to run tools published as Python packages
