@@ -1,5 +1,6 @@
 # repo-launcher
 
+[![PyPI version](https://badge.fury.io/py/repo-launcher.svg)](https://badge.fury.io/py/repo-launcher)
 [![Apache 2.0 License](https://img.shields.io/badge/License-APACHEv2-brightgreen.svg)](https://github.com/tschm/cradle/blob/master/LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/tschm/cradle/badge.png?branch=main)](https://coveralls.io/github/tschm/cradle?branch=main)
 [![ci](https://github.com/tschm/cradle/actions/workflows/ci.yml/badge.svg)](https://github.com/tschm/cradle/actions/workflows/ci.yml)
