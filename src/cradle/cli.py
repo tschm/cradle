@@ -99,7 +99,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     commands = [
         "git init --initial-branch=main",
         "git add --all",
-        "git commit -m 'initial commit by the Cradle'",
+        "git commit -m 'initial commit by the repo-launcher'",
         context["gh_create"],
         f"git remote add origin {context['ssh_uri']}",
         "git push origin main",
