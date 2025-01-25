@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 import tempfile
 from pathlib import Path
 
@@ -12,6 +13,17 @@ from loguru import logger
 from .utils.git import assert_git_version
 from .utils.questions import ask
 from .utils.shell import run_shell_command
+
+# from loguru import logger
+
+# Add a new logger with a simpler format
+logger.remove()  # Remove the default logger
+logger.add(
+    sys.stdout,
+    colorize=True,  # Enable color output
+    format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
+    "<level>{level: <8}</level> | {function}:{line} | <cyan>{message}</cyan>",
+)
 
 
 def load_templates(yaml_path: Path) -> dict[str, str]:
