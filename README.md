@@ -90,40 +90,21 @@ may serve as inspiration
 ##### [The document template](https://github.com/tschm/paper)
 
 The template supports the fast creation of repositories of LaTeX documents.
-Out of the box you get
-
-* curated pre-commit-hooks (e.g. for spelling)
-* github ci/cd workflows
-* Makefile
-* Example *.tex and bib file.
+The repo can compile your LaTeX documents with every commit and put them
+on a dedicated branch.
 
 ##### [The experiments template](https://github.com/tschm/experiments)
 
 Here we support the creation of notebooks without the ambition to release software.
 The repo is not minimalistic but comes with a curated set of pre-commit hooks and
-follows modern and established guidelines.
-
-* uv support
-* curated pre-commit-hooks
-* DevContainer
-* github ci/cd workflows
-* Makefile
-* marimo support
+follows modern and established guidelines. The notebooks are based on Marimo.
 
 ##### [The package template](https://github.com/tschm/package)
 
 The package template is most useful when the final
 goal is the release of software to a registry, e.g. pypi.
-It features include
-
-* uv support
-* curated set of pre-commit hooks
-* DevContainer
-* Makefile
-* github ci/cd workflows
-* marimo support
-* JupyterBook
-* pdoc documentation
+It offers full uv support and compiles documentation
+into a Jupyter Book.
 
 ##### [The R template](https://github.com/tschm/cradle_r)
 
