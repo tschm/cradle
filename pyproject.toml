@@ -1,5 +1,5 @@
 [project]
-name = "repo-launcher"
+name = "qCradle"
 version = "0.0.0"
 description = "CLI to create repos"
 readme = "README.md"
@@ -25,7 +25,8 @@ dev = [
 ]
 
 [project.scripts]
-repo-launcher = "cradle.cli:main"
+#repo-launcher = "cradle.cli:main"
+q-cradle = "cradle.cli:main"
 
 [tool.ruff]
 line-length = 120
