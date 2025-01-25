@@ -1,7 +1,7 @@
 # qCradle
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
-[![PyPI version](https://badge.fury.io/py/qcradle.svg)](https://badge.fury.io/py/qcradle)
+[![PyPI version](https://badge.fury.io/py/qCradle.svg)](https://badge.fury.io/py/qCradle)
 [![Coverage Status](https://coveralls.io/repos/github/tschm/cradle/badge.png?branch=main)](https://coveralls.io/github/tschm/cradle?branch=main)
 [![ci](https://github.com/tschm/cradle/actions/workflows/ci.yml/badge.svg)](https://github.com/tschm/cradle/actions/workflows/ci.yml)
 
