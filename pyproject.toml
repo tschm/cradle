@@ -26,7 +26,7 @@ dev = [
 
 [project.scripts]
 #repo-launcher = "cradle.cli:main"
-q-cradle = "cradle.cli:main"
+qCradle = "cradle.cli:main"
 
 [tool.ruff]
 line-length = 120
