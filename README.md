@@ -7,7 +7,7 @@
 
 cradle is a command line tool to create repos based on a group of templates.
 
-![Creating a repository from the command line](demo.png)
+![Creating a repository from the command line](https://raw.githubusercontent.com/tschm/cradle/main/demo.png)
 
 The tool is very similar to the popular
 [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/#) project.
