@@ -56,7 +56,7 @@ def append_to_yaml_file(new_data, file_path):
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
     """
-    The repo-launcher interface. Create GitHub repositories from the command line.
+    The qCradle interface. Create GitHub repositories from the command line.
     It is also possible to create a large number of GitHub repositories.
 
     Args:
@@ -73,7 +73,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     assert_git_version(min_version="2.28.0")
 
     # answer a bunch of questions
-    logger.info("The repo-launcher will ask a group of questions to create a repository for you")
+    logger.info("The qCradle will ask a group of questions to create a repository for you")
 
     if template is None:
         # Load templates from YAML file
@@ -110,7 +110,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     commands = [
         "git init --initial-branch=main",
         "git add --all",
-        "git commit -m 'initial commit by the repo-launcher'",
+        "git commit -m 'initial commit by the qCradle'",
         context["gh_create"],
         f"git remote add origin {context['ssh_uri']}",
         "git push origin main",
