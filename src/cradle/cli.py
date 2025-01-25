@@ -9,9 +9,8 @@ import yaml
 from fire import Fire
 from loguru import logger
 
-from cradle.utils.questions import ask
-
 from .utils.git import assert_git_version
+from .utils.questions import ask
 from .utils.shell import run_shell_command
 
 
@@ -62,7 +61,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     assert_git_version(min_version="2.28.0")
 
     # answer a bunch of questions
-    logger.info("cradle will ask a group of questions to create a repository for you")
+    logger.info("The repo-launcher will ask a group of questions to create a repository for you")
 
     if template is None:
         # Load templates from YAML file
