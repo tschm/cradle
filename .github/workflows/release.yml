@@ -13,63 +13,32 @@ jobs:
     if: >
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.head_branch == 'main'
+
     runs-on: ubuntu-latest
 
-    outputs:
-      tag: ${{ steps.tag_version.outputs.new_tag }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
 
-      - name: Bump version and tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
+      - name: Generate Tag
+        uses: cvxgrp/.github/actions/uv/tag@v2.0.8
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          generate_release_notes: true
-
-  build:
-    needs: tag
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install hatch
-        run: |
-          pip install hatch
-
-      - name: Build package
-        run: |
-          sed -i "s/0.0.0/${{ needs.tag.outputs.tag }}/" pyproject.toml
-          # Constructs the dist folder
-          hatch build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist
-
-
   publish:
-    needs: build
+    needs: tag
     runs-on: ubuntu-latest
     environment: release
 
     permissions:
+      contents: read
       # This permission is required for trusted publishing.
       id-token: write
 
     steps:
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: dist
