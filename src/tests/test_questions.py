@@ -25,7 +25,6 @@ def test_validate_project_name_invalid():
         "",  # empty
         "Project",  # uppercase
         "123project",  # starts with number
-        "project-name",  # invalid character
         "project name",  # space
         "@project",  # special character
     ]

@@ -5,10 +5,11 @@ import questionary
 
 
 def _validate_project_name(project_name):
-    if not re.match(r"^[a-z][a-z0-9_]+$", project_name):
+    if not re.match(r"^[a-z][a-z0-9_-]+$", project_name):
         raise ValueError(
             "Project name must start with a lowercase letter, "
-            "followed by one or more lowercase letters, digits, or underscores."
+            "followed by one or more lowercase letters, digits, dashes"
+            "or underscores."
         )
     return project_name
 
@@ -42,7 +43,7 @@ def ask(logger=None):
     username = questionary.text("Enter your GitHub username (e.g. 'tschm' or 'cvxgrp' or ...):").ask()
     username = _validate_username(username)
 
-    description = questionary.text("Enter a brief description of your project:", default="...").ask()
+    description = questionary.text("Enter a brief description of your project:", default="").ask()
     description = _validate_description(description)
 
     page = questionary.text("Companion website:", default=f"https://{username}.github.io/{repo_name}").ask()
