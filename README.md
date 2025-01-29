@@ -67,7 +67,7 @@ Once the tool is permanently installed it is enough to start it with
 qcradle
 ```
 
-### Templates
+## Templates
 
 You could create your own templates and standardize project structures
 across your team or organization.
@@ -81,38 +81,38 @@ We currently offer $4$ standard templates out of the box
 * The package template
 * The R template
 
-#### Standard Templates
+### Standard Templates
 
 We follow the one template, one repository policy.
 You are encouraged to create your own templates and we give $3$ examples that
 may serve as inspiration
 
-##### [The document template](https://github.com/tschm/paper)
+#### [The document template](https://github.com/tschm/paper)
 
 The template supports the fast creation of repositories of LaTeX documents.
 The repo can compile your LaTeX documents with every commit and put them
 on a dedicated branch.
 
-##### [The experiments template](https://github.com/tschm/experiments)
+#### [The experiments template](https://github.com/tschm/experiments)
 
 Here we support the creation of notebooks without the ambition to release software.
 The repo is not minimalistic but comes with a curated set of pre-commit hooks and
 follows modern and established guidelines. The notebooks are based on Marimo.
 
-##### [The package template](https://github.com/tschm/package)
+#### [The package template](https://github.com/tschm/package)
 
 The package template is most useful when the final
 goal is the release of software to a registry, e.g. pypi.
 It offers full uv support and compiles documentation
 into a Jupyter Book.
 
-##### [The R template](https://github.com/tschm/cradle_r)
+#### [The R template](https://github.com/tschm/cradle_r)
 
 Here we expose R Studio in a devcontainer.
 
-#### Proprietary templates
+### Proprietary templates
 
-##### Creation
+#### Creation
 
 You can create your very own templates and we recommend to start with
 forking the
@@ -126,7 +126,7 @@ Each template is tested using [act](https://github.com/nektos/act), e.g.
 we render the project template and test the workflows of the created project.
 This helps to avoid creating projects starting their life in a broken state.
 
-##### Usage
+#### Usage
 
 We essentially expose the copier interface directly with
 minor modifications, e.g. if the user is not submitting a source template
