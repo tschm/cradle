@@ -97,4 +97,4 @@ def test_update(tmp_path, mocker, mock_context, mock_run_shell_command):
 
     cli(dst_path=tmp_path)
 
-    assert mock_run_shell_command.call_count == 3
+    assert mock_run_shell_command.call_count == 4

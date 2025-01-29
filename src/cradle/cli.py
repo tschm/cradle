@@ -1,3 +1,4 @@
+import datetime
 import os
 import shutil
 import sys
@@ -123,10 +124,15 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     # Copy material into the random path
     if update:
         copier.run_update(dst_path, data=context, overwrite=True, **kwargs)
+        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        branch_name = f"update-qcradle-{timestamp}"
+
+        # Git commands to create and push a new branch
         commands = [
+            f"git checkout -b {branch_name}",  # Create and switch to a new branch
             "git add --all",
             "git commit -m 'Updates by qcradle'",
-            "git push origin main",
+            f"git push origin {branch_name}",  # Push the new branch
         ]
 
     else:
