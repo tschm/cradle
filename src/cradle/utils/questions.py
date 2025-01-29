@@ -32,7 +32,7 @@ def _validate_status(status):
     return status
 
 
-def ask(logger=None):
+def ask(logger=None, template_version=None, template_src=None):
     logger = logger or logging.getLogger(__name__)
 
     # Get user inputs with questionary
@@ -72,6 +72,8 @@ def ask(logger=None):
     logger.info(f"Command to create the repo: {gh_create}\n")
 
     context = {
+        "_commit": template_version,  # Template version (e.g., "v0.0.5")
+        "_src_path": template_src,    # Template source (e.g., "https://github.com/tschm/ex2")
         "project_name": project_name.lower(),
         "username": username,
         "description": description,
