@@ -54,6 +54,18 @@ def append_to_yaml_file(new_data, file_path):
         yaml.dump(existing_data, file, default_flow_style=False)
 
 
+# Load defaults from .copier-answers.yml
+def load_defaults(file_path=".copier-answers.yml"):
+    try:
+        with open(file_path) as file:
+            return yaml.safe_load(file) or {}
+    except FileNotFoundError:
+        return {}  # Return empty dict if the file is missing
+    except yaml.YAMLError as e:
+        print(f"⚠️ Error parsing YAML file: {e}")
+        return {}
+
+
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
     """
     The qCradle interface. Create GitHub repositories from the command line.
@@ -75,47 +87,85 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     # answer a bunch of questions
     logger.info("The qCradle will ask a group of questions to create a repository for you")
 
-    if template is None:
-        # Load templates from YAML file
-        yaml_path = Path(__file__).parent / "templates.yaml"  # Adjust path as needed
-        templates = load_templates(yaml_path)
-
-        # Let user select from the display names
-        result = questionary.select(
-            "What kind of project do you want to create?",
-            choices=list(templates.keys()),
-        ).ask()
-
-        template = templates[result]
-    remove_path = False
-    # Create a random path
-    if not dst_path:
-        remove_path = True
-
-    dst_path = dst_path or Path(tempfile.mkdtemp())
     home = os.getcwd()
+
+    if dst_path is None:
+        if template is None:
+            # Load templates from YAML file
+            yaml_path = Path(__file__).parent / "templates.yaml"  # Adjust path as needed
+            templates = load_templates(yaml_path)
+
+            # Let user select from the display names
+            result = questionary.select(
+                "What kind of project do you want to create?",
+                choices=list(templates.keys()),
+            ).ask()
+
+            template = templates[result]
+        remove_path = True
+        update = False
+        dst_path = Path(tempfile.mkdtemp())
+        logger.info(f"No destination path specified. Use {dst_path}")
+        defaults = {}
+
+    else:
+        logger.info(f"Destination path specified. Use {dst_path}")
+        remove_path = False
+        update = True
+        os.chdir(dst_path)
+
+        defaults = load_defaults(".copier-answers.yml")
+        for key, x in defaults.items():
+            print(key, x)
+        print(defaults)
+
     # move into the folder used by the Factory
-    os.chdir(dst_path)
+    # os.chdir(dst_path)
+    # print(os.getcwd())
+    # assert os.path.exists(dst_path)
 
-    logger.info(f"Path to (re) construct your project: {dst_path}")
+    # for file in os.listdir(dst_path):
+    #    print(file)
 
-    context = ask(logger=logger, template_src=template, template_version=vcs_ref)
-    
+    # logger.info(f"Path to (re) construct your project: {dst_path}")
+
+    context = ask(logger=logger, defaults=defaults)
+
     logger.info("*** Copier is parsing the template ***")
+
     # Copy material into the random path
-    copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
+    if update:
+        copier.run_update(dst_path, data=context, **kwargs)
+        commands = [
+            "git add --all",
+            "git commit -m 'Updates by qcradle'",
+            "git push origin main",
+        ]
 
-    logger.info("*** Create a file with the answers given ***\n")
-    append_to_yaml_file(context, ".copier-answers.yml")
+    else:
+        copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
+        commands = [
+            "git init --initial-branch=main",
+            "git add --all",
+            "git commit -m 'initial commit by qcradle'",
+            context["gh_create"],
+            f"git remote add origin {context['ssh_uri']}",
+            "git push origin main",
+        ]
 
-    commands = [
-        "git init --initial-branch=main",
-        "git add --all",
-        "git commit -m 'initial commit by the qCradle'",
-        context["gh_create"],
-        f"git remote add origin {context['ssh_uri']}",
-        "git push origin main",
-    ]
+    # Load the existing YAML file
+    try:
+        with open(".copier-answers.yml") as file:
+            data = yaml.safe_load(file) or {}
+    except FileNotFoundError:
+        data = {}
+
+    # Add new fields
+    data.update(context)
+
+    # Write the updated content back to the file
+    with open(".copier-answers.yml", "w") as file:
+        yaml.dump(data, file, default_flow_style=False)
 
     try:
         for cmd in commands:

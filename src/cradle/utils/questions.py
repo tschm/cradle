@@ -5,11 +5,11 @@ import questionary
 
 
 def _validate_project_name(project_name):
-    if not re.match(r"^[a-z][a-z0-9_-]+$", project_name):
+    project_name = project_name.strip()
+    if not re.match(r"^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$", project_name):
         raise ValueError(
-            "Project name must start with a lowercase letter, "
-            "followed by one or more lowercase letters, digits, dashes"
-            "or underscores."
+            "Project name must start with a lowercase letter, followed by letters, digits, dashes, or underscores.\n"
+            "It cannot start or end with '-' or '_'."
         )
     return project_name
 
@@ -17,64 +17,81 @@ def _validate_project_name(project_name):
 def _validate_username(username):
     if not username:
         raise ValueError("Username cannot be empty.")
-    return username
+    return username.strip()
 
 
 def _validate_description(description):
     if not description:
         raise ValueError("Description cannot be empty.")
-    return description
+    return description.strip()
 
 
 def _validate_status(status):
-    if status not in ["public", "private", "internal"]:
-        raise ValueError("Status must be one of: public, private, or internal.")
+    valid_statuses = {"public", "private", "internal"}
+    if status not in valid_statuses:
+        raise ValueError(f"Status must be one of: {', '.join(valid_statuses)}.")
     return status
 
 
-def ask(logger=None, template_version=None, template_src=None):
+def ask(logger=None, defaults=None):
     logger = logger or logging.getLogger(__name__)
+    defaults = defaults or {}
 
-    # Get user inputs with questionary
-    project_name = questionary.text("Enter your project name:").ask()
+    # Get user inputs with questionary (use defaults from YAML)
+    project_name = questionary.text("Enter your project name:", default=defaults.get("project_name", "")).ask()
+    if project_name is None:
+        exit(1)
     project_name = _validate_project_name(project_name.lower())
-    repo_name = project_name.lower()
 
-    username = questionary.text("Enter your GitHub username (e.g. 'tschm' or 'cvxgrp' or ...):").ask()
+    username = questionary.text(
+        "Enter your GitHub username (e.g. 'tschm' or 'cvxgrp'):", default=defaults.get("username", "")
+    ).ask()
+    if username is None:
+        exit(1)
     username = _validate_username(username)
 
-    description = questionary.text("Enter a brief description of your project:", default="").ask()
+    description = questionary.text(
+        "Enter a brief description of your project:", default=defaults.get("description", "")
+    ).ask()
+    if description is None:
+        exit(1)
     description = _validate_description(description)
 
-    page = questionary.text("Companion website:", default=f"https://{username}.github.io/{repo_name}").ask()
+    page = questionary.text(
+        "Companion website:", default=defaults.get("page", f"https://{username}.github.io/{project_name}")
+    ).ask()
+    if page is None:
+        exit(1)
 
     status = questionary.select(
-        "What is the visibility status of the repository?", choices=["public", "private", "internal"], default="public"
+        "What is the visibility status of the repository?",
+        choices=["public", "private", "internal"],
+        default=defaults.get("status", "public"),
     ).ask()
+    if status is None:
+        exit(1)
     status = _validate_status(status)
 
     # Generate dynamic values
-    repository_url = f"https://github.com/{username}/{repo_name}"
-    ssh_uri = f"git@github.com:{username}/{repo_name}.git"
-    gh_create = f"gh repo create {username}/{repo_name} --{status} --description '{description}'"
-    # page = f"https://{username}.github.io/{repo_name}"
+    repository_url = f"https://github.com/{username}/{project_name}"
+    ssh_uri = f"git@github.com:{username}/{project_name}.git"
+    gh_create = f"gh repo create {username}/{project_name} --{status} --description '{description}'"
 
     # Display the results
-    logger.info("\n--- Repository Details ---\n")
-    logger.info(f"Project Name: {repo_name}")
-    logger.info(f"GitHub Username: {username}")
-    logger.info(f"Description: {description}")
-    logger.info(f"Visibility: {status}")
-    logger.info(f"Repository URL: {repository_url}")
-    logger.info(f"Page: {page}")
+    print("\n--- Repository Details ---")
+    print(f"📌 Project Name: {project_name}")
+    print(f"👤 GitHub Username: {username}")
+    print(f"📝 Description: {description}")
+    print(f"🔒 Visibility: {status}")
+    print(f"🔗 Repository URL: {repository_url}")
+    print(f"🌐 Companion Page: {page}")
+    print(f"🔑 SSH URI: {ssh_uri}")
+    print(f"🛠️ Command to create the repo: {gh_create}\n")
 
-    logger.info(f"SSH URI: {ssh_uri}")
-    logger.info(f"Command to create the repo: {gh_create}\n")
+    logger.info("Repository details collected successfully.")
 
-    context = {
-        "_commit": template_version,  # Template version (e.g., "v0.0.5")
-        "_src_path": template_src,    # Template source (e.g., "https://github.com/tschm/ex2")
-        "project_name": project_name.lower(),
+    return {
+        "project_name": project_name,
         "username": username,
         "description": description,
         "status": status,
@@ -83,5 +100,3 @@ def ask(logger=None, template_version=None, template_src=None):
         "gh_create": gh_create,
         "page": page,
     }
-
-    return context
