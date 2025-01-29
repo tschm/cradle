@@ -47,5 +47,6 @@ packages = ["src/cradle"]
 include = [
     "LICENSE",    # Ensure the LICENSE file is included in your package
     "README.md",
+    "demo.png",
     "src/cradle",
 ]
