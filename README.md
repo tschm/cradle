@@ -5,7 +5,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/tschm/cradle/badge.png?branch=main)](https://coveralls.io/github/tschm/cradle?branch=main)
 [![ci](https://github.com/tschm/cradle/actions/workflows/ci.yml/badge.svg)](https://github.com/tschm/cradle/actions/workflows/ci.yml)
 
-qcradle is a command line tool to create repos based on a group of templates.
+qcradle is a command line tool to create repos based on a group of templates. It has been created
+to accelerate, simplify and harmonize the development of experiments and quantitative strategies 
+as described [here](https://www.linkedin.com/pulse/rapid-quanting-thomas-schmelzer-omauf/?trackingId=Gqjma%2F8PTueJWvaBF4qWaQ%3D%3D).
 
 ![Creating a repository from the command line](https://raw.githubusercontent.com/tschm/cradle/main/demo.png)
 
@@ -51,8 +53,8 @@ uvx qcradle
 
 This command will:
 
-* Resolve and install the repo-launcher package in a temporary environment.
-* Execute the repo-launcher command.
+* Resolve and install the qcradle package in a temporary environment.
+* Execute the qcradle command.
 
 **Note**: If you plan to use a tool frequently, consider installing
 it permanently using uv:
@@ -84,7 +86,7 @@ We currently offer $4$ standard templates out of the box
 ### Standard Templates
 
 We follow the one template, one repository policy.
-You are encouraged to create your own templates and we give $3$ examples that
+You are encouraged to create your own templates and we give $4$ examples that
 may serve as inspiration
 
 #### [The document template](https://github.com/tschm/paper)
