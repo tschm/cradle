@@ -12,7 +12,6 @@ dependencies = [
     "fire>=0.7.0"
 ]
 
-
 [project.urls]
 repository = "https://github.com/cvxgrp/cradle"
 
@@ -25,8 +24,7 @@ dev = [
 ]
 
 [project.scripts]
-#repo-launcher = "cradle.cli:main"
-qCradle = "cradle.cli:main"
+qcradle = "cradle.cli:main"
 
 [tool.ruff]
 line-length = 120
