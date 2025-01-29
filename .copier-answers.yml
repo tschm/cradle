@@ -1,8 +1,8 @@
 description: Demo
-gh_create: gh repo create tschm/wurst11 --public --description 'Demo'
-page: https://tschm.github.io/wurst11
-project_name: wurst11
-repository: https://github.com/tschm/wurst11
-ssh_uri: git@github.com:tschm/wurst11.git
+gh_create: gh repo create tschm/wurst12 --public --description 'Demo'
+page: https://tschm.github.io/wurst12
+project_name: wurst12
+repository: https://github.com/tschm/wurst12
+ssh_uri: git@github.com:tschm/wurst12.git
 status: public
 username: tschm
