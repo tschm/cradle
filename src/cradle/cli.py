@@ -14,8 +14,6 @@ from .utils.git import assert_git_version
 from .utils.questions import ask
 from .utils.shell import run_shell_command
 
-# from loguru import logger
-
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
 logger.add(
@@ -76,6 +74,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
                   Offers a group of standard templates to choose from if not specified.
 
         dst_path: optional (str) destination path. Useful when updating existing projects.
+                  It has to be a full path. When given the template is ignored.
 
         vcs_ref: optional (str) revision number to checkout
         a particular Git ref before generating the project.
@@ -107,6 +106,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         dst_path = Path(tempfile.mkdtemp())
         logger.info(f"No destination path specified. Use {dst_path}")
         defaults = {}
+        os.chdir(dst_path)
 
     else:
         logger.info(f"Destination path specified. Use {dst_path}")
@@ -115,19 +115,6 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         os.chdir(dst_path)
 
         defaults = load_defaults(".copier-answers.yml")
-        for key, x in defaults.items():
-            print(key, x)
-        print(defaults)
-
-    # move into the folder used by the Factory
-    # os.chdir(dst_path)
-    # print(os.getcwd())
-    # assert os.path.exists(dst_path)
-
-    # for file in os.listdir(dst_path):
-    #    print(file)
-
-    # logger.info(f"Path to (re) construct your project: {dst_path}")
 
     context = ask(logger=logger, defaults=defaults)
 
@@ -135,7 +122,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
     # Copy material into the random path
     if update:
-        copier.run_update(dst_path, data=context, **kwargs)
+        copier.run_update(dst_path, data=context, overwrite=True, **kwargs)
         commands = [
             "git add --all",
             "git commit -m 'Updates by qcradle'",
@@ -153,28 +140,14 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
             "git push origin main",
         ]
 
-    # Load the existing YAML file
-    try:
-        with open(".copier-answers.yml") as file:
-            data = yaml.safe_load(file) or {}
-    except FileNotFoundError:
-        data = {}
-
-    # Add new fields
-    data.update(context)
-
-    # Write the updated content back to the file
-    with open(".copier-answers.yml", "w") as file:
-        yaml.dump(data, file, default_flow_style=False)
+    append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
 
     try:
         for cmd in commands:
             run_shell_command(cmd, logger=logger)
-
     except RuntimeError as e:
-        logger.error(f"Failed to create project: {str(e)}")
+        logger.error(f"Failed to create/update project: {str(e)}")
         raise
-
     finally:
         # go back to the repo
         os.chdir(home)
@@ -183,7 +156,8 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         if remove_path:
             shutil.rmtree(dst_path)
 
-        logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
+        if not update:
+            logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
 def main():  # pragma: no cover

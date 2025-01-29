@@ -1,8 +1,0 @@
-description: Demo
-gh_create: gh repo create tschm/xxx5 --public --description 'Demo'
-page: https://tschm.github.io/xxx5
-project_name: xxx5
-repository: https://github.com/tschm/xxx5
-ssh_uri: git@github.com:tschm/xxx5.git
-status: public
-username: tschm
