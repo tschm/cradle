@@ -2,8 +2,9 @@ import dataclasses
 
 import pytest
 import yaml
+from yaml import YAMLError
 
-from cradle.cli import append_to_yaml_file, cli
+from cradle.cli import append_to_yaml_file, cli, load_defaults
 
 
 @pytest.fixture
@@ -71,3 +72,29 @@ def test_without_dst_path(mock_context, mocker, mock_run_shell_command):
     mocker.patch("cradle.cli.copier.run_copy", return_value=None)
     cli()
     assert mock_run_shell_command.call_count == 6
+
+
+def test_load_defaults(resource_dir):
+    data = load_defaults(resource_dir / ".copier-answers.yml")
+    print(data)
+    assert data["_src_path"] == "git@github.com:tschm/experiments.git"
+
+
+def test_load_defaults_no_file(resource_dir):
+    data = load_defaults(file_path=resource_dir / "maffay.yml")
+    assert data == {}
+
+
+def test_load_broken(resource_dir):
+    with pytest.raises(YAMLError):
+        load_defaults(resource_dir / "broken.yml")
+
+
+def test_update(tmp_path, mocker, mock_context, mock_run_shell_command):
+    # copy file resource_dir /.copier-answers into temp_dir
+    mocker.patch("cradle.cli.ask", return_value=mock_context)
+    mocker.patch("cradle.cli.copier.run_update", return_value=None)
+
+    cli(dst_path=tmp_path)
+
+    assert mock_run_shell_command.call_count == 3

@@ -7,6 +7,7 @@ import questionary
 # Assuming the original code is in a file called project_setup.py
 from cradle.utils.questions import (
     _validate_description,
+    _validate_page,
     _validate_project_name,
     _validate_status,
     _validate_username,
@@ -70,6 +71,13 @@ def test_validate_status_invalid():
     for status in invalid_statuses:
         with pytest.raises(ValueError):
             _validate_status(status)
+
+
+def test_validate_page_invalid():
+    invalid_pages = [None]
+    for page in invalid_pages:
+        with pytest.raises(ValueError):
+            _validate_page(page)
 
 
 def test_ask_integration():

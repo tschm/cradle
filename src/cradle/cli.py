@@ -61,7 +61,7 @@ def load_defaults(file_path=".copier-answers.yml"):
         return {}  # Return empty dict if the file is missing
     except yaml.YAMLError as e:
         print(f"⚠️ Error parsing YAML file: {e}")
-        return {}
+        raise e
 
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:

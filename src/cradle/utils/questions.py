@@ -26,6 +26,12 @@ def _validate_description(description):
     return description.strip()
 
 
+def _validate_page(page):
+    if not page:
+        raise ValueError("Page cannot be empty.")
+    return page.strip()
+
+
 def _validate_status(status):
     valid_statuses = {"public", "private", "internal"}
     if status not in valid_statuses:
@@ -39,37 +45,28 @@ def ask(logger=None, defaults=None):
 
     # Get user inputs with questionary (use defaults from YAML)
     project_name = questionary.text("Enter your project name:", default=defaults.get("project_name", "")).ask()
-    if project_name is None:
-        exit(1)
     project_name = _validate_project_name(project_name.lower())
 
     username = questionary.text(
         "Enter your GitHub username (e.g. 'tschm' or 'cvxgrp'):", default=defaults.get("username", "")
     ).ask()
-    if username is None:
-        exit(1)
     username = _validate_username(username)
 
     description = questionary.text(
         "Enter a brief description of your project:", default=defaults.get("description", "")
     ).ask()
-    if description is None:
-        exit(1)
     description = _validate_description(description)
 
     page = questionary.text(
         "Companion website:", default=defaults.get("page", f"https://{username}.github.io/{project_name}")
     ).ask()
-    if page is None:
-        exit(1)
+    page = _validate_page(page)
 
     status = questionary.select(
         "What is the visibility status of the repository?",
         choices=["public", "private", "internal"],
         default=defaults.get("status", "public"),
     ).ask()
-    if status is None:
-        exit(1)
     status = _validate_status(status)
 
     # Generate dynamic values
