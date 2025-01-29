@@ -143,6 +143,20 @@ By default, Copier (and hence the repo-launcher) will copy from the last
 release found in template Git tags, sorted as
 [PEP 440](https://peps.python.org/pep-0440/).
 
+### Update existing projects
+
+Templates are moving targets in most professional setups. It is possible to update
+projects created with the help of the qcradle by specifying an existing path
+instead of a template.
+
+```bash
+uvx qcradle --dst_path=/Users/thomasschmelzer/projects/my_marimo_experiments
+```
+
+The tool expects a full path. Your repo should contain your previous answers
+in a file '.copier-answers.yml' which serve as default arguments for the
+questions you have been asked before. All standard templates create the file.
+
 ## :warning: Private repositories
 
 Using workflows in private repos will eat into your monthly GitHub bill.
