@@ -99,7 +99,8 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
     logger.info(f"Path to (re) construct your project: {dst_path}")
 
-    context = ask(logger=logger)
+    context = ask(logger=logger, template_src=template, template_version=vcs_ref)
+    
     logger.info("*** Copier is parsing the template ***")
     # Copy material into the random path
     copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
