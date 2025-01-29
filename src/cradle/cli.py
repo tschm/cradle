@@ -1,3 +1,4 @@
+import datetime
 import os
 import shutil
 import sys
@@ -13,8 +14,6 @@ from loguru import logger
 from .utils.git import assert_git_version
 from .utils.questions import ask
 from .utils.shell import run_shell_command
-
-# from loguru import logger
 
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
@@ -54,6 +53,18 @@ def append_to_yaml_file(new_data, file_path):
         yaml.dump(existing_data, file, default_flow_style=False)
 
 
+# Load defaults from .copier-answers.yml
+def load_defaults(file_path=".copier-answers.yml"):
+    try:
+        with open(file_path) as file:
+            return yaml.safe_load(file) or {}
+    except FileNotFoundError:
+        return {}  # Return empty dict if the file is missing
+    except yaml.YAMLError as e:
+        print(f"⚠️ Error parsing YAML file: {e}")
+        raise e
+
+
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
     """
     The qCradle interface. Create GitHub repositories from the command line.
@@ -64,6 +75,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
                   Offers a group of standard templates to choose from if not specified.
 
         dst_path: optional (str) destination path. Useful when updating existing projects.
+                  It has to be a full path. When given the template is ignored.
 
         vcs_ref: optional (str) revision number to checkout
         a particular Git ref before generating the project.
@@ -75,55 +87,73 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     # answer a bunch of questions
     logger.info("The qCradle will ask a group of questions to create a repository for you")
 
-    if template is None:
-        # Load templates from YAML file
-        yaml_path = Path(__file__).parent / "templates.yaml"  # Adjust path as needed
-        templates = load_templates(yaml_path)
-
-        # Let user select from the display names
-        result = questionary.select(
-            "What kind of project do you want to create?",
-            choices=list(templates.keys()),
-        ).ask()
-
-        template = templates[result]
-    remove_path = False
-    # Create a random path
-    if not dst_path:
-        remove_path = True
-
-    dst_path = dst_path or Path(tempfile.mkdtemp())
     home = os.getcwd()
-    # move into the folder used by the Factory
-    os.chdir(dst_path)
 
-    logger.info(f"Path to (re) construct your project: {dst_path}")
+    if dst_path is None:
+        if template is None:
+            # Load templates from YAML file
+            yaml_path = Path(__file__).parent / "templates.yaml"  # Adjust path as needed
+            templates = load_templates(yaml_path)
 
-    context = ask(logger=logger)
+            # Let user select from the display names
+            result = questionary.select(
+                "What kind of project do you want to create?",
+                choices=list(templates.keys()),
+            ).ask()
+
+            template = templates[result]
+        remove_path = True
+        update = False
+        dst_path = Path(tempfile.mkdtemp())
+        logger.info(f"No destination path specified. Use {dst_path}")
+        defaults = {}
+        os.chdir(dst_path)
+
+    else:
+        logger.info(f"Destination path specified. Use {dst_path}")
+        remove_path = False
+        update = True
+        os.chdir(dst_path)
+
+        defaults = load_defaults(".copier-answers.yml")
+
+    context = ask(logger=logger, defaults=defaults)
+
     logger.info("*** Copier is parsing the template ***")
+
     # Copy material into the random path
-    copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
+    if update:
+        copier.run_update(dst_path, data=context, overwrite=True, **kwargs)
+        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        branch_name = f"update-qcradle-{timestamp}"
 
-    logger.info("*** Create a file with the answers given ***\n")
-    append_to_yaml_file(context, ".copier-answers.yml")
+        # Git commands to create and push a new branch
+        commands = [
+            f"git checkout -b {branch_name}",  # Create and switch to a new branch
+            "git add --all",
+            "git commit -m 'Updates by qcradle'",
+            f"git push origin {branch_name}",  # Push the new branch
+        ]
 
-    commands = [
-        "git init --initial-branch=main",
-        "git add --all",
-        "git commit -m 'initial commit by the qCradle'",
-        context["gh_create"],
-        f"git remote add origin {context['ssh_uri']}",
-        "git push origin main",
-    ]
+    else:
+        copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
+        commands = [
+            "git init --initial-branch=main",
+            "git add --all",
+            "git commit -m 'initial commit by qcradle'",
+            context["gh_create"],
+            f"git remote add origin {context['ssh_uri']}",
+            "git push origin main",
+        ]
+
+    append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
 
     try:
         for cmd in commands:
             run_shell_command(cmd, logger=logger)
-
     except RuntimeError as e:
-        logger.error(f"Failed to create project: {str(e)}")
+        logger.error(f"Failed to create/update project: {str(e)}")
         raise
-
     finally:
         # go back to the repo
         os.chdir(home)
@@ -132,7 +162,8 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         if remove_path:
             shutil.rmtree(dst_path)
 
-        logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
+        if not update:
+            logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
 def main():  # pragma: no cover
