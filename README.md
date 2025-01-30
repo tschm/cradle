@@ -22,7 +22,7 @@ qcradle helps you hit the ground running with a structured
 and efficient setup following the most recent standards set in 2025.
 
 We use **[uv](https://github.com/astral-sh/uv)**, **[hatch](https://hatch.pypa.io/)**,
-and **[marimo](https://marimo.io/)**.
+**[marimo](https://marimo.io/)** and **[Tectonic](https://tectonic-typesetting.github.io/)**.
 Supporting **[DevContainers](https://containers.dev/)**,
 **[Renovate](https://github.com/renovatebot/renovate)**,
 and **[Dependabot](https://github.com/dependabot)**,
