@@ -5,8 +5,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/tschm/cradle/badge.png?branch=main)](https://coveralls.io/github/tschm/cradle?branch=main)
 [![ci](https://github.com/tschm/cradle/actions/workflows/ci.yml/badge.svg)](https://github.com/tschm/cradle/actions/workflows/ci.yml)
 
-qcradle is a command line tool to create repos based on a group of templates. It has been created
-to accelerate, simplify and harmonize the development of experiments and quantitative strategies
+qcradle is a command line tool to create repos based on a group of templates. 
+It has been created
+to accelerate, simplify and harmonize the development
+of experiments and quantitative strategies
 as described [here](https://www.linkedin.com/pulse/rapid-quanting-thomas-schmelzer-omauf/?trackingId=Gqjma%2F8PTueJWvaBF4qWaQ%3D%3D).
 
 ![Creating a repository from the command line](https://raw.githubusercontent.com/tschm/cradle/main/demo.png)
