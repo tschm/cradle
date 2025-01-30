@@ -28,6 +28,10 @@ Supporting **[DevContainers](https://containers.dev/)**,
 and **[Dependabot](https://github.com/dependabot)**,
 we take full advantage of **[GitHub Workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)**.
 
+Each template comes with curated **[pre-commit hooks](https://pre-commit.com/)**.
+We compile **[Jupyter Books](https://jupyterbook.org/)** to collect
+test reports, API documentation, and notebooks.
+
 Let’s make project setup as rigorous as your research!
 
 ## Install gh
