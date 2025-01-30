@@ -26,7 +26,7 @@ and **[marimo](https://marimo.io/)**.
 Supporting **[DevContainers](https://containers.dev/)**,
 **[Renovate](https://github.com/renovatebot/renovate)**,
 and **[Dependabot](https://github.com/dependabot)**,
-we take full advantage of GitHub workflows.
+we take full advantage of **[GitHub Workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)**.
 
 Let’s make project setup as rigorous as your research!
 
