@@ -36,10 +36,21 @@ Let’s make project setup as rigorous as your research!
 
 ## Examples
 
+Users can interact with qcradle by either creating templates or
+by using existing templates to create projects. We would be
+delighted to list your public work here:
+
+### User projects
+
 We would like to encourage our users to point to public repositories
 created with the qcradle. We start with
 
-* [cvxball](https://github.com/cvxgrp/cvxball)
+* [cvxball](https://github.com/cvxgrp/cvxball). We created badges
+  for you
+
+### User templates
+
+Please share your templates with the world!
 
 ## Install gh
 
