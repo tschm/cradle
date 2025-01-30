@@ -34,6 +34,13 @@ test reports, API documentation, and notebooks.
 
 Let’s make project setup as rigorous as your research!
 
+## Examples
+
+We would like to encourage our users to point to public repositories
+created with the qcradle. We start with
+
+* [cvxball](https://github.com/cvxgrp/cvxball)
+
 ## Install gh
 
 Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
