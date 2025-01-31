@@ -25,5 +25,5 @@ jobs:
 
       - uses: cvxgrp/.github/actions/uv/test@v2.0.12
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python-version }}
           tests-folder: src/tests
