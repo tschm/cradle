@@ -1,20 +1,12 @@
 name: Bump version and publish
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [ "CI" ]
-    types: [ completed ]
+  workflow_dispatch
 
 jobs:
   tag:
     permissions:
       contents: write
-
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.head_branch == 'main')
 
     runs-on: ubuntu-latest
 
