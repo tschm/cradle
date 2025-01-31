@@ -14,6 +14,7 @@
     "enabled": true
   },
   "schedule": ["every friday", "before 8am"],
+  "labels": ["renovate"],
   "packageRules": [
     {
       "groupName": "pre-commit hooks",
