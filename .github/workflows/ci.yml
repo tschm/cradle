@@ -27,20 +27,3 @@ jobs:
         with:
           python-version: '3.12'
           tests-folder: src/tests
-
-  coverage:
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
-
-      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.12
-        with:
-          tests-folder: src/tests
-          source-folder: src/cradle
-
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v2
-        with:
-          files: artifacts/tests/coverage/coverage.info
-          format: lcov
