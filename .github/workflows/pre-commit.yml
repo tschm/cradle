@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: cvxgrp/.github/actions/uv/coverage@v2.0.17
+      - uses: cvxgrp/.github/actions/uv/coverage@v2.1.0
         with:
           source-folder: src/cradle
           tests-folder: src/tests
@@ -19,7 +19,7 @@ jobs:
   deptry:
     runs-on: ubuntu-latest
     steps:
-      - uses: cvxgrp/.github/actions/uv/deptry@v2.0.17
+      - uses: cvxgrp/.github/actions/uv/deptry@v2.1.0
         with:
           source-folder: src/cradle
 
