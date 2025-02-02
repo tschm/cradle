@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
 
-      - uses: cvxgrp/.github/actions/uv/test@v2.0.13
+      - uses: cvxgrp/.github/actions/uv/test@v2.0.16
         with:
           python-version: ${{ matrix.python-version }}
           tests-folder: src/tests
