@@ -27,5 +27,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: cvxgrp/.github/actions/uv/pre-commit@v2.0.16
-        with:
-          source-folder: src/cradle
