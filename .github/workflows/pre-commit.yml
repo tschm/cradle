@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.1
+        uses: cvxgrp/.github/actions/environment@v2.2.3
 
-      - uses: cvxgrp/.github/actions/coverage@v2.2.1
+      - uses: cvxgrp/.github/actions/coverage@v2.2.3
         with:
           source-folder: src/cradle
           tests-folder: src/tests
