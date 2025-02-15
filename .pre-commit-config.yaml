@@ -7,7 +7,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.5
+    rev: v0.9.6
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
@@ -39,7 +39,7 @@ repos:
         args: [-ignore, SC]
 
   - repo: https://github.com/crate-ci/typos
-    rev: v1.29.5
+    rev: v1.29.7
     hooks:
       - id: typos
         exclude: \.gitignore
