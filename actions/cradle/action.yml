@@ -43,3 +43,4 @@ runs:
         run: |
           git config --global user.email "ci@example.com"
           git config --global user.name "CI User"
+          git fetch origin 2>/dev/null || true
