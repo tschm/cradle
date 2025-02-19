@@ -43,4 +43,4 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       run: |
         git fetch origin 2>/dev/null || true
-        act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true'
+        act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true' | grep -v "remote not found"
