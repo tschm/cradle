@@ -45,3 +45,25 @@ runs:
         run: |
           git config --global user.email "ci@example.com"
           git config --global user.name "CI User"
+
+      - name: Run copier
+        working-directory: .
+        shell: bash
+        run: |
+          copier copy --vcs-ref HEAD . template --data-file .github/resources/data.yaml
+
+      #- name: Check template
+      #  working-directory: template
+      #  shell: bash
+      #  run : |
+      #    cat src/tests/conftest.py
+
+      - name: Prepare the repo
+        working-directory: template
+        shell: bash
+        run: |
+          # otherwise the pre-commit hooks won't "see" files
+          # also act needs to have the commit in place
+          git init -b main
+          git add .
+          git commit -m "Initial commit"
