@@ -53,7 +53,7 @@ runs:
         working-directory: .
         shell: bash
         run: |
-          copier copy --vcs-ref HEAD . ${{ inputs.destination_path }} --data-file .github/resources/data.yaml
+          copier copy --vcs-ref HEAD . ${{ inputs.destination-path }} --data-file .github/resources/data.yaml
 
       #- name: Check template
       #  working-directory: template
@@ -62,7 +62,7 @@ runs:
       #    cat src/tests/conftest.py
 
       - name: Prepare the repo
-        working-directory: ${{ inputs.destination_path }}
+        working-directory: ${{ inputs.destination-path }}
         shell: bash
         run: |
           # otherwise the pre-commit hooks won't "see" files
