@@ -26,6 +26,8 @@ runs:
   steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -43,4 +45,3 @@ runs:
         run: |
           git config --global user.email "ci@example.com"
           git config --global user.name "CI User"
-          git fetch origin 2>/dev/null || true
