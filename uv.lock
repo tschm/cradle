@@ -31,7 +31,7 @@ wheels = [
 
 [[package]]
 name = "copier"
-version = "9.4.1"
+version = "9.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama" },
@@ -41,15 +41,16 @@ dependencies = [
     { name = "jinja2-ansible-filters" },
     { name = "packaging" },
     { name = "pathspec" },
+    { name = "platformdirs" },
     { name = "plumbum" },
     { name = "pydantic" },
     { name = "pygments" },
     { name = "pyyaml" },
     { name = "questionary" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c4/84/b99005e18cb07986a9fa1c1314c9bb461851dc115ab24d3d9ac668daad7f/copier-9.4.1.tar.gz", hash = "sha256:cc81d8204cb17fbc8c4a14996a8ce764166c34c77236de38cfbeb960c887b68f", size = 41510 }
+sdist = { url = "https://files.pythonhosted.org/packages/44/49/1a43fade92e3af317393943ac005ed1b4094a88e999acda34f3d0e27aef8/copier-9.5.0.tar.gz", hash = "sha256:db7311075176376ee746fe610ffb5b27db7ac755585d6149894f677ffbce127d", size = 44422 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8d/96/5e8edaef8be1bd0a17943e6a011d4fc311f340e45733ef910a6f0b688587/copier-9.4.1-py3-none-any.whl", hash = "sha256:863385b7ba8a9090c832cd12ca072dba9153397dbe7c5f337bf8c3d8859efa32", size = 43188 },
+    { url = "https://files.pythonhosted.org/packages/c0/5d/6b8d8816cb49c5ff7a588324210a9c953c1f903278fa99268ace66868689/copier-9.5.0-py3-none-any.whl", hash = "sha256:d7d9851649ad71518f8e868ab761362af0ee9008025a3f85647e9724983cf540", size = 47543 },
 ]
 
 [[package]]
