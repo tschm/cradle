@@ -11,3 +11,6 @@ templates:
   r:
     url: "git@github.com:tschm/cradle_r.git"
     display_name: "An R project"
+  server:
+    url: "git@github.com:tschm/server.git"
+    display_name: "A (numpy) server"
