@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.5
+        uses: cvxgrp/.github/actions/environment@v2.2.6
 
-      - uses: cvxgrp/.github/actions/coverage@v2.2.5
+      - uses: cvxgrp/.github/actions/coverage@v2.2.6
         with:
           source-folder: src/cradle
           tests-folder: src/tests
@@ -23,16 +23,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.5
+        uses: cvxgrp/.github/actions/environment@v2.2.6
 
-      - uses: cvxgrp/.github/actions/deptry@v2.2.5
+      - uses: cvxgrp/.github/actions/deptry@v2.2.6
         with:
           source-folder: src/cradle
 
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: cvxgrp/.github/actions/pre-commit@v2.2.5
+      - uses: cvxgrp/.github/actions/pre-commit@v2.2.6
 
   age:
     runs-on: ubuntu-latest
