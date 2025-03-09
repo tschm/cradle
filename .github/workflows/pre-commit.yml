@@ -33,3 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: cvxgrp/.github/actions/pre-commit@v2.2.5
+
+  age:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: cvxgrp/.github/actions/environment@v2.2.6
+
+      - name: "Age of Dependencies for ${{ github.repository }}"
+        uses: cvxgrp/.github/actions/age@v2.2.6
