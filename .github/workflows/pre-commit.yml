@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.6
+        uses: cvxgrp/.github/actions/environment@v2.2.7
 
-      - uses: cvxgrp/.github/actions/coverage@v2.2.6
+      - uses: cvxgrp/.github/actions/coverage@v2.2.7
         with:
           source-folder: src/cradle
           tests-folder: src/tests
@@ -23,22 +23,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.6
+        uses: cvxgrp/.github/actions/environment@v2.2.7
 
-      - uses: cvxgrp/.github/actions/deptry@v2.2.6
+      - uses: cvxgrp/.github/actions/deptry@v2.2.7
         with:
           source-folder: src/cradle
 
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: cvxgrp/.github/actions/pre-commit@v2.2.6
+      - uses: cvxgrp/.github/actions/pre-commit@v2.2.7
 
   age:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.6
+        uses: cvxgrp/.github/actions/environment@v2.2.7
 
       - name: "Age of Dependencies for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/age@v2.2.6
+        uses: cvxgrp/.github/actions/age@v2.2.7
