@@ -1,0 +1,37 @@
+name: Build package
+description: "Build the package"
+
+inputs:
+  tag:
+    description: 'tag'
+    required: true
+
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Update version in pyproject.toml
+      shell: bash
+      run: |
+        echo "Updating version to ${{ inputs.tag }}"
+        sed -i "s/0.0.0/${{ inputs.tag }}/" pyproject.toml
+
+    - name: Build package
+      shell: bash
+      run: |
+        hatch build
+
+    - name: Upload distribution artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist/
+        retention-days: 1
+
+    - name: Create GitHub release with artifacts
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ inputs.tag }}
+        generate_release_notes: true
+        files: dist/*
