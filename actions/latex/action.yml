@@ -1,0 +1,125 @@
+name: Compile and Deploy LaTeX Documents
+
+description: "Advanced LaTeX document compilation with error handling and artifacts"
+
+inputs:
+  paper:
+    description: 'Space-separated list of LaTeX files to compile'
+    type: string
+    required: true
+  output-folder:
+    description: 'Output directory for compiled documents'
+    type: string
+    required: false
+    default: ''
+  draft:
+    description: 'Target branch for deployment'
+    type: string
+    required: false
+    default: 'draft'
+  enable-cache:
+    description: 'Enable Tectonic caching'
+    type: boolean
+    required: false
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for versioning
+
+    - name: Setup environment variables
+      shell: bash
+      run: |
+        echo "TIMESTAMP=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
+        echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV
+
+    - name: Validate input files
+      shell: bash
+      run: |
+        for f in ${{ inputs.paper }}; do
+          if [ ! -f "$f" ]; then
+            echo "Error: File $f not found!"
+            exit 1
+          fi
+        done
+
+    - name: Setup Tectonic cache
+      if: inputs.enable-cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/Tectonic
+          **/_minted*
+        key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.bib') }}
+        restore-keys: |
+          ${{ runner.os }}-tectonic-
+
+    - name: Install Tectonic and biber
+      shell: bash
+      run: |
+        # install tectonic in the directory you run from
+        curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+        # install biber
+        sudo apt-get update -y
+        sudo apt-get install -y biber
+
+        #echo "$HOME" >> $GITHUB_PATH
+
+        ./tectonic --version
+        biber --version
+
+    - name: Create output directories
+      shell: bash
+      run: |
+        mkdir -p ${{ env.BUILD_DIR }}
+        mkdir -p publish${{ inputs.output-folder }}
+
+    - name: Compile LaTeX documents
+      shell: bash
+      env:
+        RUST_BACKTRACE: '1'
+      run: |
+        echo "Starting compilation at $(date)"
+
+        # Function to compile a single document
+        compile_doc() {
+          local doc="$1"
+          echo "Compiling $doc"
+
+          # First pass
+          if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
+            echo "Error compiling $doc - check logs"
+            return 1
+          fi
+
+          # Copy final PDF to publish directory
+          cp ${{ env.BUILD_DIR }}/*.pdf publish${{ inputs.output-folder }}/
+          echo "Successfully compiled $doc"
+        }
+
+        # Export the function for parallel use
+        export -f compile_doc
+
+        # Compile documents in parallel using GNU parallel if available
+        if command -v parallel >/dev/null 2>&1; then
+          echo ${{ inputs.paper }} | tr ' ' '\n' | parallel compile_doc
+        else
+          # Fall back to sequential compilation
+          for f in ${{ inputs.paper }}; do
+            compile_doc "$f" || exit 1
+          done
+        fi
+
+    - name: Deploy to GitHub Pages
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: ${{ inputs.draft }}
+        folder: publish${{ inputs.output-folder }}
+        commit-message: "Build: ${{ env.TIMESTAMP }} [skip ci]"
+        clean: true
+        single-commit: false
