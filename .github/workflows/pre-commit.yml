@@ -11,10 +11,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.7
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
 
-      - uses: cvxgrp/.github/actions/coverage@v2.2.7
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/coverage
         with:
           source-folder: src/cradle
           tests-folder: src/tests
@@ -22,23 +25,35 @@ jobs:
   deptry:
     runs-on: ubuntu-latest
     steps:
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.7
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
 
-      - uses: cvxgrp/.github/actions/deptry@v2.2.7
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/deptry
         with:
           source-folder: src/cradle
 
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: cvxgrp/.github/actions/pre-commit@v2.2.7
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: '--verbose --all-files'
+
 
   age:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.7
+        uses: ./actions/environment
 
       - name: "Age of Dependencies for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/age@v2.2.7
+        uses: ./actions/age
