@@ -49,3 +49,10 @@ runs:
       run: |
         # Create virtual environment with uv
         uv venv --python ${{ inputs.python-version }}
+
+    - name: Install dependencies if requirements.txt exists
+      shell: bash
+      run: |
+        if [ -f "requirements.txt" ]; then
+          uv pip install -r requirements.txt
+        fi
