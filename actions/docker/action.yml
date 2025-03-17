@@ -1,0 +1,46 @@
+name: Build and Release Docker image
+description: "Build the Docker image"
+
+inputs:
+  tag:
+    description: 'tag'
+    required: true
+  github_token:
+    description: "GitHub token for authentication"
+    required: true
+  github_actor:
+    description: "GitHub actor"
+    required: true
+  github_repository:
+    description: "GitHub repository"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install podman
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y podman
+
+    - name: Login to GitHub container registry
+      shell: bash
+      run: |
+        podman login ghcr.io \
+        -u ${{ inputs.github_actor }} \
+        -p ${{ inputs.github_token }}
+
+    - name: Build container image
+      shell: bash
+      run: |
+        pwd
+        ls -all
+        podman build \
+          --tag ghcr.io/${{ inputs.repository }}:${{ inputs.tag }} \
+          -f docker/Dockerfile \
+          .
+    - name: Push container image
+      shell: bash
+      run: |
+        podman push ghcr.io/${{ inputs.repository }}:${{ inputs.tag }}
