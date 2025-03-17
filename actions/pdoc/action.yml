@@ -1,0 +1,35 @@
+name: Build pdoc documentation
+description: "Build pdoc documentation"
+
+inputs:
+  source-folder:
+    description: 'Source folder to generate documentation for'
+    type: string
+    required: false
+    default: 'cvx'
+  pdoc-arguments:
+    description: 'Additional pdoc command line arguments'
+    type: string
+    required: false
+    default: ''
+
+
+runs:
+
+
+  using: "composite"
+  steps:
+    - name: Install and build pdoc
+      shell: bash
+      run: |
+        mkdir -p artifacts/pdoc
+        python -m pip install --no-cache-dir pdoc
+        pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
+
+    - name: Upload documentation
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      uses: actions/upload-artifact@v4
+      with:
+        name: pdoc
+        path: artifacts/pdoc
+        retention-days: 1

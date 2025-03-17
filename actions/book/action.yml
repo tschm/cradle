@@ -1,0 +1,27 @@
+name: Build the book
+description: "Build the book"
+
+permissions:
+  contents: write
+  pages: write
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Download all artifacts
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      uses: actions/download-artifact@v4
+      with:
+        path: .book
+
+    - name: Create .nojekyll
+      shell: bash
+      run: touch .book/.nojekyll
+
+    - name: GitHub Pages action
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages            # The branch the action should deploy to.
+        folder: .book               # The folder the action should deploy.

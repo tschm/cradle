@@ -1,0 +1,16 @@
+name: 'Dependency Check'
+description: 'Run deptry to check for dependency issues'
+
+inputs:
+  source-folder:
+    description: 'Source folder to analyze'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install and run deptry
+      shell: bash
+      run: |
+        python -m pip install --no-cache-dir deptry
+        deptry ${{ inputs.source-folder }}
