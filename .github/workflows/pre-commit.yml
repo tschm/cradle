@@ -38,7 +38,13 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: cvxgrp/.github/actions/pre-commit@v2.2.7
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: '--verbose --all-files'
+
 
   age:
     runs-on: ubuntu-latest
