@@ -11,6 +11,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
@@ -22,6 +25,9 @@ jobs:
   deptry:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
@@ -37,6 +43,9 @@ jobs:
   age:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
