@@ -17,7 +17,7 @@ jobs:
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
-      - uses: cvxgrp/.github/actions/coverage@v2.2.7
+      - uses: ./actions/coverage
         with:
           source-folder: src/cradle
           tests-folder: src/tests
@@ -31,7 +31,7 @@ jobs:
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
-      - uses: cvxgrp/.github/actions/deptry@v2.2.7
+      - uses: ./actions/deptry
         with:
           source-folder: src/cradle
 
