@@ -1,0 +1,61 @@
+name: Measure Test Coverage
+description: "Run tests with comprehensive coverage reporting"
+
+inputs:
+  tests-folder:
+    description: 'Source folder with all tests'
+    required: true
+  source-folder:
+    description: 'Source folder to measure coverage for'
+    type: string
+    required: true
+  coveralls:
+    description: 'Upload to coverallsapp'
+    required: false
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run tests with coverage
+      shell: bash
+      run: |
+        # this should point to .venv/bin/python
+        which python
+
+        # Install coverage tools separately to ensure they don't conflict
+        python -m pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
+
+        # Create output directories
+        mkdir -p artifacts/tests/{html-report,coverage,html-coverage}
+
+        # Run pytest with coverage reporting
+        pytest \
+          --cov=${{ inputs.source-folder }} \
+          --random-order \
+          --verbose \
+          --html=artifacts/tests/html-report/report.html \
+          --cov-report=term \
+          --cov-report=xml:artifacts/tests/coverage/coverage.xml \
+          --cov-report=json:artifacts/tests/coverage/coverage.json \
+          --cov-report=lcov:artifacts/tests/coverage/coverage.info \
+          --cov-report=html:artifacts/tests/html-coverage \
+          ${{ inputs.tests-folder }}
+
+        # Remove .gitignore for gh-pages compatibility
+        rm -f artifacts/tests/html-coverage/.gitignore
+
+    - name: Upload test results
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      uses: actions/upload-artifact@v4
+      with:
+        name: tests
+        path: artifacts/tests
+        retention-days: 1
+
+    - name: Coveralls GitHub Action
+      if: ${{ inputs.coveralls == 'true' }}
+      uses: coverallsapp/github-action@v2
+      with:
+        files: artifacts/tests/coverage/coverage.info
+        format: lcov
