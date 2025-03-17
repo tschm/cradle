@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
       - name: Generate Tag
         id: tag_version
         uses: ./actions/tag
