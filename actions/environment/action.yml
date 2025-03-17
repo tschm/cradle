@@ -55,4 +55,13 @@ runs:
       run: |
         if [ -f "requirements.txt" ]; then
           uv pip install -r requirements.txt
+        else
+          # Sync environment (install dependencies)
+          if [ -f "uv.lock" ]; then
+            uv sync --all-extras --dev --frozen  # Install all dependencies (including dev dependencies)
+          else
+            uv sync --all-extras --dev  # Install all dependencies (including dev dependencies)
+          fi
         fi
+
+        uv pip install pip
