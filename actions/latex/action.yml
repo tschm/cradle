@@ -3,6 +3,9 @@ name: Compile and Deploy LaTeX Documents
 description: "Advanced LaTeX document compilation with error handling and artifacts"
 
 inputs:
+  tag:
+    description: 'tag'
+    required: true
   paper:
     description: 'Space-separated list of LaTeX files to compile'
     type: string
@@ -22,6 +25,7 @@ inputs:
     type: boolean
     required: false
     default: false
+
   #enable-cache:
   #  description: 'Enable Tectonic caching'
   #  type: boolean
@@ -149,5 +153,6 @@ runs:
         files: ${{ inputs.output-folder }}/*.pdf
         name: LaTeX Build ${{ env.TIMESTAMP }}
         body_path: ${{ inputs.output-folder }}/compilation_report.md
+        tag_name: ${{ inputs.tag }}
         #draft: true
         #token: ${{ secrets.GITHUB_TOKEN }}
