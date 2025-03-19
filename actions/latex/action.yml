@@ -38,7 +38,6 @@ runs:
     - name: Setup environment variables
       shell: bash
       run: |
-        echo "TIMESTAMP=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
         echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV
 
     - name: Validate input files
@@ -56,10 +55,12 @@ runs:
       run: |
         # install tectonic in the directory you run from
         curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+
         # install biber
         sudo apt-get update -y
         sudo apt-get install -y biber
 
+        # for debug
         ./tectonic --version
         biber --version
 
@@ -102,32 +103,13 @@ runs:
       with:
         branch: ${{ inputs.draft }}
         folder: ${{ inputs.output-folder }}
-        commit-message: "Build: ${{ env.TIMESTAMP }} [skip ci]"
+        commit-message: "Build: ${{ github.run_id }} [skip ci]"
         clean: true
         single-commit: false
-
-    #- name: Generate compilation report
-    #  if: inputs.create-release
-    #  shell: bash
-    #  run: |
-    #    {
-    #      echo "# LaTeX Compilation Report"
-    #      echo "Generated: $(date)"
-    #      echo "## Compiled Documents"
-    #      for f in ${{ inputs.output-folder }}/*.pdf; do
-    #        echo "- $(basename $f)"
-    #        echo "  - Size: $(ls -lh "$f" | awk '{print $5}')"
-    #        echo "  - SHA256: $(sha256sum "$f" | cut -d' ' -f1)"
-    #      done
-    #    } > ${{ inputs.output-folder }}/compilation_report.md
 
     - name: Create GitHub Release
       if: inputs.create-release
       uses: softprops/action-gh-release@v2
       with:
         files: ${{ inputs.output-folder }}/*.pdf
-        #name: LaTeX Build ${{ env.TIMESTAMP }}
-        #body_path: ${{ inputs.output-folder }}/compilation_report.md
         tag_name: ${{ inputs.tag }}
-        #draft: true
-        #token: ${{ secrets.GITHUB_TOKEN }}
