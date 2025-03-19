@@ -88,21 +88,21 @@ runs:
       run: |
         echo "Starting compilation at $(date)"
 
-        ## Function to compile a single document
-        #compile_doc() {
-        #  local doc="$1"
-        #  echo "Compiling $doc"
+        # Function to compile a single document
+        compile_doc() {
+          local doc="$1"
+          echo "Compiling $doc"
 
-        #  # First pass
-        #  if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
-        #    echo "Error compiling $doc - check logs"
-        #    return 1
-        #  fi
+          # First pass
+          if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
+            echo "Error compiling $doc - check logs"
+            return 1
+          fi
 
-        #  # Copy final PDF to publish directory
-        #  cp ${{ env.BUILD_DIR }}/*.pdf publish${{ inputs.output-folder }}/
-        #  echo "Successfully compiled $doc"
-        #}
+          # Copy final PDF to publish directory
+          cp ${{ env.BUILD_DIR }}/*.pdf ${{ inputs.output-folder }}/
+          echo "Successfully compiled $doc"
+        }
 
         ## Export the function for parallel use
         #export -f compile_doc
@@ -149,5 +149,5 @@ runs:
         files: ${{ inputs.output-folder }}/*.pdf
         name: LaTeX Build ${{ env.TIMESTAMP }}
         body_path: ${{ inputs.output-folder }}/compilation_report.md
-        draft: true
+        #draft: true
         #token: ${{ secrets.GITHUB_TOKEN }}
