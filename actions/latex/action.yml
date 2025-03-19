@@ -11,17 +11,17 @@ inputs:
     description: 'Output directory for compiled documents'
     type: string
     required: false
-    default: ''
+    default: 'compiled'
   draft:
     description: 'Target branch for deployment'
     type: string
     required: false
     default: 'draft'
-  enable-cache:
-    description: 'Enable Tectonic caching'
-    type: boolean
-    required: false
-    default: true
+  #enable-cache:
+  #  description: 'Enable Tectonic caching'
+  #  type: boolean
+  #  required: false
+  #  default: true
 
 runs:
   using: "composite"
@@ -47,16 +47,16 @@ runs:
           fi
         done
 
-    - name: Setup Tectonic cache
-      if: inputs.enable-cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cache/Tectonic
-          **/_minted*
-        key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.bib') }}
-        restore-keys: |
-          ${{ runner.os }}-tectonic-
+    #- name: Setup Tectonic cache
+    #  if: inputs.enable-cache
+    #  uses: actions/cache@v4
+    #  with:
+    #    path: |
+    #      ~/.cache/Tectonic
+    #      **/_minted*
+    #    key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.bib') }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-tectonic-
 
     - name: Install Tectonic and biber
       shell: bash
@@ -67,8 +67,6 @@ runs:
         sudo apt-get update -y
         sudo apt-get install -y biber
 
-        #echo "$HOME" >> $GITHUB_PATH
-
         ./tectonic --version
         biber --version
 
@@ -76,7 +74,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ${{ env.BUILD_DIR }}
-        mkdir -p publish${{ inputs.output-folder }}
+        mkdir -p ${{ inputs.output-folder }}
 
     - name: Compile LaTeX documents
       shell: bash
@@ -85,41 +83,65 @@ runs:
       run: |
         echo "Starting compilation at $(date)"
 
-        # Function to compile a single document
-        compile_doc() {
-          local doc="$1"
-          echo "Compiling $doc"
+        ## Function to compile a single document
+        #compile_doc() {
+        #  local doc="$1"
+        #  echo "Compiling $doc"
 
-          # First pass
-          if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
-            echo "Error compiling $doc - check logs"
-            return 1
-          fi
+        #  # First pass
+        #  if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
+        #    echo "Error compiling $doc - check logs"
+        #    return 1
+        #  fi
 
-          # Copy final PDF to publish directory
-          cp ${{ env.BUILD_DIR }}/*.pdf publish${{ inputs.output-folder }}/
-          echo "Successfully compiled $doc"
-        }
+        #  # Copy final PDF to publish directory
+        #  cp ${{ env.BUILD_DIR }}/*.pdf publish${{ inputs.output-folder }}/
+        #  echo "Successfully compiled $doc"
+        #}
 
-        # Export the function for parallel use
-        export -f compile_doc
+        ## Export the function for parallel use
+        #export -f compile_doc
 
-        # Compile documents in parallel using GNU parallel if available
-        if command -v parallel >/dev/null 2>&1; then
-          echo ${{ inputs.paper }} | tr ' ' '\n' | parallel compile_doc
-        else
-          # Fall back to sequential compilation
-          for f in ${{ inputs.paper }}; do
-            compile_doc "$f" || exit 1
-          done
-        fi
+        ## Compile documents in parallel using GNU parallel if available
+        # if command -v parallel >/dev/null 2>&1; then
+        #   echo ${{ inputs.paper }} | tr ' ' '\n' | parallel compile_doc
+        # else
+        # Fall back to sequential compilation
+        for f in ${{ inputs.paper }}; do
+          compile_doc "$f" || exit 1
+        done
+        #fi
 
     - name: Deploy to GitHub Pages
       if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: ${{ inputs.draft }}
-        folder: publish${{ inputs.output-folder }}
+        folder: ${{ inputs.output-folder }}
         commit-message: "Build: ${{ env.TIMESTAMP }} [skip ci]"
         clean: true
         single-commit: false
+
+    - name: Generate compilation report
+      shell: bash
+      run: |
+        {
+          echo "# LaTeX Compilation Report"
+          echo "Generated: $(date)"
+          echo "## Compiled Documents"
+          for f in ${{ inputs.output-folder }}/*.pdf; do
+            echo "- $(basename $f)"
+            echo "  - Size: $(ls -lh "$f" | awk '{print $5}')"
+            echo "  - SHA256: $(sha256sum "$f" | cut -d' ' -f1)"
+          done
+        } > ${{ inputs.output-folder }}/compilation_report.md
+
+    - name: Create GitHub Release
+      #if: inputs.create-release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ inputs.output-folder }}/*.pdf
+        name: LaTeX Build ${{ env.TIMESTAMP }}
+        body_path: ${{ inputs.output-folder }}/compilation_report.md
+        draft: true
+        #token: ${{ secrets.GITHUB_TOKEN }}
