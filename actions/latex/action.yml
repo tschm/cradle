@@ -5,7 +5,9 @@ description: "Advanced LaTeX document compilation with error handling and artifa
 inputs:
   tag:
     description: 'tag'
-    required: true
+    type: string
+    required: false
+    default: 'v0.0.0'
   paper:
     description: 'Space-separated list of LaTeX files to compile'
     type: string
