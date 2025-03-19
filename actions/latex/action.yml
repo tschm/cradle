@@ -7,7 +7,7 @@ inputs:
     description: 'tag'
     type: string
     required: false
-    default: 'v0.0.0'
+    default: ''
   paper:
     description: 'Space-separated list of LaTeX files to compile'
     type: string
@@ -22,11 +22,11 @@ inputs:
     type: string
     required: false
     default: 'draft'
-  create-release:
-    description: 'Create a GitHub release with compiled PDFs'
-    type: boolean
-    required: false
-    default: false
+  #create-release:
+  #  description: 'Create a GitHub release with compiled PDFs'
+  #  type: boolean
+  #  required: false
+  #  default: false
 
 
 runs:
@@ -106,7 +106,7 @@ runs:
         single-commit: false
 
     - name: Create GitHub Release
-      if: inputs.create-release
+      if: inputs.tag != ''
       uses: softprops/action-gh-release@v2
       with:
         files: ${{ inputs.output-folder }}/*.pdf
