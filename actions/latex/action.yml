@@ -32,10 +32,13 @@ runs:
   steps:
     - name: Set up Git repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for versioning
 
     - name: Setup environment variables
       shell: bash
       run: |
+        echo "TIMESTAMP=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
         echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV
 
     - name: Validate input files
@@ -53,12 +56,10 @@ runs:
       run: |
         # install tectonic in the directory you run from
         curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-
         # install biber
         sudo apt-get update -y
         sudo apt-get install -y biber
 
-        # for debug
         ./tectonic --version
         biber --version
 
