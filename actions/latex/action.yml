@@ -32,14 +32,19 @@ runs:
   steps:
     - name: Set up Git repository
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Full history for versioning
+      #with:
+      #  fetch-depth: 0  # Full history for versioning
 
     - name: Setup environment variables
       shell: bash
       run: |
-        echo "TIMESTAMP=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
         echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV
+
+    - name: Create output directories
+      shell: bash
+      run: |
+        mkdir -p ${{ env.BUILD_DIR }}
+        mkdir -p ${{ inputs.output-folder }}
 
     - name: Validate input files
       shell: bash
@@ -62,12 +67,6 @@ runs:
 
         ./tectonic --version
         biber --version
-
-    - name: Create output directories
-      shell: bash
-      run: |
-        mkdir -p ${{ env.BUILD_DIR }}
-        mkdir -p ${{ inputs.output-folder }}
 
     - name: Compile LaTeX documents
       shell: bash
