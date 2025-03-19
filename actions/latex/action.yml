@@ -17,6 +17,11 @@ inputs:
     type: string
     required: false
     default: 'draft'
+  create-release:
+    description: 'Create a GitHub release with compiled PDFs'
+    type: boolean
+    required: false
+    default: false
   #enable-cache:
   #  description: 'Enable Tectonic caching'
   #  type: boolean
@@ -123,6 +128,7 @@ runs:
         single-commit: false
 
     - name: Generate compilation report
+      if: inputs.create-release
       shell: bash
       run: |
         {
@@ -137,7 +143,7 @@ runs:
         } > ${{ inputs.output-folder }}/compilation_report.md
 
     - name: Create GitHub Release
-      #if: inputs.create-release
+      if: inputs.create-release
       uses: softprops/action-gh-release@v2
       with:
         files: ${{ inputs.output-folder }}/*.pdf
