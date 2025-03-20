@@ -112,10 +112,10 @@ runs:
         files: ${{ inputs.output-folder }}/*.pdf
         tag_name: ${{ inputs.tag }}
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: latex-build-${{ github.run_id }}
-        path: |
-          ${{ env.BUILD_DIR }}
-        retention-days: 7
+#    - name: Upload build artifacts
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: latex-build-${{ github.run_id }}
+#        path: |
+#          ${{ env.BUILD_DIR }}
+#        retention-days: 7
