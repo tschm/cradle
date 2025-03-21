@@ -39,9 +39,3 @@ runs:
       with:
         image: ${{ steps.build-image.outputs.image }}
         tags: ${{ steps.build-image.outputs.image }}
-        #registry: ghcr.io
-
-    #- name: Push container image
-    #  shell: bash
-    #  run: |
-    #    podman push ghcr.io/${{ inputs.repository }}:${{ inputs.tag }}
