@@ -11,6 +11,9 @@ runs:
   using: "composite"
 
   steps:
+    - name: Checkout [${{ github.repository }}]
+      uses: actions/checkout@v4
+
     - name: Update version in pyproject.toml
       shell: bash
       run: |
