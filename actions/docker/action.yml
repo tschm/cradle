@@ -29,9 +29,10 @@ runs:
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
+        image: 'ghrc.io/${{ inputs.repository }}'
         tags: ${{ inputs.tag }}
         dockerfiles: docker/Dockerfile
-        image: ${{ inputs.repository }}
+
 
     - name: Push to ghcr.io
       id: push-to-ghcr
