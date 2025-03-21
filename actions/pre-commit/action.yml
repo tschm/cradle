@@ -1,0 +1,12 @@
+name: Check all pre-commit hooks on all files
+description: "Check all pre-commit hooks"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout [${{ github.repository }}]
+      uses: actions/checkout@v4
+
+    - uses: pre-commit/action@v3.0.1
+      with:
+        extra_args: '--verbose --all-files'
