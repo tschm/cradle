@@ -29,7 +29,7 @@ runs:
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: 'ghrc.io/${{ inputs.repository }}'
+        image: 'ghrc.io/${{ inputs.github_repository }}'
         tags: ${{ inputs.tag }}
         dockerfiles: docker/Dockerfile
 
