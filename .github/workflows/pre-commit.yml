@@ -38,13 +38,8 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      - uses: pre-commit/action@v3.0.1
-        with:
-          extra_args: '--verbose --all-files'
-
+      - name: pre-commit
+        uses: ./actions/pre-commit
 
   age:
     runs-on: ubuntu-latest
