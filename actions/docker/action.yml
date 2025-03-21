@@ -14,6 +14,10 @@ inputs:
   github_repository:
     description: "GitHub repository"
     required: true
+  dockerfiles:
+    description: "Location of the Dockerfile(s)"
+    required: false
+    default: 'docker/Dockerfile'
 
 runs:
   using: "composite"
@@ -31,7 +35,7 @@ runs:
       with:
         image: ${{ inputs.github_repository }}
         tags: ${{ inputs.tag }}
-        dockerfiles: docker/Dockerfile
+        dockerfiles: ${{ inputs.dockerfiles }}
 
 
     - name: Push to ghcr.io
