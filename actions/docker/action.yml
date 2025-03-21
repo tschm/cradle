@@ -18,29 +18,43 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install podman
-      shell: bash
-      run: |
-        sudo apt-get update -qq
-        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y podman
+    #- name: Install podman
+    #  shell: bash
+    #  run: |
+    #    sudo apt-get update -qq
+    #    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y podman
 
-    - name: Login to GitHub container registry
-      shell: bash
-      run: |
-        podman login ghcr.io \
-        -u ${{ inputs.github_actor }} \
-        -p ${{ inputs.github_token }}
+    - name: Log in to GitHub Container Registry
+      uses: redhat-actions/podman-login@v1
+      with:
+          username: ${{ inputs.github_actor }}
+          password: ${{ inputs.github_token }}
+          registry: 'ghcr.io'
 
-    - name: Build container image
-      shell: bash
-      run: |
-        pwd
-        ls -all
-        podman build \
-          --tag ghcr.io/${{ inputs.repository }}:${{ inputs.tag }} \
-          -f docker/Dockerfile \
-          .
-    - name: Push container image
-      shell: bash
-      run: |
-        podman push ghcr.io/${{ inputs.repository }}:${{ inputs.tag }}
+
+    #- name: Login to GitHub container registry
+    #  shell: bash
+    #  run: |
+    #    podman login ghcr.io \
+    #    -u ${{ inputs.github_actor }} \
+    #    -p ${{ inputs.github_token }}
+
+    #- name: Build container image
+    #  shell: bash
+    #  run: |
+    #    podman build \
+    #      --tag ghcr.io/${{ inputs.repository }}:${{ inputs.tag }} \
+    #      -f docker/Dockerfile \
+    #      .
+    - name: Build image
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        tags: ${{ inputs.tag }}
+        dockerfiles: docker/Dockerfile
+        image: ${{ inputs.repository }}
+
+    #- name: Push container image
+    #  shell: bash
+    #  run: |
+    #    podman push ghcr.io/${{ inputs.repository }}:${{ inputs.tag }}
