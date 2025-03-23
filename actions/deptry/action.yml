@@ -19,12 +19,6 @@ runs:
       run: |
         python -m pip install --no-cache-dir deptry
 
-    #- name: Run Deptry (without options)
-    #  if: inputs.options == ''
-    #  shell: bash
-    #  run: deptry ${{ inputs.source-folder }}
-
-    - name: Run Deptry (with options)
-      #if: inputs.options != ''
+    - name: Run Deptry
       shell: bash
       run: deptry ${{ inputs.source-folder }} ${{ inputs.options }}
