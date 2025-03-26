@@ -22,6 +22,9 @@ inputs:
     description: "Registry, e.g. ghcr.io"
     required: false
     default: "ghcr.io"
+  labels:
+    description: 'The labels of the image to build. Separate by newline. For example, "io.containers.capabilities=sys_admin,mknod".'
+    required: false
 
 runs:
   using: "composite"
@@ -40,7 +43,7 @@ runs:
         image: ${{ inputs.github_repository }}
         tags: ${{ inputs.tag }}
         dockerfiles: ${{ inputs.dockerfiles }}
-
+        labels: ${{ inputs.labels }}
 
     - name: Push to ghcr.io
       id: push-to-ghcr
