@@ -16,17 +16,20 @@
           "pre-commit",
           "dependencies"
         ],
-        "matchDepTypes": ["repository"]
+        "matchDepTypes": [
+          "repository"
+        ]
       }
     ]
   },
   "packageRules": [
     {
-      "matchFiles": ["pyproject.toml"],
+      "matchFileNames": [
+        "pyproject.toml"
+      ],
       "groupName": "Python dependencies"
     }
   ],
-
   "labels": [
     "renovate"
   ]
