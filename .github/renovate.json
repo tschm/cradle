@@ -5,32 +5,41 @@
   ],
   "pre-commit": {
     "enabled": true,
-    "schedule": [
-      "on the first day of the month before 6am"
-    ],
+    "schedule": ["before 5am on the first day of the month"],
+    "automerge": true,
+    "automergeType": "branch",
     "packageRules": [
       {
         "groupName": "pre-commit hooks",
         "groupSlug": "pre-commit",
-        "labels": [
-          "pre-commit",
-          "dependencies"
-        ],
-        "matchDepTypes": [
-          "repository"
-        ]
+        "labels": ["pre-commit", "dependencies"],
+        "matchDepTypes": ["repository"]
       }
     ]
   },
   "packageRules": [
     {
-      "matchFileNames": [
-        "pyproject.toml"
-      ],
-      "groupName": "Python dependencies"
+      "matchFileNames": ["pyproject.toml"],
+      "matchDepTypes": ["dependencies"],
+      "groupName": "Python main dependencies"
+    },
+    {
+      "matchFileNames": ["pyproject.toml"],
+      "matchDepTypes": ["dev-dependencies"],
+      "groupName": "Python dev dependencies"
+    },
+    {
+      "matchFileNames": ["requirements*.txt"],
+      "groupName": "Python requirements"
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch"
     }
   ],
-  "labels": [
-    "renovate"
-  ]
+  "labels": ["renovate", "dependencies"],
+  "automerge": false,
+  "platformAutomerge": false,
+  "dependencyDashboard": true
 }
