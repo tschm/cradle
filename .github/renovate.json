@@ -2,8 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "tschm/renovate-config:pre-commit",
-    "tschm/renovate-config:dependencies"
+    "github:tschm/renovate-config:pre-commit",
+    "github:tschm/renovate-config:dependencies"
   ],
   "schedule": [
     "every weekend"
