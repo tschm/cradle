@@ -7,27 +7,6 @@
   "schedule": [
     "every weekend"
   ],
-  "pre-commit": {
-    "enabled": true,
-    "schedule": [
-      "before 5am on the first day of the month"
-    ],
-    "automerge": true,
-    "automergeType": "branch",
-    "packageRules": [
-      {
-        "groupName": "pre-commit hooks",
-        "groupSlug": "pre-commit",
-        "labels": [
-          "pre-commit",
-          "dependencies"
-        ],
-        "matchDepTypes": [
-          "repository"
-        ]
-      }
-    ]
-  },
   "schedule": ["every weekend"],
   "packageRules": [
     {
