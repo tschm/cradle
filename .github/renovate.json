@@ -7,8 +7,7 @@
     ":dependencyDashboard",
     ":maintainLockFilesWeekly",
     ":semanticCommits",
-    ":pinVersions",
-    ":enableGitHubActions"
+    ":pinVersions"
   ],
   "enabledManagers": ["pep621", "pre-commit", "github-actions"],
   "timezone": "Asia/Dubai"
