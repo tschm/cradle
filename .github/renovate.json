@@ -3,74 +3,110 @@
   "extends": [
     "config:recommended"
   ],
-  "schedule": ["every weekend"],
+  "schedule": [
+    "every weekend"
+  ],
   "pre-commit": {
     "enabled": true,
-    "schedule": ["before 5am on the first day of the month"],
+    "schedule": [
+      "before 5am on the first day of the month"
+    ],
     "automerge": true,
     "automergeType": "branch",
     "packageRules": [
       {
         "groupName": "pre-commit hooks",
         "groupSlug": "pre-commit",
-        "labels": ["pre-commit", "dependencies"],
-        "matchDepTypes": ["repository"]
+        "labels": [
+          "pre-commit",
+          "dependencies"
+        ],
+        "matchDepTypes": [
+          "repository"
+        ]
       }
     ]
   },
   "packageRules": [
     {
-      "matchFileNames": ["pyproject.toml"],
-      "matchDepTypes": ["dependencies"],
+      "matchFileNames": [
+        "pyproject.toml"
+      ],
+      "matchDepTypes": [
+        "dependencies"
+      ],
       "groupName": "Python main dependencies",
-      "schedule": ["every weekend"],
+      "schedule": [
+        "every weekend"
+      ],
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "matchFileNames": ["pyproject.toml"],
-      "matchDepTypes": ["dev-dependencies"],
+      "matchFileNames": [
+        "pyproject.toml"
+      ],
+      "matchDepTypes": [
+        "dev-dependencies"
+      ],
       "groupName": "Python dev dependencies",
-      "schedule": ["every weekend"],
+      "schedule": [
+        "every weekend"
+      ],
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "matchFileNames": ["requirements*.txt"],
+      "matchFileNames": [
+        "requirements*.txt"
+      ],
       "groupName": "Python requirements",
-      "schedule": ["every weekend"],
+      "schedule": [
+        "every weekend"
+      ],
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "matchUpdateTypes": ["major"],
-      "labels": ["major-update"],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "labels": [
+        "major-update"
+      ],
       "automerge": false
     }
   ],
-  "labels": ["renovate", "dependencies"],
+  "labels": [
+    "renovate",
+    "dependencies"
+  ],
   "automerge": false,
   "platformAutomerge": false,
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Dependency Dashboard",
-  "dependencyDashboardLabels": ["dependencies"],
+  "dependencyDashboardLabels": [
+    "dependencies"
+  ],
   "prHourlyLimit": 4,
   "prConcurrentLimit": 16,
   "rangeStrategy": "pin",
   "semanticCommits": "enabled",
-  "semanticPrefix": "chore",
+  "semanticCommitType": "chore",
   "semanticCommitScope": "deps",
-  "stabilityDays": 3,
+  "minimumReleaseAge": "3 days",
   "internalChecksFilter": "strict",
   "respectLatest": true,
   "ignoreUnstable": true,
   "ignoreDeprecated": false,
   "rebaseWhen": "behind-base-branch",
-  "rebaseLabel": "rebase",
-  "rebaseConflictedPrs": true
+  "rebaseLabel": "rebase"
 }
