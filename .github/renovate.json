@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "github>tschm/renovate-config:pre-commit.js"
   ],
   "schedule": [
     "every weekend"
@@ -27,6 +28,7 @@
       }
     ]
   },
+  "schedule": ["every weekend"],
   "packageRules": [
     {
       "matchFileNames": [
