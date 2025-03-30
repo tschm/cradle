@@ -21,6 +21,7 @@ jobs:
         with:
           source-folder: src/cradle
           tests-folder: src/tests
+          coveralls: false
 
   deptry:
     runs-on: ubuntu-latest

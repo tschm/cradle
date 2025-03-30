@@ -12,6 +12,7 @@ inputs:
   coveralls:
     description: 'Upload to coverallsapp'
     required: false
+    type: boolean
     default: true
 
 runs:
@@ -54,7 +55,7 @@ runs:
         retention-days: 1
 
     - name: Coveralls GitHub Action
-      if: ${{ inputs.coveralls == 'true' }}
+      if: ${{ inputs.coveralls }}
       uses: coverallsapp/github-action@v2
       with:
         files: artifacts/tests/coverage/coverage.info
