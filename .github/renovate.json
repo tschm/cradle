@@ -7,7 +7,6 @@
   "schedule": [
     "every weekend"
   ],
-  "schedule": ["every weekend"],
   "packageRules": [
     {
       "matchFileNames": [
