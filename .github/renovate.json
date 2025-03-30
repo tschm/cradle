@@ -2,9 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "github>tschm/renovate-config:pre-commit.js",
+    ":enablePreCommit",
     "github>tschm/renovate-config:dependencies.js"
   ],
+  "enabledManagers": ["pep621", "pre-commit"],
   "schedule": [
     "every weekend"
   ],
