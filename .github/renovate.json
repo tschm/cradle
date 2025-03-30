@@ -2,68 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "github>tschm/renovate-config:pre-commit.js"
+    "github>tschm/renovate-config:pre-commit.js",
+    "github>tschm/renovate-config:dependencies.js"
   ],
   "schedule": [
     "every weekend"
-  ],
-  "packageRules": [
-    {
-      "matchFileNames": [
-        "pyproject.toml"
-      ],
-      "matchDepTypes": [
-        "dependencies"
-      ],
-      "groupName": "Python main dependencies",
-      "schedule": [
-        "every weekend"
-      ],
-      "automerge": true,
-      "automergeType": "branch"
-    },
-    {
-      "matchFileNames": [
-        "pyproject.toml"
-      ],
-      "matchDepTypes": [
-        "dev-dependencies"
-      ],
-      "groupName": "Python dev dependencies",
-      "schedule": [
-        "every weekend"
-      ],
-      "automerge": true,
-      "automergeType": "branch"
-    },
-    {
-      "matchFileNames": [
-        "requirements*.txt"
-      ],
-      "groupName": "Python requirements",
-      "schedule": [
-        "every weekend"
-      ],
-      "automerge": true,
-      "automergeType": "branch"
-    },
-    {
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true,
-      "automergeType": "branch"
-    },
-    {
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "labels": [
-        "major-update"
-      ],
-      "automerge": false
-    }
   ],
   "labels": [
     "renovate",
