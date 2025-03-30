@@ -17,11 +17,10 @@ jobs:
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
-      - uses: ./actions/coverage
+      - uses: ./actions/test
         with:
-          source-folder: src/cradle
+          #source-folder: src/cradle
           tests-folder: src/tests
-          coveralls: false
 
   deptry:
     runs-on: ubuntu-latest
