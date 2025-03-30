@@ -612,15 +612,15 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "copier", specifier = ">=9.3.1" },
-    { name = "fire", specifier = ">=0.7.0" },
-    { name = "loguru", specifier = ">=0.7.2" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.2.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.5" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=6.0.0" },
-    { name = "pytest-mock", marker = "extra == 'dev'", specifier = ">=3.14.0" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "questionary", specifier = ">=2.0.1" },
+    { name = "copier", specifier = "==9.6.0" },
+    { name = "fire", specifier = "==0.7.0" },
+    { name = "loguru", specifier = "==0.7.3" },
+    { name = "pre-commit", marker = "extra == 'dev'", specifier = "==4.2.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = "==8.3.5" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==6.0.0" },
+    { name = "pytest-mock", marker = "extra == 'dev'", specifier = "==3.14.0" },
+    { name = "pyyaml", specifier = "==6.0.2" },
+    { name = "questionary", specifier = "==2.1.0" },
 ]
 provides-extras = ["dev"]
 

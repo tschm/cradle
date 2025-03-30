@@ -6,11 +6,11 @@ readme = "README.md"
 authors = [{ name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = [
-    "copier>=9.3.1",
-    "questionary>=2.0.1",
-    "loguru>=0.7.2",
-    "fire>=0.7.0",
-    "pyyaml>=6.0.2",
+    "copier==9.6.0",
+    "questionary==2.1.0",
+    "loguru==0.7.3",
+    "fire==0.7.0",
+    "pyyaml==6.0.2",
 ]
 
 [project.urls]
@@ -18,10 +18,10 @@ repository = "https://github.com/cvxgrp/cradle"
 
 [project.optional-dependencies]
 dev = [
-    "pytest-cov>=6.0.0",
-    "pytest>=8.3.5",
-    "pre-commit>=4.2.0",
-    "pytest-mock>=3.14.0"
+    "pytest-cov==6.0.0",
+    "pytest==8.3.5",
+    "pre-commit==4.2.0",
+    "pytest-mock==3.14.0"
 ]
 
 [project.scripts]
