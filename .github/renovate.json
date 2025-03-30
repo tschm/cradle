@@ -64,6 +64,7 @@
   "rangeStrategy": "pin",
   "semanticCommits": "enabled",
   "semanticPrefix": "chore",
+  "semanticCommitScope": "deps",
   "stabilityDays": 3,
   "internalChecksFilter": "strict",
   "respectLatest": true,
