@@ -3,7 +3,6 @@
   "extends": [
     "config:recommended",
     ":enablePreCommit",
-    ":weekend",
     ":automergeMinor",
     ":dependencyDashboard",
     ":maintainLockFilesWeekly",
