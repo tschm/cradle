@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended"
   ],
+  "schedule": ["every weekend"],
   "pre-commit": {
     "enabled": true,
     "schedule": ["before 5am on the first day of the month"],
@@ -21,25 +22,54 @@
     {
       "matchFileNames": ["pyproject.toml"],
       "matchDepTypes": ["dependencies"],
-      "groupName": "Python main dependencies"
+      "groupName": "Python main dependencies",
+      "schedule": ["every weekend"],
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
       "matchFileNames": ["pyproject.toml"],
       "matchDepTypes": ["dev-dependencies"],
-      "groupName": "Python dev dependencies"
+      "groupName": "Python dev dependencies",
+      "schedule": ["every weekend"],
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
       "matchFileNames": ["requirements*.txt"],
-      "groupName": "Python requirements"
+      "groupName": "Python requirements",
+      "schedule": ["every weekend"],
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
       "automergeType": "branch"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["major-update"],
+      "automerge": false
     }
   ],
   "labels": ["renovate", "dependencies"],
   "automerge": false,
   "platformAutomerge": false,
-  "dependencyDashboard": true
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency Dashboard",
+  "dependencyDashboardLabels": ["dependencies"],
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 16,
+  "rangeStrategy": "pin",
+  "semanticCommits": "enabled",
+  "semanticPrefix": "chore",
+  "stabilityDays": 3,
+  "internalChecksFilter": "strict",
+  "respectLatest": true,
+  "ignoreUnstable": true,
+  "ignoreDeprecated": false,
+  "rebaseWhen": "behind-base-branch",
+  "rebaseLabel": "rebase",
+  "rebaseConflictedPrs": true
 }
