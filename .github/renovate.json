@@ -5,7 +5,7 @@
     ":enablePreCommit",
     "github>tschm/renovate-config:dependencies.js"
   ],
-  "enabledManagers": ["pep621", "pre-commit"],
+  "enabledManagers": ["pep621", "pre-commit", "github-actions"],
   "schedule": [
     "every weekend"
   ],
