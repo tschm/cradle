@@ -7,13 +7,11 @@ inputs:
     required: true
   source-folder:
     description: 'Source folder to measure coverage for'
-    type: string
     required: true
   coveralls:
     description: 'Upload to coverallsapp'
     required: false
-    type: boolean
-    default: true
+    default: "true"
 
 runs:
   using: "composite"
@@ -54,8 +52,12 @@ runs:
         path: artifacts/tests
         retention-days: 1
 
+    - name: Debug Coverage Files
+      shell: bash
+      run: ls -l artifacts/tests/coverage
+
     - name: Coveralls GitHub Action
-      if: ${{ inputs.coveralls }}
+      if: ${{ inputs.coveralls == 'true' }}
       uses: coverallsapp/github-action@v2
       with:
         files: artifacts/tests/coverage/coverage.info
