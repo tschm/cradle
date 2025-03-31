@@ -39,7 +39,7 @@ repos:
         args: [-ignore, SC]
 
   - repo: https://github.com/crate-ci/typos
-    rev: v1.31.0
+    rev: v1.31.1
     hooks:
       - id: typos
         exclude: \.gitignore
