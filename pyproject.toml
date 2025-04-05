@@ -18,7 +18,7 @@ repository = "https://github.com/cvxgrp/cradle"
 
 [project.optional-dependencies]
 dev = [
-    "pytest-cov==6.1.0",
+    "pytest-cov==6.1.1",
     "pytest==8.3.5",
     "pre-commit==4.2.0",
     "pytest-mock==3.14.0"
