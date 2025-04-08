@@ -1,14 +1,20 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":enablePreCommit",
-    ":automergeMinor",
-    ":dependencyDashboard",
-    ":maintainLockFilesWeekly",
-    ":semanticCommits",
-    ":pinVersions"
-  ],
-  "enabledManagers": ["pep621", "pre-commit", "github-actions"],
-  "timezone": "Asia/Dubai"
+    "extends": [
+        "config:recommended",
+        ":enablePreCommit",
+        ":automergeMinor",
+        ":dependencyDashboard",
+        ":maintainLockFilesWeekly",
+        ":semanticCommits",
+        ":pinDevDependencies"
+    ],
+    "enabledManagers": [
+        "pep621",
+        "pre-commit",
+        "github-actions"
+    ],
+    "timezone": "Asia/Dubai",
+    "schedule": [
+        "before 10am every tuesday"
+    ]
 }
