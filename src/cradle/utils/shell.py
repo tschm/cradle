@@ -1,5 +1,6 @@
 import logging
 import subprocess
+
 from security import safe_command
 
 
@@ -8,7 +9,9 @@ def run_shell_command(command: str, logger=None):
     logger = logger or logging.getLogger(__name__)
 
     try:
-        result = safe_command.run(subprocess.run, command,
+        result = safe_command.run(
+            subprocess.run,
+            command,
             shell=True,
             check=True,
             stdout=subprocess.PIPE,
