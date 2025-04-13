@@ -1,13 +1,16 @@
 import logging
 import subprocess
 
+from security import safe_command
+
 
 def run_shell_command(command: str, logger=None):
     """Run a shell command and handle errors"""
     logger = logger or logging.getLogger(__name__)
 
     try:
-        result = subprocess.run(
+        result = safe_command.run(
+            subprocess.run,
             command,
             shell=True,
             check=True,
