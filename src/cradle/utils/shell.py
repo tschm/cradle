@@ -2,18 +2,12 @@ import logging
 import subprocess
 
 
-def run_shell_command(command: str, logger=None):
+def run_shell_command(command: str, logger=None, **kwargs):
     """Run a shell command and handle errors"""
     logger = logger or logging.getLogger(__name__)
 
     try:
-        result = subprocess.run(
-            command,
-            shell=True,
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
+        result = subprocess.run(command, shell=True, check=True, capture_output=True, **kwargs)
         logger.info(f"Command succeeded: {command}")
         return result
     except subprocess.CalledProcessError as e:
