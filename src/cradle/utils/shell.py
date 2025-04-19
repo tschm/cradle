@@ -12,7 +12,7 @@ def run_shell_command(command: str, logger=None):
         result = safe_command.run(
             subprocess.run,
             command,
-            shell=True,
+            # shell=True,
             check=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
