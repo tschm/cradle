@@ -14,13 +14,7 @@ def run_shell_command(command: str, shell=False, logger=None, **kwargs):
 
     try:
         result = safe_command.run(
-            subprocess.run,
-            command,
-            shell=shell,
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            kwargs=kwargs,
+            subprocess.run, command, shell=shell, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs
         )
         logger.info(f"Command succeeded: {command}")
         return result
