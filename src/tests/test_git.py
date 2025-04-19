@@ -33,7 +33,7 @@ def test_git_version():
 def test_check_git_version_success(mocker):
     # Mock subprocess.run to simulate a successful `git --version` output
     mocker.patch(
-        "safe_command.run",
+        "subprocess.run",
         return_value=MagicMock(stdout="git version 2.34.1", returncode=0),
     )
 
