@@ -72,8 +72,6 @@ def _check_git_version(
     # Run the git --version command using subprocess
     result = run_shell_command("git --version", text=True)
 
-    #    subprocess.run(["git", "--version"], capture_output=True, text=True))
-
     # Check if the command was successful
     if result.returncode == 0:
         # The version string is like: "git version 2.34.1"
