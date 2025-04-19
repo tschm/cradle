@@ -11,7 +11,7 @@ import yaml
 from fire import Fire
 from loguru import logger
 
-from .utils.gh_client import path2repo
+from .utils.gh_client import setup_repository
 from .utils.git import assert_git_version
 from .utils.questions import ask
 
@@ -129,7 +129,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         branch = f"update-qcradle-{timestamp}"
 
-        path2repo(dst_path, context=context, branch=branch)
+        setup_repository(dst_path, context=context, branch=branch)
         # Wrap with Repo object
         # repo = Repo(dst_path)
         # repo.git.checkout(branch)
@@ -142,7 +142,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     else:
         copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
         append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
-        path2repo(dst_path, context=context, branch="main")
+        setup_repository(dst_path, context=context, branch="main")
 
     # go back to the repo
     os.chdir(home)

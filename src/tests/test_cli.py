@@ -36,7 +36,7 @@ def test_no_template(mock_context, mocker):
     mocker.patch("cradle.cli.questionary.select", return_value=Answer("A LaTeX document"))
     mocker.patch("cradle.cli.ask", return_value=mock_context)
     mocker.patch("cradle.cli.copier.run_copy", return_value=None)
-    mocker.patch("cradle.cli.path2repo", return_value=None)
+    mocker.patch("cradle.cli.setup_repository", return_value=None)
     cli(dst_path=None)
     # assert mock_run_shell_command.call_count == 6
 
@@ -61,7 +61,7 @@ def test_without_dst_path(mock_context, mocker):
     mocker.patch("cradle.cli.questionary.select", return_value=Answer("A LaTeX document"))
     mocker.patch("cradle.cli.ask", return_value=mock_context)
     mocker.patch("cradle.cli.copier.run_copy", return_value=None)
-    mocker.patch("cradle.cli.path2repo", return_value=None)
+    mocker.patch("cradle.cli.setup_repository", return_value=None)
     cli()
     # assert mock_run_shell_command.call_count == 6
 
@@ -86,5 +86,5 @@ def test_update(tmp_path, mocker, mock_context):
     # copy file resource_dir /.copier-answers into temp_dir
     mocker.patch("cradle.cli.ask", return_value=mock_context)
     mocker.patch("cradle.cli.copier.run_update", return_value=None)
-    mocker.patch("cradle.cli.path2repo", return_value=None)
+    mocker.patch("cradle.cli.setup_repository", return_value=None)
     cli(dst_path=tmp_path)
