@@ -21,7 +21,7 @@ verify:  ## Verify existence of ssh connection and gh
 
 install: venv ## Install all dependencies using uv
 	@printf "$(BLUE)Installing dependencies...$(RESET)\n"
-	@uv sync --dev --frozen
+	@uv sync --all-extras
 
 ##@ Code Quality
 
@@ -35,7 +35,6 @@ fmt: venv ## Run code formatting and linting
 
 test: install ## Run all tests
 	@printf "$(BLUE)Running tests...$(RESET)\n"
-	@uv pip install pytest
 	@uv run pytest src/tests
 
 ##@ Cleanup
