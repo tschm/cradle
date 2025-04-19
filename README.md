@@ -11,6 +11,13 @@ to accelerate, simplify and harmonize the development
 of experiments and quantitative strategies
 as described [here](https://www.linkedin.com/pulse/rapid-quanting-thomas-schmelzer-omauf/?trackingId=Gqjma%2F8PTueJWvaBF4qWaQ%3D%3D).
 
+Assuming the presence of gh, uvx and a valid ssh-connection
+with GitHub you can start the tool with
+
+```bash
+uvx qcradle
+```
+
 ![Creating a repository from the command line](https://raw.githubusercontent.com/tschm/cradle/main/demo.png)
 
 **qcradle** is a tool inspired by [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/#),

@@ -1,6 +1,8 @@
 import logging
 import subprocess
 
+from security import safe_command
+
 
 def run_shell_command(command: str, logger=None, **kwargs):
     """Run a shell command and handle errors"""
