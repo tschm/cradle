@@ -5,9 +5,10 @@ using the GitPython package, with support for vendor-specific version formats.
 """
 
 import re
-import subprocess
 from dataclasses import dataclass
 from typing import Optional, Tuple, Union
+
+from .shell import run_shell_command
 
 
 class GitVersionError(Exception):
@@ -68,8 +69,10 @@ def _check_git_version(
             min_version[2] if len(min_version) > 2 else None,
         )
 
-    # Run the git --version command using subprocess
-    result = subprocess.run(["git", "--version"], capture_output=True, text=True)
+    # Run the git --version command using
+    result = run_shell_command(command="git --version", text=True)
+
+    # result = subprocess.run(["git", "--version"], capture_output=True, text=True)
 
     # Check if the command was successful
     if result.returncode == 0:
