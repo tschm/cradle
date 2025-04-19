@@ -1,18 +1,22 @@
 import logging
+import shlex
 import subprocess
 
 from security import safe_command
 
 
-def run_shell_command(command: str, logger=None):
+def run_shell_command(command: str, shell=False, logger=None):
     """Run a shell command and handle errors"""
     logger = logger or logging.getLogger(__name__)
+
+    if not shell and isinstance(command, str):
+        command = shlex.split(command)
 
     try:
         result = safe_command.run(
             subprocess.run,
             command,
-            # shell=True,
+            shell=shell,
             check=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
