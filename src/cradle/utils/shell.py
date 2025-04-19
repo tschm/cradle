@@ -1,5 +1,4 @@
 import logging
-import shlex
 import subprocess
 
 from security import safe_command
