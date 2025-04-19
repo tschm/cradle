@@ -70,7 +70,7 @@ def _check_git_version(
         )
 
     # Run the git --version command using
-    result = run_shell_command(command="git --version")
+    result = run_shell_command(command="git --version", capture_output=True, text=True)
 
     # result = subprocess.run(["git", "--version"], capture_output=True, text=True)
 
