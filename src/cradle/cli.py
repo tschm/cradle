@@ -147,9 +147,11 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         ]
 
     append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
+    logger.info(commands)
 
     try:
         for cmd in commands:
+            logger.info(cmd)
             run_shell_command(cmd, logger=logger)
     except RuntimeError as e:
         logger.error(f"Failed to create/update project: {str(e)}")
