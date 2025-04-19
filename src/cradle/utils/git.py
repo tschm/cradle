@@ -5,9 +5,10 @@ using the GitPython package, with support for vendor-specific version formats.
 """
 
 import re
-import subprocess
 from dataclasses import dataclass
 from typing import Optional, Tuple, Union
+
+from .gh_client import GitHubCLI
 
 
 class GitVersionError(Exception):
@@ -69,7 +70,7 @@ def _check_git_version(
         )
 
     # Run the git --version command using subprocess
-    result = subprocess.run(["git", "--version"], capture_output=True, text=True)
+    result = GitHubCLI.version()
 
     # Check if the command was successful
     if result.returncode == 0:

@@ -11,9 +11,11 @@ import yaml
 from fire import Fire
 from loguru import logger
 
+from .utils.gh_client import setup_repository
 from .utils.git import assert_git_version
 from .utils.questions import ask
-from .utils.shell import run_shell_command
+
+# from .utils.shell import run_shell_command
 
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
@@ -125,45 +127,32 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     if update:
         copier.run_update(dst_path, data=context, overwrite=True, **kwargs)
         timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        branch_name = f"update-qcradle-{timestamp}"
+        branch = f"update-qcradle-{timestamp}"
 
-        # Git commands to create and push a new branch
-        commands = [
-            f"git checkout -b {branch_name}",  # Create and switch to a new branch
-            "git add --all",
-            "git commit -m 'Updates by qcradle'",
-            f"git push origin {branch_name}",  # Push the new branch
-        ]
+        setup_repository(dst_path, context=context, branch=branch)
+        # Wrap with Repo object
+        # repo = Repo(dst_path)
+        # repo.git.checkout(branch)
+        # repo.git.add(all=True)
+        # repo.git.commit("-m", "Updates by qcradle")
+
+        # Push to origin main
+        # repo.remotes.origin.push(refspec=f"{branch}:{branch}")
 
     else:
         copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
-        commands = [
-            "git init --initial-branch=main",
-            "git add --all",
-            "git commit -m 'initial commit by qcradle'",
-            context["gh_create"],
-            f"git remote add origin {context['ssh_uri']}",
-            "git push origin main",
-        ]
+        append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
+        setup_repository(dst_path, context=context, branch="main")
 
-    append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
+    # go back to the repo
+    os.chdir(home)
 
-    try:
-        for cmd in commands:
-            run_shell_command(cmd, logger=logger)
-    except RuntimeError as e:
-        logger.error(f"Failed to create/update project: {str(e)}")
-        raise
-    finally:
-        # go back to the repo
-        os.chdir(home)
+    # delete the path you have created
+    if remove_path:
+        shutil.rmtree(dst_path)
 
-        # delete the path you have created
-        if remove_path:
-            shutil.rmtree(dst_path)
-
-        if not update:
-            logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
+    if not update:
+        logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
 def main():  # pragma: no cover
