@@ -9,8 +9,8 @@ inputs:
     required: false
     default: ''
   paper:
-    description: 'List of LaTeX files to compile'
-    type: list
+    description: 'Space-separated LaTeX files to compile'
+    type: string
     required: true
   output-folder:
     description: 'Output directory for compiled documents'
