@@ -9,8 +9,8 @@ inputs:
     required: false
     default: ''
   paper:
-    description: 'Space-separated list of LaTeX files to compile'
-    type: string
+    description: 'List of LaTeX files to compile'
+    type: list
     required: true
   output-folder:
     description: 'Output directory for compiled documents'
@@ -22,11 +22,6 @@ inputs:
     type: string
     required: false
     default: 'draft'
-  #create-release:
-  #  description: 'Create a GitHub release with compiled PDFs'
-  #  type: boolean
-  #  required: false
-  #  default: false
 
 
 runs:
@@ -49,7 +44,7 @@ runs:
     - name: Validate input files
       shell: bash
       run: |
-        for f in ${{ inputs.paper }}; do
+        for f in ${{ toJSON(inputs.paper) }}; do
           if [ ! -f "$f" ]; then
             echo "Error: File $f not found!"
             exit 1
@@ -91,7 +86,7 @@ runs:
           echo "Successfully compiled $doc"
         }
 
-        for f in ${{ inputs.paper }}; do
+        for f in ${{ toJSON(inputs.paper) }}; do
           compile_doc "$f" || exit 1
         done
 
