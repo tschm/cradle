@@ -101,7 +101,7 @@ wheels = [
 
 [[package]]
 name = "copier"
-version = "9.6.0"
+version = "9.7.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama" },
@@ -117,10 +117,11 @@ dependencies = [
     { name = "pygments" },
     { name = "pyyaml" },
     { name = "questionary" },
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d2/a2/b8919c3c3fe31ccfae6a16bbef0279396c0f9d4fb49dfd333ab4cc92bdb6/copier-9.6.0.tar.gz", hash = "sha256:e05a18b387b96e8d1fbd5271d37f59c9a02be5ad717f7878d0505562fd62b786", size = 45523, upload_time = "2025-03-09T22:13:39.528Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/ac/4d8fc462d06dcd25d35b0e8983b5a7466d82a8d8fa50c17f616d1fa65ee8/copier-9.7.1.tar.gz", hash = "sha256:83da2cbe5e28a1593c649f5dac37d916774b07a3ba3ce66e6966a3e84e557885", size = 606482, upload_time = "2025-04-23T15:47:49.904Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/ac/5c267efc8a34484dd470cae530fd5c50bc34b2631e0e928f0eb91d792fae/copier-9.6.0-py3-none-any.whl", hash = "sha256:aaf992600a373fa2dda9f61725916a230c210ede14a968c60dab855d524c6cf3", size = 48681, upload_time = "2025-03-09T22:13:38.066Z" },
+    { url = "https://files.pythonhosted.org/packages/83/df/36f3fa22894a3d74bc847732614f697f70b149c783b5a5020f45ed7a7ace/copier-9.7.1-py3-none-any.whl", hash = "sha256:89f2a3f3f9134af35a7d4e2aa63b6468dbff18d82c8369f995b126de9faf0f08", size = 54456, upload_time = "2025-04-23T15:47:48.229Z" },
 ]
 
 [[package]]
@@ -717,7 +718,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "copier", specifier = "==9.6.0" },
+    { name = "copier", specifier = "==9.7.1" },
     { name = "fire", specifier = "==0.7.0" },
     { name = "gitpython", specifier = ">=3.1.44" },
     { name = "loguru", specifier = "==0.7.3" },
