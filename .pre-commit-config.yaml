@@ -1,50 +1,62 @@
+# Pre-commit configuration file
+# This file configures pre-commit hooks that run automatically before each commit
+
 repos:
+  # Standard pre-commit hooks for basic file checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: check-toml
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
+      - id: check-toml  # Validates TOML files for syntax errors
+      - id: end-of-file-fixer  # Ensures files end with a newline
+      - id: trailing-whitespace  # Removes trailing whitespace
 
+  # Python linting and formatting with Ruff
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.9
     hooks:
-      - id: ruff
-        args: [ --fix, --exit-non-zero-on-fix ]
+      - id: ruff  # Lints Python code for errors and style issues
+        args: [ --fix, --exit-non-zero-on-fix ]  # Automatically fix issues when possible
       # Run the formatter
-      - id: ruff-format
+      - id: ruff-format  # Formats Python code according to style guidelines
 
+  # Markdown linting
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.44.0
     hooks:
-      - id: markdownlint
+      - id: markdownlint  # Checks Markdown files for style and syntax issues
+        exclude: ^docs/tasks\.md$  # Excludes the tasks.md file from linting
 
+  # Python code modernization
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.19.1
     hooks:
-      - id: pyupgrade
+      - id: pyupgrade  # Automatically upgrades Python syntax to newer versions
 
+  # JSON schema validation
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.33.0
     hooks:
-      - id: check-renovate
-        args: ["--verbose"]
-      - id: check-github-workflows
-        args: ["--verbose"]
+      - id: check-renovate  # Validates Renovate configuration files
+        args: ["--verbose"]  # Provides detailed output
+      - id: check-github-workflows  # Validates GitHub Actions workflow files
+        args: ["--verbose"]  # Provides detailed output
 
+  # GitHub Actions workflow linting
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.7
     hooks:
-      - id: actionlint
-        args: [-ignore, SC]
+      - id: actionlint  # Lints GitHub Actions workflow files for errors
+        args: [-ignore, SC]  # Ignores shell script checks (SC)
 
+  # Spell checking
   - repo: https://github.com/crate-ci/typos
     rev: v1.32.0
     hooks:
-      - id: typos
-        exclude: \.gitignore
+      - id: typos  # Checks for spelling mistakes in code and documentation
+        exclude: \.gitignore  # Excludes .gitignore file from spell checking
 
+  # Python project configuration validation
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.24.1
     hooks:
-      - id: validate-pyproject
+      - id: validate-pyproject  # Validates pyproject.toml file against PEP 621 and other standards

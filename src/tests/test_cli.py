@@ -54,7 +54,7 @@ class Answer:
         return self.string
 
 
-def test_no_template(mock_context, mocker):
+def test_no_template(mock_context, mocker, tmp_path):
     """Test the CLI function when no template is specified.
 
     This test verifies that the CLI function works correctly when no template
@@ -69,8 +69,7 @@ def test_no_template(mock_context, mocker):
     mocker.patch("cradle.cli.ask", return_value=mock_context)
     mocker.patch("cradle.cli.copier.run_copy", return_value=None)
     mocker.patch("cradle.cli.setup_repository", return_value=None)
-    cli(dst_path=None)
-    # assert mock_run_shell_command.call_count == 6
+    assert cli(dst_path=None) is None
 
 
 def test_append_to_yaml_file(tmp_path):
@@ -113,8 +112,7 @@ def test_without_dst_path(mock_context, mocker):
     mocker.patch("cradle.cli.ask", return_value=mock_context)
     mocker.patch("cradle.cli.copier.run_copy", return_value=None)
     mocker.patch("cradle.cli.setup_repository", return_value=None)
-    cli()
-    # assert mock_run_shell_command.call_count == 6
+    assert cli() is None
 
 
 def test_load_defaults(resource_dir):
