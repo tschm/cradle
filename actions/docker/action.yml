@@ -1,54 +1,60 @@
+# GitHub Action to build and publish Docker images to GitHub Container Registry
+# This action logs in to the registry, builds the image using Buildah, and pushes it to the registry
 name: Build and Release Docker image
 description: "Build the Docker image"
 
+# Input parameters for customizing the action
 inputs:
   tag:
-    description: 'tag'
-    required: true
+    description: 'The tag for the Docker image'
+    required: true  # This parameter must be provided
   github_token:
     description: "GitHub token for authentication"
-    required: true
+    required: true  # This parameter must be provided
   github_actor:
-    description: "GitHub actor"
-    required: true
+    description: "GitHub actor (username)"
+    required: true  # This parameter must be provided
   github_repository:
-    description: "GitHub repository"
-    required: true
+    description: "GitHub repository name"
+    required: true  # This parameter must be provided
   dockerfiles:
     description: "Location of the Dockerfile(s)"
     required: false
-    default: 'docker/Dockerfile'
+    default: 'docker/Dockerfile'  # Default Dockerfile location
   registry:
-    description: "Registry, e.g. ghcr.io"
+    description: "Container registry URL"
     required: false
-    default: "ghcr.io"
+    default: "ghcr.io"  # Default to GitHub Container Registry
   labels:
     description: 'The labels of the image to build. Separate by newline. For example, "io.containers.capabilities=sys_admin,mknod".'
-    required: false
+    required: false  # Optional parameter
 
 runs:
-  using: "composite"
+  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
   steps:
+    # Step 1: Authenticate with the container registry
     - name: Log in to GitHub Container Registry
       uses: redhat-actions/podman-login@v1
       with:
-          username: ${{ inputs.github_actor }}
-          password: ${{ inputs.github_token }}
-          registry: ${{ inputs.registry }}
+          username: ${{ inputs.github_actor }}  # GitHub username
+          password: ${{ inputs.github_token }}  # GitHub token for authentication
+          registry: ${{ inputs.registry }}      # Registry URL
 
+    # Step 2: Build the Docker image using Buildah
     - name: Build image
-      id: build-image
+      id: build-image  # ID to reference outputs in later steps
       uses: redhat-actions/buildah-build@v2
       with:
-        image: ${{ inputs.github_repository }}
-        tags: ${{ inputs.tag }}
-        dockerfiles: ${{ inputs.dockerfiles }}
-        labels: ${{ inputs.labels }}
+        image: ${{ inputs.github_repository }}  # Name of the image
+        tags: ${{ inputs.tag }}                 # Tag for the image
+        dockerfiles: ${{ inputs.dockerfiles }}  # Path to Dockerfile
+        labels: ${{ inputs.labels }}            # Custom labels for the image
 
+    # Step 3: Push the built image to the container registry
     - name: Push to ghcr.io
       id: push-to-ghcr
       uses: redhat-actions/push-to-registry@v2
       with:
-        image: ${{ steps.build-image.outputs.image }}
-        tags: ${{ steps.build-image.outputs.tags }}
-        registry: ${{ inputs.registry }}
+        image: ${{ steps.build-image.outputs.image }}  # Image name from build step
+        tags: ${{ steps.build-image.outputs.tags }}    # Tags from build step
+        registry: ${{ inputs.registry }}               # Registry URL

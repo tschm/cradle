@@ -1,17 +1,21 @@
+# GitHub Action to run Python tests using pytest
+# This action installs pytest and runs the test suite in the specified folder
 name: Run Tests
 description: "Run pytest test suite"
 
+# Input parameters for customizing the action
 inputs:
   tests-folder:
     description: 'Source folder with all tests'
     required: false
-    default: 'tests'
+    default: 'tests'  # Default tests directory
 
 runs:
-  using: "composite"
+  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
   steps:
+    # Step 1: Install pytest and run the tests
     - name: Run tests
       shell: bash
       run: |
-        python -m pip install --no-cache-dir pytest
-        pytest ${{ inputs.tests-folder }}
+        python -m pip install --no-cache-dir pytest  # Install pytest without using pip cache
+        pytest ${{ inputs.tests-folder }}  # Run tests in the specified folder

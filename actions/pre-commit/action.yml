@@ -1,12 +1,16 @@
+# GitHub Action to run pre-commit hooks on all files in the repository
+# This action ensures code quality by running all configured pre-commit hooks
 name: Check all pre-commit hooks on all files
 description: "Check all pre-commit hooks"
 
 runs:
-  using: "composite"
+  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
   steps:
+    # Step 1: Checkout the repository code
     - name: Checkout [${{ github.repository }}]
       uses: actions/checkout@v4
 
+    # Step 2: Run all pre-commit hooks on all files
     - uses: pre-commit/action@v3.0.1
       with:
-        extra_args: '--verbose --all-files'
+        extra_args: '--verbose --all-files'  # Run in verbose mode and check all files

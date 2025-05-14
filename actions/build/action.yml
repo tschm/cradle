@@ -1,19 +1,24 @@
+# GitHub Action to build a Python package and create a release
+# This action updates the version in pyproject.toml, builds the package, and creates a GitHub release
 name: Build package
 description: "Build the package"
 
+# Input parameters for customizing the action
 inputs:
   tag:
-    description: 'tag'
-    required: true
-
+    description: 'The version tag to use for the release'
+    required: true  # This parameter must be provided
 
 runs:
-  using: "composite"
+  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
 
   steps:
+    # Step 1: Checkout the repository code
     - name: Checkout [${{ github.repository }}]
       uses: actions/checkout@v4
 
+    # Step 2: Update version in pyproject.toml using regex (for PEP 621 or Poetry format)
+    # Note: There are two version update steps that appear to do similar things
     - name: Update version in pyproject.toml
       shell: bash
       run: |
@@ -22,28 +27,25 @@ runs:
         # Use a regex to find and replace the version line (works for PEP 621 or Poetry)
         sed -i -E "s/^version = \".*\"/version = \"${VERSION}\"/" pyproject.toml
 
-    - name: Update version in pyproject.toml
-      shell: bash
-      run: |
-        echo "Updating version to ${{ inputs.tag }}"
-        sed -i "s/0.0.0/${{ inputs.tag }}/" pyproject.toml
-
+    # Step 4: Build the Python package using hatch
     - name: Build package
       shell: bash
       run: |
-        python -m pip install hatch
-        hatch build
+        python -m pip install hatch  # Install the build tool
+        hatch build  # Build the package (creates files in dist/)
 
+    # Step 5: Upload the built package as an artifact
     - name: Upload distribution artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: dist
-        path: dist/
-        retention-days: 1
+        name: dist  # Name of the artifact
+        path: dist/  # Path to the directory containing the built package
+        retention-days: 1  # Keep artifacts for 1 day to save storage
 
+    # Step 6: Create a GitHub release with the built package
     - name: Create GitHub release with artifacts
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ inputs.tag }}
-        generate_release_notes: true
-        files: dist/*
+        tag_name: ${{ inputs.tag }}  # Use the provided tag for the release
+        generate_release_notes: true  # Automatically generate release notes
+        files: dist/*  # Include all files from the dist directory

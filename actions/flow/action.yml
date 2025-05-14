@@ -1,18 +1,22 @@
+# GitHub Action to test GitHub workflows locally using act
+# This action installs act and runs the specified workflow to verify it works correctly
 name: flow
 description: "Test a flow"
 
+# Input parameters for customizing the action
 inputs:
   workflow:
-    description: 'Workflow, e.g. marimo.yml'
-    required: true
+    description: 'Workflow file to test, e.g. marimo.yml'
+    required: true  # This parameter must be provided
   working-directory:
     description: 'Directory where the Python project is located'
     required: false
-    default: 'template'
+    default: 'template'  # Default working directory
 
 runs:
-  using: "composite"
+  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
   steps:
+    # Step 1: Install the act tool for running GitHub Actions locally
     - name: Install act
       shell: bash
       run: |
@@ -20,13 +24,18 @@ runs:
         # Add the installation directory to PATH
         echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
 
+    # Step 2: Verify that act was installed correctly
     - name: Verify act installation
       shell: bash
       run: |
-        act --version
+        act --version  # Display the version of act
 
+    # Step 3: Run the specified workflow using act
     - name: Test workflow
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: ${{ inputs.working-directory }}  # Change to the specified directory
       run: |
+        # Run the workflow with act, using the specified container image
+        # Set ACT=true to allow workflows to detect they're running in act
+        # Filter out "remote not found" messages which are normal when running locally
         act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true' 2>&1 | grep -v "remote not found"

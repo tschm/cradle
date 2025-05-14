@@ -1,28 +1,32 @@
+# GitHub Action to automate version bumping and release creation
+# This action automatically determines the next version number, creates a tag, and publishes a release
 name: "Bump version and create release"
 description: "Bumps version, creates a tag, and publishes a release."
 
+# Input parameters for customizing the action
 inputs:
   github_token:
     description: "GitHub token for authentication"
-    required: true
+    required: true  # This parameter must be provided
 
+# Outputs that can be used by other workflow steps
 outputs:
   new_tag:
-    description: "New tag"
-    value: ${{ steps.tag_version.outputs.new_tag }}
+    description: "The newly created version tag"
+    value: ${{ steps.tag_version.outputs.new_tag }}  # Value from the tag_version step
 
 runs:
-  using: "composite"
+  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
 
   steps:
     # -----------------------------------------------------------------------------
     # Step 1: Bump version and tag
     # -----------------------------------------------------------------------------
     - name: Bump version and tag
-      id: tag_version
+      id: tag_version  # ID to reference this step's outputs later
       uses: mathieudutour/github-tag-action@v6.2
       with:
-        github_token: ${{ inputs.github_token }}
+        github_token: ${{ inputs.github_token }}  # Token for authentication
 
     # -----------------------------------------------------------------------------
     # Step 2: Create GitHub release
@@ -30,11 +34,14 @@ runs:
     - name: Create GitHub release without artifacts
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ steps.tag_version.outputs.new_tag }}
-        generate_release_notes: true
+        tag_name: ${{ steps.tag_version.outputs.new_tag }}  # Use the tag created in step 1
+        generate_release_notes: true  # Automatically generate release notes
 
+    # -----------------------------------------------------------------------------
+    # Step 3: Output debug information and set action output
+    # -----------------------------------------------------------------------------
     - name: Debug Output Tag
       shell: bash
       run: |
-          echo "DEBUG: ${{ steps.tag_version.outputs.new_tag }}"
-          echo "new_tag=${{ steps.tag_version.outputs.new_tag }}" >> "$GITHUB_OUTPUT"
+          echo "DEBUG: ${{ steps.tag_version.outputs.new_tag }}"  # Print the tag for debugging
+          echo "new_tag=${{ steps.tag_version.outputs.new_tag }}" >> "$GITHUB_OUTPUT"  # Set as action output

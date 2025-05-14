@@ -1,53 +1,63 @@
+# GitHub Action to convert Marimo notebooks to HTML documentation
+# This action processes Marimo .py files and exports them as interactive HTML documents
 name: Convert Marimo to HTML
 description: "Converts Marimo .py files to HTML format for documentation"
 
+# Input parameters for customizing the action
 inputs:
   source_folder:
     description: 'Source directory containing Marimo .py files'
     required: false
-    default: 'book/marimo'
+    default: 'book/marimo'  # Default location for Marimo files
 
 
 runs:
-  using: composite
+  using: composite  # Indicates this is a composite action (combination of multiple steps)
   steps:
+    # Step 1: Install the Marimo package
     - name: Install marimo
       shell: bash
       run: |
-        python -m pip install --no-cache-dir marimo
+        python -m pip install --no-cache-dir marimo  # Install without using pip cache
 
+    # Step 2: Create directory for output artifacts
     - name: Create output directory
       shell: bash
       run: |
-        mkdir -p artifacts/marimo
+        mkdir -p artifacts/marimo  # Create directory for HTML output
 
+    # Step 3: Convert all Marimo .py files to HTML format
     - name: Convert Marimo files to HTML
       shell: bash
       run: |
+        # Verify the source directory exists
         if [ ! -d "${{ inputs.source_folder }}" ]; then
           echo "Error: Source directory ${{ inputs.source_folder }} does not exist"
           exit 1
         fi
 
+        # Process each .py file in the source directory
         found_files=0
         for file in "${{ inputs.source_folder }}"/*.py; do
           if [ -f "$file" ]; then
             found_files=1
-            filename=$(basename "$file" .py)
+            filename=$(basename "$file" .py)  # Extract filename without extension
             echo "Converting $filename.py to HTML..."
-            marimo export html "$file" -o "artifacts/marimo/${filename}.html"
+            marimo export html "$file" -o "artifacts/marimo/${filename}.html"  # Convert to HTML
           fi
         done
 
+        # Check if any files were processed
         if [ "$found_files" -eq 0 ]; then
           echo "Warning: No .py files found in ${{ inputs.source_folder }}"
-          exit 0
+          exit 0  # Exit successfully but with a warning
         fi
 
+    # Step 4: Upload the generated HTML files as artifacts
     - name: Upload HTML artifacts
       if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: actions/upload-artifact@v4
       with:
-        name: marimo
-        path: artifacts/marimo
-        retention-days: 1
+        name: marimo  # Name of the artifact
+        path: artifacts/marimo  # Path to the directory containing HTML files
+        retention-days: 1  # Keep artifacts for 1 day to save storage
