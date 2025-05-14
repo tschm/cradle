@@ -18,6 +18,14 @@ runs:
       shell: bash
       run: |
         echo "Updating version to ${{ inputs.tag }}"
+        VERSION="${{ inputs.tag }}"
+        # Use a regex to find and replace the version line (works for PEP 621 or Poetry)
+        sed -i -E "s/^version = \".*\"/version = \"${VERSION}\"/" pyproject.toml
+
+    - name: Update version in pyproject.toml
+      shell: bash
+      run: |
+        echo "Updating version to ${{ inputs.tag }}"
         sed -i "s/0.0.0/${{ inputs.tag }}/" pyproject.toml
 
     - name: Build package
