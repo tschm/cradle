@@ -1,10 +1,13 @@
+# GitHub Actions workflow for continuous integration
+# This workflow runs tests on multiple operating systems and Python versions
+
 name: "CI"
 
 on:
-- push
+  push:  # Trigger on push events
 
 permissions:
-  contents: read
+  contents: read  # Read-only access to repository contents
 
 jobs:
   test:
@@ -13,20 +16,24 @@ jobs:
 
     strategy:
       matrix:
+        # Test on multiple operating systems and Python versions
         os: [ ubuntu-latest, macos-latest ]
         python-version: [ '3.10', '3.11', '3.12', '3.13' ]
 
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment with the specified Python version
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
         with:
           python-version: ${{ matrix.python-version }}
 
+      # Step 3: Run the tests
       - uses: ./actions/test
         with:
-          tests-folder: src/tests
+          tests-folder: src/tests  # Path to the tests directory
