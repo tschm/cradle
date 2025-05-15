@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>qCradle &#8212; antarctic</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/index';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">antarctic</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    qCradle
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Test Reports</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tschm/antarctic" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tschm/antarctic/issues/new?title=Issue%20on%20page%20%2Fdocs/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>qCradle</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-projects">User projects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-templates">User templates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-gh">Install gh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv-and-uvx">Install uv and uvx</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-uvx">Understanding uvx</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#templates">Templates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-templates">Standard Templates</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-document-template">The document template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-experiments-template">The experiments template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-package-template">The package template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-r-template">The R template</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proprietary-templates">Proprietary templates</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creation">Creation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-existing-projects">Update existing projects</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warning-private-repositories">:warning: Private repositories</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="qcradle">
+<h1>qCradle<a class="headerlink" href="#qcradle" title="Link to this heading">#</a></h1>
+<p><a class="reference internal" href="#LICENSE"><span class="xref myst"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></span></a>
+<a class="reference external" href="https://badge.fury.io/py/qCradle"><img alt="PyPI version" src="https://badge.fury.io/py/qCradle.svg" /></a>
+<a class="reference external" href="https://coveralls.io/github/tschm/cradle?branch=main"><img alt="Coverage Status" src="https://coveralls.io/repos/github/tschm/cradle/badge.png?branch=main" /></a>
+<a class="reference external" href="https://github.com/tschm/cradle/actions/workflows/ci.yml"><img alt="ci" src="https://github.com/tschm/cradle/actions/workflows/ci.yml/badge.svg" /></a>
+<a class="reference external" href="https://www.codefactor.io/repository/github/tschm/cradle"><img alt="CodeFactor" src="https://www.codefactor.io/repository/github/tschm/cradle/badge" /></a>
+<a class="reference external" href="https://github.com/renovatebot/renovate"><img alt="Renovate enabled" src="https://img.shields.io/badge/renovate-enabled-brightgreen.svg" /></a></p>
+<p>qcradle is a command line tool to create repos based on a group of templates.
+It has been created
+to accelerate, simplify and harmonize the development
+of experiments and quantitative strategies
+as described <a class="reference external" href="https://www.linkedin.com/pulse/rapid-quanting-thomas-schmelzer-omauf/?trackingId=Gqjma%2F8PTueJWvaBF4qWaQ%3D%3D">here</a>.</p>
+<p>Assuming the presence of gh, uvx and a valid ssh-connection
+with GitHub you can start the tool with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uvx<span class="w"> </span>qcradle
+</pre></div>
+</div>
+<p><img alt="Creating a repository from the command line" src="https://raw.githubusercontent.com/tschm/cradle/main/demo.png" /></p>
+<p><strong>qcradle</strong> is a tool inspired by <a class="reference external" href="https://cookiecutter.readthedocs.io/en/stable/#">Cookiecutter</a>,
+but more biased towards quants, researchers, and academics.</p>
+<p>Whether you’re building entire Python packages or financial models,
+running simulations, or writing academic papers,
+qcradle helps you hit the ground running with a structured
+and efficient setup following the most recent standards set in 2025.</p>
+<p>We use <a class="reference external" href="https://github.com/astral-sh/uv">uv</a>, <a class="reference external" href="https://hatch.pypa.io/">hatch</a>,
+<a class="reference external" href="https://marimo.io/">marimo</a> and <a class="reference external" href="https://tectonic-typesetting.github.io/">Tectonic</a>.
+Supporting <a class="reference external" href="https://containers.dev/">DevContainers</a>,
+<a class="reference external" href="https://github.com/renovatebot/renovate">Renovate</a>,
+and <a class="reference external" href="https://github.com/dependabot">Dependabot</a>,
+we take full advantage of <a class="reference external" href="https://docs.github.com/en/actions/using-workflows/about-workflows">GitHub Workflows</a>.</p>
+<p>Each template comes with curated <a class="reference external" href="https://pre-commit.com/">pre-commit hooks</a>.
+We compile <a class="reference external" href="https://jupyterbook.org/">Jupyter Books</a> to collect
+test reports, API documentation, and notebooks.</p>
+<p>Let’s make project setup as rigorous as your research!</p>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Users can interact with qcradle by either creating templates or
+by using existing templates to create projects. We would be
+delighted to list your public work here:</p>
+<section id="user-projects">
+<h3>User projects<a class="headerlink" href="#user-projects" title="Link to this heading">#</a></h3>
+<p>We would like to encourage our users to point to public repositories
+created with the qcradle. We start with</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/cvxgrp/cvxball">cvxball</a>. We created badges
+for you</p></li>
+</ul>
+</section>
+<section id="user-templates">
+<h3>User templates<a class="headerlink" href="#user-templates" title="Link to this heading">#</a></h3>
+<p>Please share your templates with the world!</p>
+</section>
+</section>
+<section id="install-gh">
+<h2>Install gh<a class="headerlink" href="#install-gh" title="Link to this heading">#</a></h2>
+<p>Please install GitHub’s official command line tool <a class="reference external" href="https://github.com/cli/cli">gh</a>.
+This tool is used to create GitHub repos from the command line.</p>
+<p>Verify the existence of the tool and a valid SSH connection with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
+gh<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>A new SSH connection could be established <a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">here</a>.</p>
+</section>
+<section id="install-uv-and-uvx">
+<h2>Install uv and uvx<a class="headerlink" href="#install-uv-and-uvx" title="Link to this heading">#</a></h2>
+<p>uv is a modern, high-performance Python package manager and installer
+written in Rust.
+It serves as a drop-in replacement for traditional tools like pip and pipx.
+For macOS and Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</pre></div>
+</div>
+<p>For Windows follow the instructions <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">here</a></p>
+</section>
+<section id="understanding-uvx">
+<h2>Understanding uvx<a class="headerlink" href="#understanding-uvx" title="Link to this heading">#</a></h2>
+<p>uvx is a command provided by uv to run tools published as Python packages
+without installing them permanently. It creates temporary,
+isolated environments for these tools:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uvx<span class="w"> </span>qcradle
+</pre></div>
+</div>
+<p>This command will:</p>
+<ul class="simple">
+<li><p>Resolve and install the qcradle package in a temporary environment.</p></li>
+<li><p>Execute the qcradle command.</p></li>
+</ul>
+<p><strong>Note</strong>: If you plan to use a tool frequently, consider installing
+it permanently using uv:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>qcradle
+</pre></div>
+</div>
+<p>Once the tool is permanently installed it is enough to start it with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qcradle
+</pre></div>
+</div>
+</section>
+<section id="templates">
+<h2>Templates<a class="headerlink" href="#templates" title="Link to this heading">#</a></h2>
+<p>You could create your own templates and standardize project structures
+across your team or organization.
+It’s essentially a project scaffolding tool that helps maintain consistency
+in Python projects.</p>
+<p>We currently offer <span class="math notranslate nohighlight">\(4\)</span> standard templates out of the box</p>
+<ul class="simple">
+<li><p>The document template</p></li>
+<li><p>The experiments template</p></li>
+<li><p>The package template</p></li>
+<li><p>The R template</p></li>
+</ul>
+<section id="standard-templates">
+<h3>Standard Templates<a class="headerlink" href="#standard-templates" title="Link to this heading">#</a></h3>
+<p>We follow the one template, one repository policy.
+You are encouraged to create your own templates and we give <span class="math notranslate nohighlight">\(4\)</span> examples that
+may serve as inspiration</p>
+<section id="the-document-template">
+<h4><a class="reference external" href="https://github.com/tschm/paper">The document template</a><a class="headerlink" href="#the-document-template" title="Link to this heading">#</a></h4>
+<p>The template supports the fast creation of repositories of LaTeX documents.
+The repo can compile your LaTeX documents with every commit and put them
+on a dedicated branch.</p>
+</section>
+<section id="the-experiments-template">
+<h4><a class="reference external" href="https://github.com/tschm/experiments">The experiments template</a><a class="headerlink" href="#the-experiments-template" title="Link to this heading">#</a></h4>
+<p>Here we support the creation of notebooks without the ambition to release software.
+The repo is not minimalistic but comes with a curated set of pre-commit hooks and
+follows modern and established guidelines. The notebooks are based on Marimo.</p>
+</section>
+<section id="the-package-template">
+<h4><a class="reference external" href="https://github.com/tschm/package">The package template</a><a class="headerlink" href="#the-package-template" title="Link to this heading">#</a></h4>
+<p>The package template is most useful when the final
+goal is the release of software to a registry, e.g. pypi.
+It offers full uv support and compiles documentation
+into a Jupyter Book.</p>
+</section>
+<section id="the-r-template">
+<h4><a class="reference external" href="https://github.com/tschm/cradle_r">The R template</a><a class="headerlink" href="#the-r-template" title="Link to this heading">#</a></h4>
+<p>Here we expose R Studio in a devcontainer.</p>
+</section>
+</section>
+<section id="proprietary-templates">
+<h3>Proprietary templates<a class="headerlink" href="#proprietary-templates" title="Link to this heading">#</a></h3>
+<section id="creation">
+<h4>Creation<a class="headerlink" href="#creation" title="Link to this heading">#</a></h4>
+<p>You can create your very own templates and we recommend to start with
+forking the
+<a class="reference external" href="https://github.com/tschm/template/blob/main/README.md">dedicated repo</a>
+for the job.</p>
+<p>Templates rely on <a class="reference external" href="https://jinja.palletsprojects.com/en/stable/">Jinja</a>.
+At the root level the repo needs a ‘copier.yml’ file and a ‘template’ folder.</p>
+<p>Each template is tested using <a class="reference external" href="https://github.com/nektos/act">act</a>, e.g.
+we render the project template and test the workflows of the created project.
+This helps to avoid creating projects starting their life in a broken state.</p>
+</section>
+<section id="usage">
+<h4>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h4>
+<p>We essentially expose the copier interface directly with
+minor modifications, e.g. if the user is not submitting a source template
+we offer to choose one of the standard templates.</p>
+<p>Any cradle template could be used directly as the first ‘template’
+argument</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uvx<span class="w"> </span>qcradle<span class="w"> </span>--template<span class="o">=</span>git@github.com:tschm/paper.git
+</pre></div>
+</div>
+<p>By default, Copier (and hence the repo-launcher) will copy from the last
+release found in template Git tags, sorted as
+<a class="reference external" href="https://peps.python.org/pep-0440/">PEP 440</a>.</p>
+</section>
+</section>
+<section id="update-existing-projects">
+<h3>Update existing projects<a class="headerlink" href="#update-existing-projects" title="Link to this heading">#</a></h3>
+<p>Templates are moving targets in most professional setups. It is possible to update
+projects created with the help of the qcradle by specifying an existing path
+instead of a template.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uvx<span class="w"> </span>qcradle<span class="w"> </span>--dst_path<span class="o">=</span>/Users/thomasschmelzer/projects/my_marimo_experiments
+</pre></div>
+</div>
+<p>The tool expects a full path. Your repo should contain your previous answers
+in a file ‘.copier-answers.yml’ which serve as default arguments for the
+questions you have been asked before. All standard templates create the file.</p>
+</section>
+</section>
+<section id="warning-private-repositories">
+<h2>:warning: Private repositories<a class="headerlink" href="#warning-private-repositories" title="Link to this heading">#</a></h2>
+<p>Using workflows in private repos will eat into your monthly GitHub bill.
+You may want to restrict the workflow to operate only when merging on the main branch
+while operating on a different branch or deactivate the flow.</p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-projects">User projects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-templates">User templates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-gh">Install gh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv-and-uvx">Install uv and uvx</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-uvx">Understanding uvx</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#templates">Templates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-templates">Standard Templates</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-document-template">The document template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-experiments-template">The experiments template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-package-template">The package template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-r-template">The R template</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proprietary-templates">Proprietary templates</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creation">Creation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-existing-projects">Update existing projects</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warning-private-repositories">:warning: Private repositories</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Thomas Schmelzer
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
