@@ -3,6 +3,9 @@ name: "book"
 on:
 - push
 
+permissions:
+  contents: read  # Read-only access to repository contents
+
 jobs:
   marimo:
     runs-on: "ubuntu-latest"
