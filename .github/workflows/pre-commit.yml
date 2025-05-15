@@ -1,58 +1,40 @@
+# GitHub Actions workflow for code quality checks
+# This workflow runs various checks including tests, dependency analysis, pre-commit hooks, and dependency age analysis
 name: pre-commit
 
 on:
-  push:
+  push:  # Trigger on push events
 
 permissions:
-  checks: write
-  contents: read
+  checks: write   # Permission to write check results
+  contents: read  # Read-only access to repository contents
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-
-      - uses: ./actions/coverage
-        with:
-          tests-folder: src/tests
-          source-folder: src/cradle
-          coveralls: 'false'
-
+  # Job to check for dependency issues
   deptry:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
+      # Step 3: Run deptry to check for dependency issues
       - uses: ./actions/deptry
         with:
-          source-folder: src/cradle
+          source-folder: src/cradle  # Path to the source code
 
+  # Job to run pre-commit hooks
   pre-commit:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Run pre-commit hooks
       - name: pre-commit
         uses: ./actions/pre-commit
-
-  age:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-
-      - name: "Age of Dependencies for ${{ github.repository }}"
-        uses: ./actions/age

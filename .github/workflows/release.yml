@@ -1,45 +1,55 @@
+# GitHub Actions workflow for version bumping and package publishing
+# This workflow creates a new version tag, builds the package, and publishes it to PyPI
+
 name: Bump version and publish
 
 on:
-  workflow_dispatch
+  workflow_dispatch  # Manual trigger only
 
 jobs:
+  # Job to create a new version tag and build the package
   tag:
     permissions:
-      contents: write
+      contents: write  # Permission to write to repository contents (for creating tags)
 
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Generate a new version tag
       - name: Generate Tag
-        id: tag_version
+        id: tag_version  # ID to reference this step's outputs later
         uses: ./actions/tag
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
 
+      # Step 3: Build the package with the new version tag
       - name: Build package
         uses: ./actions/build
         with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}  # Use the tag created in step 2
 
+  # Job to publish the built package to PyPI
   publish:
-    needs: tag
+    needs: tag  # This job depends on the tag job
     runs-on: ubuntu-latest
-    environment: release
+    environment: release  # Use the release environment
 
     permissions:
-      contents: read
-      # This permission is required for trusted publishing.
-      id-token: write
+      contents: read  # Read-only access to repository contents
+      # This permission is required for trusted publishing to PyPI
+      id-token: write  # Permission to write ID tokens for PyPI authentication
 
     steps:
+      # Step 1: Download the built package artifact
       - uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: dist
+          name: dist  # Name of the artifact
+          path: dist  # Path to download the artifact to
 
+      # Step 2: Publish the package to PyPI
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@release/v1  # Official PyPI publishing action
