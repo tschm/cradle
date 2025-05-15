@@ -1,25 +1,21 @@
-# GitHub Action to generate API documentation using pdoc
-# This action builds documentation for Python modules and uploads it as an artifact
 name: Build pdoc documentation
 description: "Build pdoc documentation"
 
-# Input parameters for customizing the action
 inputs:
   source-folder:
     description: 'Source folder to generate documentation for'
     type: string
     required: false
-    default: 'cvx'  # Default source folder
+    default: 'cvx'
   pdoc-arguments:
     description: 'Additional pdoc command line arguments'
     type: string
     required: false
-    default: ''  # No default arguments
+    default: ''
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
   steps:
-    # Step 1: Install pdoc and generate documentation
     - name: Install and build pdoc
       shell: bash
       run: |
@@ -27,11 +23,10 @@ runs:
         python -m pip install --no-cache-dir pdoc
         pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
-    # Step 2: Upload the generated documentation as an artifact
     - name: Upload documentation
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: actions/upload-artifact@v4
       with:
-        name: pdoc  # Name of the artifact
-        path: artifacts/pdoc  # Path to the directory containing documentation
-        retention-days: 1  # Keep artifacts for 1 day to save storage
+        name: pdoc
+        path: artifacts/pdoc
+        retention-days: 1

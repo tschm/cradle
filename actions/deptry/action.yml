@@ -1,29 +1,24 @@
-# GitHub Action to check for dependency issues in a Python project
-# This action uses deptry to detect unused, missing, and transitive dependencies
 name: 'Dependency Check'
 description: 'Run deptry to check for dependency issues'
 
-# Input parameters for customizing the action
 inputs:
   source-folder:
     description: 'Source folder to analyze'
     required: false
-    default: 'cvx'  # Default source folder to analyze
+    default: 'cvx'
   options:
     description: 'Extra options for deptry'
     required: false
-    default: ''  # No default options
+    default: ''
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
   steps:
-    # Step 1: Install the deptry tool
     - name: Install deptry
       shell: bash
       run: |
         python -m pip install --no-cache-dir deptry
 
-    # Step 2: Run deptry on the specified source folder
     - name: Run Deptry
       shell: bash
       run: deptry ${{ inputs.source-folder }} ${{ inputs.options }}

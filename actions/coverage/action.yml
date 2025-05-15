@@ -19,16 +19,12 @@ runs:
     - name: Run tests with coverage
       shell: bash
       run: |
-        # this should point to .venv/bin/python
         which python
 
-        # Install coverage tools separately to ensure they don't conflict
         python -m pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
 
-        # Create output directories
         mkdir -p artifacts/tests/{html-report,coverage,html-coverage}
 
-        # Run pytest with coverage reporting
         pytest \
           --cov=${{ inputs.source-folder }} \
           --random-order \
@@ -41,11 +37,10 @@ runs:
           --cov-report=html:artifacts/tests/html-coverage \
           ${{ inputs.tests-folder }}
 
-        # Remove .gitignore for gh-pages compatibility
         rm -f artifacts/tests/html-coverage/.gitignore
 
     - name: Upload test results
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: actions/upload-artifact@v4
       with:
         name: tests

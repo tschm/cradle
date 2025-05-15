@@ -1,33 +1,27 @@
-# GitHub Action to build and deploy a book to GitHub Pages
-# This action collects artifacts, creates a .nojekyll file, and deploys to GitHub Pages
 name: Build the book
 description: "Build the book"
 
-# Required permissions for GitHub Pages deployment
 permissions:
-  contents: write  # Permission to write to repository contents
-  pages: write     # Permission to publish GitHub Pages
+  contents: write
+  pages: write
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
 
   steps:
-    # Step 1: Download all artifacts that will make up the book
     - name: Download all artifacts
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: actions/download-artifact@v4
       with:
-        path: .book  # Download artifacts to the .book directory
+        path: .book
 
-    # Step 2: Create .nojekyll file to disable Jekyll processing on GitHub Pages
     - name: Create .nojekyll
       shell: bash
       run: touch .book/.nojekyll
 
-    # Step 3: Deploy the book to GitHub Pages
     - name: GitHub Pages action
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages            # The branch the action should deploy to.
-        folder: .book               # The folder the action should deploy.
+        branch: gh-pages
+        folder: .book

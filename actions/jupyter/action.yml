@@ -1,30 +1,25 @@
-# GitHub Action to build a Jupyter Book from Jupyter notebooks
-# This action installs jupyter-book, builds the book, and uploads it as an artifact
 name: Build the Jupyter Book
 description: "Build jupyter book"
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
 
   steps:
-    # Step 1: Install the required dependencies for building Jupyter Book
     - name: Install jupyterbook
       shell: bash
       run: |
-        python -m pip install --no-cache-dir jupyter-book sphinx-math-dollar  # Install without using pip cache
+        python -m pip install --no-cache-dir jupyter-book sphinx-math-dollar
 
-    # Step 2: Build the Jupyter Book
     - name: Build the book
       shell: bash
       run: |
-        jupyter-book clean book  # Clean any previous builds
-        jupyter-book build book  # Build the book from the 'book' directory
+        jupyter-book clean book
+        jupyter-book build book
 
-    # Step 3: Upload the built book as an artifact
     - name: Archive book
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: actions/upload-artifact@v4
       with:
-        name: book  # Name of the artifact
-        path: book/_build/html/  # Path to the built book
-        retention-days: 1  # Keep artifacts for 1 day to save storage
+        name: book
+        path: book/_build/html/
+        retention-days: 1

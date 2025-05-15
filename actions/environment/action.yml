@@ -14,7 +14,6 @@ runs:
     - name: Checkout [${{ github.repository }}]
       uses: actions/checkout@v4
 
-    # Install UV (Unix)
     - name: Install UV (Unix)
       if: runner.os == 'Linux' || runner.os == 'macOS'
       shell: bash
@@ -24,12 +23,9 @@ runs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
         echo "${{ github.workspace }}/.venv/bin" >> $GITHUB_PATH
 
-        # Ensure the venv/bin is first in the PATH
-        unset PYTHONHOME  # Unset the PYTHONHOME environment variable
-                          # if set to avoid any system Python fallback
+        unset PYTHONHOME
 
 
-      # Install UV (Windows)
     - name: Install UV (Windows)
       if: runner.os == 'Windows'
       shell: pwsh
@@ -38,16 +34,13 @@ runs:
         $uvPath = "C:\Users\runneradmin\.local\bin"
         Add-Content $env:GITHUB_PATH $uvPath
 
-        # Modify PATH to only include the virtual environment's Scripts directory
         Add-Content $env:GITHUB_PATH ${{ github.workspace }}\.venv\Scripts
 
-        # Unset PYTHONHOME to avoid any system Python being used
         Remove-Item -Path Env:PYTHONHOME -ErrorAction SilentlyContinue
 
     - name: Install pip and create venv
       shell: bash
       run: |
-        # Create virtual environment with uv
         uv venv --python ${{ inputs.python-version }}
 
     - name: Install dependencies if requirements.txt exists
@@ -56,11 +49,10 @@ runs:
         if [ -f "requirements.txt" ]; then
           uv pip install -r requirements.txt
         else
-          # Sync environment (install dependencies)
           if [ -f "uv.lock" ]; then
-            uv sync --all-extras --dev --frozen  # Install all dependencies (including dev dependencies)
+            uv sync --all-extras --dev --frozen
           else
-            uv sync --all-extras --dev  # Install all dependencies (including dev dependencies)
+            uv sync --all-extras --dev
           fi
         fi
 

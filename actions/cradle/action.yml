@@ -46,8 +46,6 @@ runs:
         working-directory: ${{ inputs.destination-path }}
         shell: bash
         run: |
-          # otherwise the pre-commit hooks won't "see" files
-          # also act needs to have the commit in place
           git init -b main
           git add .
           git commit -m "Initial commit"

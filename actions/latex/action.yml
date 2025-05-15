@@ -1,53 +1,46 @@
-# GitHub Action to compile LaTeX documents and deploy them to GitHub Pages
-# This action uses Tectonic to compile LaTeX files, handles errors, and publishes the results
 name: Compile and Deploy LaTeX Documents
 
 description: "Advanced LaTeX document compilation with error handling and artifacts"
 
-# Input parameters for customizing the action
 inputs:
   tag:
     description: 'Tag for GitHub release (if empty, no release is created)'
     type: string
     required: false
-    default: ''  # Default is no tag
+    default: ''
   paper:
     description: 'Space-separated LaTeX files to compile'
     type: string
-    required: true  # This parameter must be provided
+    required: true
   output-folder:
     description: 'Output directory for compiled documents'
     type: string
     required: false
-    default: 'compiled'  # Default output directory
+    default: 'compiled'
   draft:
     description: 'Target branch for deployment'
     type: string
     required: false
-    default: 'draft'  # Default branch for GitHub Pages deployment
+    default: 'draft'
 
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
   steps:
-    # Step 1: Checkout the repository code
     - name: Set up Git repository
       uses: actions/checkout@v4
 
-    # Step 2: Set up environment variables for the build
     - name: Setup environment variables
       shell: bash
       run: |
-        echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV  # Create a unique build directory
+        echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV
 
-    # Step 3: Create directories for build artifacts and output
     - name: Create output directories
       shell: bash
       run: |
-        mkdir -p ${{ env.BUILD_DIR }}  # Directory for temporary build files
-        mkdir -p ${{ inputs.output-folder }}  # Directory for final PDFs
+        mkdir -p ${{ env.BUILD_DIR }}
+        mkdir -p ${{ inputs.output-folder }}
 
-    # Step 4: Check that all specified LaTeX files exist
     - name: Validate input files
       shell: bash
       run: |
@@ -58,74 +51,62 @@ runs:
           fi
         done
 
-    # Step 5: Install LaTeX compilation tools
     - name: Install Tectonic and biber
       shell: bash
       run: |
-        # install tectonic in the directory you run from
         curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-        # install biber for bibliography processing
         sudo apt-get update -y
         sudo apt-get install -y biber
 
-        # Verify installations
         ./tectonic --version
         biber --version
 
-    # Step 6: Compile all LaTeX documents to PDF
     - name: Compile LaTeX documents
       shell: bash
       env:
-        RUST_BACKTRACE: '1'  # Enable Rust backtrace for better error reporting
+        RUST_BACKTRACE: '1'
       run: |
         echo "Starting compilation at $(date)"
 
-        # Function to compile a single document
         compile_doc() {
           local doc="$1"
           echo "Compiling $doc"
 
-          # Run Tectonic to compile the document
           if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
             echo "Error compiling $doc - check logs"
             return 1
           fi
 
-          # Copy final PDF to publish directory
           cp ${{ env.BUILD_DIR }}/*.pdf ${{ inputs.output-folder }}/
           echo "Successfully compiled $doc"
         }
 
-        # Process each LaTeX file
         for f in ${{ inputs.paper }}; do
           compile_doc "$f" || exit 1
         done
 
-    # Step 7: Deploy compiled PDFs to GitHub Pages
     - name: Deploy to GitHub Pages
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: ${{ inputs.draft }}  # Branch to deploy to
-        folder: ${{ inputs.output-folder }}  # Folder containing the PDFs
-        commit-message: "Build: ${{ github.run_id }} [skip ci]"  # Custom commit message
-        clean: true  # Clean the branch before deploying
-        single-commit: false  # Keep commit history
+        branch: ${{ inputs.draft }}
+        folder: ${{ inputs.output-folder }}
+        commit-message: "Build: ${{ github.run_id }} [skip ci]"
+        clean: true
+        single-commit: false
 
-    # Step 8: Create a GitHub Release with the PDFs (if tag is provided)
     - name: Create GitHub Release
-      if: inputs.tag != ''  # Only run if a tag is provided
+      if: inputs.tag != ''
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ inputs.output-folder }}/*.pdf  # Files to include in the release
-        tag_name: ${{ inputs.tag }}  # Tag name for the release
+        files: ${{ inputs.output-folder }}/*.pdf
+        tag_name: ${{ inputs.tag }}
 
-    # Step 9: Upload build artifacts for debugging and reference
     - name: Upload build artifacts
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: actions/upload-artifact@v4
       with:
-        name: latex-build-${{ github.run_id }}  # Unique name for the artifact
+        name: latex-build-${{ github.run_id }}
         path: |
-          ${{ env.BUILD_DIR }}  # Path to the build directory
-        retention-days: 7  # Keep artifacts for 7 days
+          ${{ env.BUILD_DIR }}
+        retention-days: 7

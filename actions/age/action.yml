@@ -1,25 +1,20 @@
-# GitHub Action to analyze the age of project dependencies
-# This action checks when dependencies were last updated on PyPI and generates reports
 name: 'Age of Dependencies'
 description: 'Run a check on the age of dependencies'
 
-# Input parameters for customizing the action
 inputs:
   python-version:
     description: 'The Python we shall use'
     required: false
-    default: '3.12'  # Default Python version to use
+    default: '3.12'
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
   steps:
-    # Step 1: Set up the Python environment
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
 
-    # Step 2: Install required Python packages for dependency analysis
     - name: Install dependencies
       shell: bash
       run: |
@@ -27,14 +22,10 @@ runs:
         python -m pip install toml requests packaging pandas
         mkdir -p artifacts/age
 
-    # Step 3: Run the dependency age analysis script
     - name: Check dependency ages
       shell: bash
       run: |
         python - <<EOF
-        # Python script to analyze dependency ages
-        # This script fetches information about the latest versions of dependencies from PyPI
-        # and generates reports about when they were last updated
         import requests
         import toml
         import re
@@ -43,12 +34,10 @@ runs:
         from datetime import datetime
 
         def extract_package_name(dep):
-            """Extracts the package name from a dependency string."""
             match = re.match(r"^[a-zA-Z0-9_.-]+", dep)
-            return match.group(0) if match else dep  # Fallback to full dep if no match
+            return match.group(0) if match else dep
 
         def get_latest_stable_version(package_name):
-            """Fetches the latest stable version of a package from PyPI."""
             print(f"Checking {package_name}...")
 
             url = f"https://pypi.org/pypi/{package_name}/json"
@@ -59,17 +48,15 @@ runs:
                     data = response.json()
                     releases = data.get("releases", {})
 
-                    # Filter to stable versions and track original version strings
                     stable_versions = []
                     for version_str in releases.keys():
                         try:
                             parsed_version = parse(version_str)
-                            if not parsed_version.is_prerelease:  # Ignore pre-releases
+                            if not parsed_version.is_prerelease:
                                 stable_versions.append((parsed_version, version_str))
                         except InvalidVersion:
-                            continue  # Ignore invalid versions
+                            continue
 
-                    # Sort by parsed version (which handles semantics correctly)
                     stable_versions.sort(reverse=True, key=lambda x: x[0])
 
                     if stable_versions:
@@ -81,10 +68,9 @@ runs:
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching data for {package_name}: {e}")
 
-            return None, None  # Return None if the request fails or no stable versions
+            return None, None
 
         try:
-            # Read dependencies from pyproject.toml
             data = toml.load("pyproject.toml")
             deps = data.get("project", {}).get("dependencies", [])
 
@@ -92,10 +78,8 @@ runs:
                 print("No dependencies found in pyproject.toml")
                 sys.exit(1)
 
-            # Generate the dependency age report
             package_data = []
 
-            # Create the first report with all dependencies
             with open("artifacts/age/dependency-age.txt", "w") as f:
                 f.write("Dependency Age Report:\n")
                 for dep in deps:
@@ -105,27 +89,22 @@ runs:
                     if latest_version:
                         f.write(f"{pkg} (latest: {latest_version}) - Last updated: {release_date}\n")
 
-                        # Add to our list for DataFrame creation
                         package_data.append({
                             "Package": pkg,
                             "Latest Version": latest_version,
                             "Last Update": release_date
                         })
 
-            # Create a sorted report with dependencies ordered by update date
             if package_data:
                 df = pd.DataFrame(package_data)
 
-                # Convert dates to datetime for proper sorting
                 df["Last Update"] = pd.to_datetime(df["Last Update"])
 
-                # Sort by date (newest first)
                 sorted_df = df.sort_values(by="Last Update", ascending=False)
 
                 print("\nDependencies sorted by update date (most recent first):")
                 print(sorted_df.to_string(index=False))
 
-                # Save sorted data to file
                 with open("artifacts/age/dependency-age-sorted.txt", "w") as f:
                     f.write("Dependency Age Report (sorted by date, newest first):\n")
                     for _, row in sorted_df.iterrows():
@@ -137,14 +116,12 @@ runs:
 
         EOF
 
-        # Display the generated report
         cat artifacts/age/dependency-age.txt
 
-    # Step 4: Upload the dependency age reports as artifacts
     - name: Upload test results
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+      if: ${{ env.ACT != 'true' }}
       uses: actions/upload-artifact@v4
       with:
-        name: age  # Name of the artifact
-        path: artifacts/age  # Path to the directory containing the reports
-        retention-days: 1  # Keep artifacts for 1 day to save storage
+        name: age
+        path: artifacts/age
+        retention-days: 1
