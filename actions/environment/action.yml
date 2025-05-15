@@ -1,45 +1,42 @@
-# GitHub Action to set up a Python environment using uv
-# This action installs uv, creates a virtual environment, and installs dependencies from pyproject.toml
 name: Build Environment
 description: "Build the environment using pyproject.toml and uv"
 
-# Input parameters for customizing the action
 inputs:
   python-version:
-    description: 'The Python version to use'
+    description: 'The Python we shall use'
     required: false
-    default: '3.12'  # Default Python version
+    default: '3.12'
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
 
   steps:
-    # Step 1: Checkout the repository code
     - name: Checkout [${{ github.repository }}]
       uses: actions/checkout@v4
 
-    # Step 2: Install UV package manager on Unix-based systems (Linux/macOS)
+    # Install UV (Unix)
     - name: Install UV (Unix)
-      if: runner.os == 'Linux' || runner.os == 'macOS'  # Only run on Linux or macOS
+      if: runner.os == 'Linux' || runner.os == 'macOS'
       shell: bash
       run: |
-        set -eo pipefail  # Exit immediately if a command exits with non-zero status
-        curl -LsSf https://astral.sh/uv/install.sh | sh  # Download and install uv
-        echo "$HOME/.local/bin" >> $GITHUB_PATH  # Add uv to PATH
-        echo "${{ github.workspace }}/.venv/bin" >> $GITHUB_PATH  # Add virtual env to PATH
+        set -eo pipefail
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        echo "${{ github.workspace }}/.venv/bin" >> $GITHUB_PATH
 
         # Ensure the venv/bin is first in the PATH
         unset PYTHONHOME  # Unset the PYTHONHOME environment variable
                           # if set to avoid any system Python fallback
 
-    # Step 3: Install UV package manager on Windows
+
+      # Install UV (Windows)
     - name: Install UV (Windows)
-      if: runner.os == 'Windows'  # Only run on Windows
+      if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        irm https://astral.sh/uv/install.ps1 | iex  # Download and install uv
+        irm https://astral.sh/uv/install.ps1 | iex
         $uvPath = "C:\Users\runneradmin\.local\bin"
-        Add-Content $env:GITHUB_PATH $uvPath  # Add uv to PATH
+        Add-Content $env:GITHUB_PATH $uvPath
 
         # Modify PATH to only include the virtual environment's Scripts directory
         Add-Content $env:GITHUB_PATH ${{ github.workspace }}\.venv\Scripts
@@ -47,28 +44,24 @@ runs:
         # Unset PYTHONHOME to avoid any system Python being used
         Remove-Item -Path Env:PYTHONHOME -ErrorAction SilentlyContinue
 
-    # Step 4: Create a Python virtual environment using uv
     - name: Install pip and create venv
       shell: bash
       run: |
         # Create virtual environment with uv
         uv venv --python ${{ inputs.python-version }}
 
-    # Step 5: Install dependencies based on available configuration files
     - name: Install dependencies if requirements.txt exists
       shell: bash
       run: |
         if [ -f "requirements.txt" ]; then
-          # If requirements.txt exists, use it to install dependencies
           uv pip install -r requirements.txt
         else
-          # Otherwise, use pyproject.toml with uv sync
           # Sync environment (install dependencies)
           if [ -f "uv.lock" ]; then
-            uv sync --all-extras --dev --frozen  # Install all dependencies with lockfile (including dev dependencies)
+            uv sync --all-extras --dev --frozen  # Install all dependencies (including dev dependencies)
           else
-            uv sync --all-extras --dev  # Install all dependencies without lockfile (including dev dependencies)
+            uv sync --all-extras --dev  # Install all dependencies (including dev dependencies)
           fi
         fi
 
-        uv pip install pip  # Ensure pip is installed in the virtual environment
+        uv pip install pip

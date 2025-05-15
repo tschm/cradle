@@ -24,8 +24,8 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip
-        python -m pip install toml requests packaging pandas  # Tools for parsing and analysis
-        mkdir -p artifacts/age  # Create directory for output artifacts
+        python -m pip install toml requests packaging pandas
+        mkdir -p artifacts/age
 
     # Step 3: Run the dependency age analysis script
     - name: Check dependency ages

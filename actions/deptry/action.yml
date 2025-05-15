@@ -21,7 +21,7 @@ runs:
     - name: Install deptry
       shell: bash
       run: |
-        python -m pip install --no-cache-dir deptry  # Install deptry without using pip cache
+        python -m pip install --no-cache-dir deptry
 
     # Step 2: Run deptry on the specified source folder
     - name: Run Deptry

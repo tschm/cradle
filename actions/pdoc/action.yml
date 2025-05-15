@@ -23,9 +23,9 @@ runs:
     - name: Install and build pdoc
       shell: bash
       run: |
-        mkdir -p artifacts/pdoc  # Create output directory
-        python -m pip install --no-cache-dir pdoc  # Install pdoc without using pip cache
-        pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}  # Generate documentation
+        mkdir -p artifacts/pdoc
+        python -m pip install --no-cache-dir pdoc
+        pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
     # Step 2: Upload the generated documentation as an artifact
     - name: Upload documentation
