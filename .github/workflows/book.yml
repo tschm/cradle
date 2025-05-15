@@ -1,0 +1,63 @@
+name: "book"
+
+on:
+- push
+
+jobs:
+  marimo:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/marimo
+
+  pdoc:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/pdoc
+        with:
+          source-folder: 'src/pyhrp'
+
+  age:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/age
+
+  test:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/coverage
+        with:
+          source-folder: 'src/pyhrp'
+          tests-folder: 'src/tests'
+
+  jupyter:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
+
+      - uses: ./actions/jupyter
+
+  book:
+    runs-on: "ubuntu-latest"
+    needs: [test, pdoc, jupyter, marimo, age]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - uses: ./actions/book

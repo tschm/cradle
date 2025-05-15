@@ -10,25 +10,6 @@ permissions:
   contents: read  # Read-only access to repository contents
 
 jobs:
-  # Job to run tests with coverage reporting
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Build the virtual environment
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-
-      # Step 3: Run tests with coverage reporting
-      - uses: ./actions/coverage
-        with:
-          tests-folder: src/tests        # Path to the tests directory
-          source-folder: src/cradle      # Path to the source code
-          coveralls: 'false'             # Don't upload to Coveralls
-
   # Job to check for dependency issues
   deptry:
     runs-on: ubuntu-latest
@@ -57,25 +38,3 @@ jobs:
       # Step 2: Run pre-commit hooks
       - name: pre-commit
         uses: ./actions/pre-commit
-
-  # Job to analyze the age of dependencies
-  age:
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Build the virtual environment
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-
-      # Step 3: Run dependency age analysis
-      - name: "Age of Dependencies for ${{ github.repository }}"
-        uses: ./actions/age
-
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-
-      - name: "Age of Dependencies for ${{ github.repository }}"
-        uses: ./actions/age
