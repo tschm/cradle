@@ -1,74 +1,64 @@
-# GitHub Action to run tests and generate comprehensive coverage reports
-# This action runs pytest with coverage reporting and optionally uploads results to Coveralls
 name: Measure Test Coverage
 description: "Run tests with comprehensive coverage reporting"
 
-# Input parameters for customizing the action
 inputs:
   tests-folder:
     description: 'Source folder with all tests'
-    required: true  # This parameter must be provided
+    required: true
   source-folder:
     description: 'Source folder to measure coverage for'
-    required: true  # This parameter must be provided
+    required: true
   coveralls:
     description: 'Upload to coverallsapp'
     required: false
-    default: "true"  # By default, upload to Coveralls
+    default: "true"
 
 runs:
-  using: "composite"  # Indicates this is a composite action (combination of multiple steps)
+  using: "composite"
   steps:
-    # Step 1: Run tests with coverage reporting
     - name: Run tests with coverage
       shell: bash
       run: |
-        # Verify which Python interpreter is being used
         # this should point to .venv/bin/python
         which python
 
         # Install coverage tools separately to ensure they don't conflict
         python -m pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
 
-        # Create output directories for various reports
+        # Create output directories
         mkdir -p artifacts/tests/{html-report,coverage,html-coverage}
 
         # Run pytest with coverage reporting
-        # Generate reports in multiple formats (HTML, XML, JSON, LCOV)
         pytest \
-          --cov=${{ inputs.source-folder }} \  # Measure coverage for the specified source folder
-          --random-order \                     # Run tests in random order to detect dependencies
-          --verbose \                          # Show detailed test output
-          --html=artifacts/tests/html-report/report.html \  # Generate HTML test report
-          --cov-report=term \                  # Display coverage report in terminal
-          --cov-report=xml:artifacts/tests/coverage/coverage.xml \   # XML coverage report
-          --cov-report=json:artifacts/tests/coverage/coverage.json \ # JSON coverage report
-          --cov-report=lcov:artifacts/tests/coverage/coverage.info \ # LCOV coverage report (for Coveralls)
-          --cov-report=html:artifacts/tests/html-coverage \          # HTML coverage report
-          ${{ inputs.tests-folder }}           # Run tests from the specified folder
+          --cov=${{ inputs.source-folder }} \
+          --random-order \
+          --verbose \
+          --html=artifacts/tests/html-report/report.html \
+          --cov-report=term \
+          --cov-report=xml:artifacts/tests/coverage/coverage.xml \
+          --cov-report=json:artifacts/tests/coverage/coverage.json \
+          --cov-report=lcov:artifacts/tests/coverage/coverage.info \
+          --cov-report=html:artifacts/tests/html-coverage \
+          ${{ inputs.tests-folder }}
 
         # Remove .gitignore for gh-pages compatibility
-        # This ensures the coverage report can be published to GitHub Pages
         rm -f artifacts/tests/html-coverage/.gitignore
 
-    # Step 2: Upload test results as artifacts
     - name: Upload test results
       if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: actions/upload-artifact@v4
       with:
-        name: tests  # Name of the artifact
-        path: artifacts/tests  # Path to the directory containing test results
-        retention-days: 1  # Keep artifacts for 1 day to save storage
+        name: tests
+        path: artifacts/tests
+        retention-days: 1
 
-    # Step 3: Debug step to verify coverage files were generated
     - name: Debug Coverage Files
       shell: bash
-      run: ls -l artifacts/tests/coverage  # List coverage files for debugging
+      run: ls -l artifacts/tests/coverage
 
-    # Step 4: Upload coverage data to Coveralls (optional)
     - name: Coveralls GitHub Action
-      if: ${{ inputs.coveralls == 'true' }}  # Only run if coveralls input is true
+      if: ${{ inputs.coveralls == 'true' }}
       uses: coverallsapp/github-action@v2
       with:
-        files: artifacts/tests/coverage/coverage.info  # Path to LCOV coverage file
-        format: lcov  # Format of the coverage file
+        files: artifacts/tests/coverage/coverage.info
+        format: lcov

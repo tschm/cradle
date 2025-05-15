@@ -26,4 +26,4 @@ runs:
     # Step 2: Run deptry on the specified source folder
     - name: Run Deptry
       shell: bash
-      run: deptry ${{ inputs.source-folder }} ${{ inputs.options }}  # Run with provided folder and options
+      run: deptry ${{ inputs.source-folder }} ${{ inputs.options }}
