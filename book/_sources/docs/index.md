@@ -72,7 +72,8 @@ ssh -T git@github.com
 gh --version
 ```
 
-[Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) to establish a new ssh keypair.
+[Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+to establish a new ssh keypair.
 
 ## Install uv and uvx
 
