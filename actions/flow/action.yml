@@ -28,5 +28,14 @@ runs:
     - name: Test workflow
       shell: bash
       working-directory: ${{ inputs.working-directory }}
+      #run: |
+      #  act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true' 2>&1 | grep -v "remote not found"
+
       run: |
-        act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true' 2>&1 | grep -v "remote not found"
+        curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+        apt-get install -y nodejs
+        node -v   # confirm it's 20+
+        npm -v
+        act -W .github/workflows/${{ inputs.workflow }} \
+          -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest \
+          --env ACT='true' 2>&1 | grep -v "remote not found"
