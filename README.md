@@ -10,8 +10,7 @@
 qcradle is a command line tool to create repos based on a group of templates.
 It has been created
 to accelerate, simplify and harmonize the development
-of experiments and quantitative strategies
-as described [here](https://www.linkedin.com/pulse/rapid-quanting-thomas-schmelzer-omauf/?trackingId=Gqjma%2F8PTueJWvaBF4qWaQ%3D%3D).
+of experiments and quantitative strategies.
 
 Assuming the presence of gh, uvx and a valid ssh-connection
 with GitHub you can start the tool with
@@ -73,7 +72,8 @@ ssh -T git@github.com
 gh --version
 ```
 
-A new SSH connection could be established [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+[Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+to establish a new ssh keypair.
 
 ## Install uv and uvx
 
@@ -86,7 +86,7 @@ For macOS and Linux:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-For Windows follow the instructions [here](https://docs.astral.sh/uv/getting-started/installation/)
+For Windows follow the [official instructions](https://docs.astral.sh/uv/getting-started/installation/)
 
 ## Understanding uvx
 
