@@ -31,6 +31,6 @@ runs:
       #run: |
       #  act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true' 2>&1 | grep -v "remote not found"
 
-      run:
+      run: |
         docker build -t my-act-node20 .
         act -W .github/workflows/${{ inputs.workflow }} -P ubuntu-latest=my-act-node20 --env ACT='true' 2>&1 | grep -v "remote not found"
