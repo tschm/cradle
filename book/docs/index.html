@@ -399,6 +399,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-existing-projects">Update existing projects</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-actions">GitHub Actions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#available-actions">Available Actions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-these-actions">How to Use These Actions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-images">Docker Images</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-purpose-action-docker-image">Multi-purpose Action Docker Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-docker-image">Using the Docker Image</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warning-private-repositories">:warning: Private repositories</a></li>
 </ul>
             </nav>
@@ -594,6 +604,124 @@ in a file ‘.copier-answers.yml’ which serve as default arguments for the
 questions you have been asked before. All standard templates create the file.</p>
 </section>
 </section>
+<section id="github-actions">
+<h2>GitHub Actions<a class="headerlink" href="#github-actions" title="Link to this heading">#</a></h2>
+<p>This repository provides a collection of reusable
+GitHub Actions that can be used by other repositories.
+These actions are defined in the <code class="docutils literal notranslate"><span class="pre">actions</span></code> directory and
+can be referenced in your workflows.</p>
+<section id="available-actions">
+<h3>Available Actions<a class="headerlink" href="#available-actions" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>age</strong>: Encrypts and decrypts files using <a class="reference external" href="https://github.com/FiloSottile/age">age</a></p></li>
+<li><p><strong>book</strong>: Builds and publishes a Jupyter Book</p></li>
+<li><p><strong>build</strong>: Builds a Python package and uploads artifacts</p></li>
+<li><p><strong>coverage</strong>: Generates and uploads code coverage reports</p></li>
+<li><p><strong>cradle</strong>: Runs the qCradle tool</p></li>
+<li><p><strong>deptry</strong>: Checks for dependency issues using deptry</p></li>
+<li><p><strong>docker</strong>: Builds and pushes Docker images</p></li>
+<li><p><strong>environment</strong>: Sets up Python environment with dependencies</p></li>
+<li><p><strong>flow</strong>: Tests GitHub workflows using act</p></li>
+<li><p><strong>jupyter</strong>: Runs Jupyter notebooks</p></li>
+<li><p><strong>latex</strong>: Compiles LaTeX documents</p></li>
+<li><p><strong>marimo</strong>: Runs marimo notebooks</p></li>
+<li><p><strong>pdoc</strong>: Generates API documentation using pdoc</p></li>
+<li><p><strong>pre-commit</strong>: Runs pre-commit hooks</p></li>
+<li><p><strong>tag</strong>: Bumps version, creates a tag, and publishes a release</p></li>
+<li><p><strong>test</strong>: Runs tests with pytest</p></li>
+</ul>
+</section>
+<section id="how-to-use-these-actions">
+<h3>How to Use These Actions<a class="headerlink" href="#how-to-use-these-actions" title="Link to this heading">#</a></h3>
+<p>You can use these actions in your GitHub workflows
+by referencing them with the <code class="docutils literal notranslate"><span class="pre">uses</span></code> keyword. For example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tag</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate Tag</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tschm/cradle/actions/tag@main</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">tschm/cradle</span></code> with the appropriate repository
+owner and name, and <code class="docutils literal notranslate"><span class="pre">&#64;main</span></code> with the branch, tag, or commit SHA you want to use.</p>
+<p>Each action has its own inputs and outputs defined in
+its <code class="docutils literal notranslate"><span class="pre">action.yml</span></code> file. You can find more details by
+examining these files in the repository.</p>
+</section>
+</section>
+<section id="docker-images">
+<h2>Docker Images<a class="headerlink" href="#docker-images" title="Link to this heading">#</a></h2>
+<p>This repository provides a versatile Docker image
+that can be used by various GitHub Actions.</p>
+<section id="multi-purpose-action-docker-image">
+<h3>Multi-purpose Action Docker Image<a class="headerlink" href="#multi-purpose-action-docker-image" title="Link to this heading">#</a></h3>
+<p>The repository includes a custom Docker image
+that serves as a comprehensive environment for running various GitHub Actions:</p>
+<ul class="simple">
+<li><p><strong>Base</strong>: Ubuntu 22.04</p></li>
+<li><p><strong>Development Tools</strong>:</p>
+<ul>
+<li><p>Node.js 20 with npm</p></li>
+<li><p>Python 3 with pip, venv, and dev packages</p></li>
+<li><p>Git, curl, wget, zip/unzip, jq</p></li>
+<li><p>Build essentials and other utilities</p></li>
+</ul>
+</li>
+<li><p><strong>Document Processing</strong>:</p>
+<ul>
+<li><p>Tectonic (LaTeX compiler)</p></li>
+<li><p>Biber (Bibliography processor)</p></li>
+</ul>
+</li>
+<li><p><strong>Pre-installed Python Packages</strong>:</p>
+<ul>
+<li><p>Testing: pytest, pytest-cov, pytest-html, pytest-random-order</p></li>
+<li><p>Documentation: jupyter-book, sphinx-math-dollar, pdoc</p></li>
+<li><p>Notebooks: marimo</p></li>
+<li><p>Data processing: pandas, toml, requests, packaging</p></li>
+</ul>
+</li>
+</ul>
+<p>The Dockerfile for this image is located in the <code class="docutils literal notranslate"><span class="pre">docker</span></code> directory.
+The image is built and pushed to GitHub Container Registry (<a class="reference external" href="http://ghcr.io">ghcr.io</a>)
+using the GitHub workflow defined in <code class="docutils literal notranslate"><span class="pre">.github/workflows/docker.yml</span></code>.</p>
+</section>
+<section id="using-the-docker-image">
+<h3>Using the Docker Image<a class="headerlink" href="#using-the-docker-image" title="Link to this heading">#</a></h3>
+<p>This image is currently used by the flow action to test GitHub workflows
+using the <a class="reference external" href="https://github.com/nektos/act">act</a> tool, but it can be used
+for various other actions as well.
+The image is designed to be a comprehensive environment that includes
+most tools and dependencies needed by the actions in this repository.</p>
+<p>You can use this image in your own workflows by referencing it in your workflow file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">container</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/tschm/cradle/flow-action:latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+
+<span class="w">      </span><span class="c1"># Your steps here</span>
+</pre></div>
+</div>
+<p>The image is particularly useful for:</p>
+<ul class="simple">
+<li><p>Running tests with coverage reporting</p></li>
+<li><p>Building documentation (LaTeX, Jupyter Book, pdoc)</p></li>
+<li><p>Processing Marimo notebooks</p></li>
+<li><p>Analyzing dependencies</p></li>
+<li><p>Testing GitHub workflows locally</p></li>
+</ul>
+</section>
+</section>
 <section id="warning-private-repositories">
 <h2>:warning: Private repositories<a class="headerlink" href="#warning-private-repositories" title="Link to this heading">#</a></h2>
 <p>Using workflows in private repos will eat into your monthly GitHub bill.
@@ -681,6 +809,16 @@ while operating on a different branch or deactivate the flow.</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-existing-projects">Update existing projects</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-actions">GitHub Actions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#available-actions">Available Actions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-these-actions">How to Use These Actions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-images">Docker Images</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-purpose-action-docker-image">Multi-purpose Action Docker Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-docker-image">Using the Docker Image</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warning-private-repositories">:warning: Private repositories</a></li>

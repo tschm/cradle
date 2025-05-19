@@ -206,6 +206,120 @@ The tool expects a full path. Your repo should contain your previous answers
 in a file '.copier-answers.yml' which serve as default arguments for the
 questions you have been asked before. All standard templates create the file.
 
+## GitHub Actions
+
+This repository provides a collection of reusable
+GitHub Actions that can be used by other repositories.
+These actions are defined in the `actions` directory and
+can be referenced in your workflows.
+
+### Available Actions
+
+* **age**: Encrypts and decrypts files using [age](https://github.com/FiloSottile/age)
+* **book**: Builds and publishes a Jupyter Book
+* **build**: Builds a Python package and uploads artifacts
+* **coverage**: Generates and uploads code coverage reports
+* **cradle**: Runs the qCradle tool
+* **deptry**: Checks for dependency issues using deptry
+* **docker**: Builds and pushes Docker images
+* **environment**: Sets up Python environment with dependencies
+* **flow**: Tests GitHub workflows using act
+* **jupyter**: Runs Jupyter notebooks
+* **latex**: Compiles LaTeX documents
+* **marimo**: Runs marimo notebooks
+* **pdoc**: Generates API documentation using pdoc
+* **pre-commit**: Runs pre-commit hooks
+* **tag**: Bumps version, creates a tag, and publishes a release
+* **test**: Runs tests with pytest
+
+### How to Use These Actions
+
+You can use these actions in your GitHub workflows
+by referencing them with the `uses` keyword. For example:
+
+```yaml
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Tag
+        uses: tschm/cradle/actions/tag@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Replace `tschm/cradle` with the appropriate repository
+owner and name, and `@main` with the branch, tag, or commit SHA you want to use.
+
+Each action has its own inputs and outputs defined in
+its `action.yml` file. You can find more details by
+examining these files in the repository.
+
+## Docker Images
+
+This repository provides a versatile Docker image
+that can be used by various GitHub Actions.
+
+### Multi-purpose Action Docker Image
+
+The repository includes a custom Docker image
+that serves as a comprehensive environment for running various GitHub Actions:
+
+* **Base**: Ubuntu 22.04
+* **Development Tools**:
+  * Node.js 20 with npm
+  * Python 3 with pip, venv, and dev packages
+  * Git, curl, wget, zip/unzip, jq
+  * Build essentials and other utilities
+
+* **Document Processing**:
+  * Tectonic (LaTeX compiler)
+  * Biber (Bibliography processor)
+
+* **Pre-installed Python Packages**:
+  * Testing: pytest, pytest-cov, pytest-html, pytest-random-order
+  * Documentation: jupyter-book, sphinx-math-dollar, pdoc
+  * Notebooks: marimo
+  * Data processing: pandas, toml, requests, packaging
+
+The Dockerfile for this image is located in the `docker` directory.
+The image is built and pushed to GitHub Container Registry (ghcr.io)
+using the GitHub workflow defined in `.github/workflows/docker.yml`.
+
+### Using the Docker Image
+
+This image is currently used by the flow action to test GitHub workflows
+using the [act](https://github.com/nektos/act) tool, but it can be used
+for various other actions as well.
+The image is designed to be a comprehensive environment that includes
+most tools and dependencies needed by the actions in this repository.
+
+You can use this image in your own workflows by referencing it in your workflow file:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/tschm/cradle/flow-action:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Your steps here
+```
+
+The image is particularly useful for:
+
+* Running tests with coverage reporting
+* Building documentation (LaTeX, Jupyter Book, pdoc)
+* Processing Marimo notebooks
+* Analyzing dependencies
+* Testing GitHub workflows locally
+
 ## :warning: Private repositories
 
 Using workflows in private repos will eat into your monthly GitHub bill.
