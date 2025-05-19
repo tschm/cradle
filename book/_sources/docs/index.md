@@ -10,8 +10,7 @@
 qcradle is a command line tool to create repos based on a group of templates.
 It has been created
 to accelerate, simplify and harmonize the development
-of experiments and quantitative strategies
-as described [here](https://www.linkedin.com/pulse/rapid-quanting-thomas-schmelzer-omauf/?trackingId=Gqjma%2F8PTueJWvaBF4qWaQ%3D%3D).
+of experiments and quantitative strategies.
 
 Assuming the presence of gh, uvx and a valid ssh-connection
 with GitHub you can start the tool with
