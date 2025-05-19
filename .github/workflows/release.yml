@@ -13,7 +13,8 @@ jobs:
       contents: write  # Permission to write to repository contents (for creating tags)
 
     runs-on: ubuntu-latest
-
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
@@ -31,6 +32,10 @@ jobs:
         uses: ./actions/build
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}  # Use the tag created in step 2
+
+      - name: Debug Output Tag
+        run: |
+            echo "Tag: ${{ steps.tag_version.outputs.new_tag }}"
 
   # Job to publish the built package to PyPI
   publish:
@@ -53,3 +58,26 @@ jobs:
       # Step 2: Publish the package to PyPI
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1  # Official PyPI publishing action
+
+  docker:
+    needs: tag
+    permissions:
+      contents: read
+      packages: write
+
+    runs-on: ubuntu-latest
+    steps:
+      # -----------------------------------------------------------------------------
+      # Step 1: Checkout the repository
+      # -----------------------------------------------------------------------------
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - name: Build and Push Docker Image
+        uses: tschm/cradle/actions/docker@v0.1.64
+        with:
+          github_repository: ${{ github.repository }}
+          tag: ${{ needs.tag.outputs.new_tag }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_actor: ${{ github.actor }}
+          dockerfiles: 'docker/Dockerfile'
