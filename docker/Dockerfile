@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-venv \
     python3-dev \
+    python-is-python3 \
     biber \
     && rm -rf /var/lib/apt/lists/*
 
@@ -54,7 +55,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
     toml \
     requests \
     packaging \
-    pandas
+    deptry
 
 # Create a non-root user for running actions
 RUN useradd -m -s /bin/bash runner \
