@@ -33,12 +33,6 @@ runs:
 
       run:
         docker build -t my-act-node20 .
-        #act -P ubuntu-latest=my-act-node20 ...
-        #curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-        #sudo apt-get update
-        #sudo apt-get install -y nodejs
-        #node -v   # confirm it's 20+
-        #npm -v
         act -W .github/workflows/${{ inputs.workflow }} \
           -P ubuntu-latest=my-act-node20 \
           --env ACT='true' 2>&1 | grep -v "remote not found"
