@@ -8,18 +8,18 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Install system dependencies in a single layer with cleanup
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    #ca-certificates \
+    ca-certificates \
     curl \
-    #wget \
-    #git \
-    #sudo \
-    #software-properties-common \
-    #build-essential \
+    wget \
+    git \
+    sudo \
+    software-properties-common \
+    build-essential \
     #gnupg \
     #zip \
     #unzip \
     #jq \
-    #python3 \
+    python3 \
     #python3-pip \
     #python3-venv \
     #python3-dev \
@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install Node.js 20 using NodeSource recommended method
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update \
     && apt-get install -y nodejs \
     && npm install -g npm@latest \
     && rm -rf /var/lib/apt/lists/*
