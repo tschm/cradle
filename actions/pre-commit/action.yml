@@ -7,6 +7,11 @@ runs:
     - name: Checkout [${{ github.repository }}]
       uses: actions/checkout@v4
 
+    - name: Install Node 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
     - uses: pre-commit/action@v3.0.1
       with:
         extra_args: '--verbose --all-files'
