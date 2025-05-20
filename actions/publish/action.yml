@@ -1,0 +1,31 @@
+name: Publish package to PyPI
+description: "Publish the package to PyPI"
+
+inputs:
+  artifact:
+    description: 'artifact-folder'
+    default: 'dist'
+    required: true
+#publish:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    environment: release
+
+#    permissions:
+#      contents: read
+#      # This permission is required for trusted publishing.
+#      id-token: write
+
+runs:
+  using: "composite"
+  steps:
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-folder }}
+          path: ${{ inputs.artifact-folder }}
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

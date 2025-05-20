@@ -9,6 +9,9 @@ runs:
   using: "composite"
 
   steps:
+    - name: Checkout [${{ github.repository }}]
+      uses: actions/checkout@v4
+
     - name: Download all artifacts
       if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: actions/download-artifact@v4
