@@ -74,7 +74,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build and Push Docker Image
-        uses: tschm/cradle/actions/docker@v0.1.64
+        uses: tschm/cradle/actions/docker@v0.1.66
         with:
           github_repository: ${{ github.repository }}
           tag: ${{ needs.tag.outputs.new_tag }}
