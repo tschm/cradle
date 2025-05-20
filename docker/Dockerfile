@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     python-is-python3 \
     biber \
-    # Clean up apt cache
+    # Clean up apt cache \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20 (more reliable method)
