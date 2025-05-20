@@ -30,7 +30,7 @@ echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
 echo "Building Docker image..."
 
 docker buildx create --use  # Enable buildx
-docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/tschm/cradle:latest --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/tschm/cradle:latest --push -f docker/Dockerfile .
 
 #docker build -t ghcr.io/tschm/cradle:latest .
 

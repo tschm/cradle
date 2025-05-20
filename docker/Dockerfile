@@ -1,82 +1,59 @@
 FROM ubuntu:22.04
 
-# Set environment for non-interactive installation
+# Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
-    # Prevents Python from writing pyc files
     PYTHONDONTWRITEBYTECODE=1 \
-    # Ensures Python output is sent straight to terminal
     PYTHONUNBUFFERED=1 \
-    # Adds user's local bin to PATH
     PATH="/home/runner/.local/bin:${PATH}"
 
-# Install system dependencies in a single layer
+# Install system dependencies in a single layer with cleanup
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    #ca-certificates \
     curl \
-    wget \
-    git \
-    sudo \
-    software-properties-common \
-    build-essential \
-    ca-certificates \
-    gnupg \
-    zip \
-    unzip \
-    jq \
-    python3 \
-    python3-pip \
-    python3-venv \
-    python3-dev \
-    python-is-python3 \
-    biber \
-    # Clean up apt cache \
+    #wget \
+    #git \
+    #sudo \
+    #software-properties-common \
+    #build-essential \
+    #gnupg \
+    #zip \
+    #unzip \
+    #jq \
+    #python3 \
+    #python3-pip \
+    #python3-venv \
+    #python3-dev \
+    #python-is-python3 \
+    #biber \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 20 (more reliable method)
-RUN mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-    && apt-get update  \
+# Install Node.js 20 using NodeSource recommended method
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && rm -rf /var/lib/apt/lists/* \
-    && npm install -g npm@latest
+    && npm install -g npm@latest \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Tectonic (LaTeX compiler)
-#RUN curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh \
-#    && mv ./tectonic /usr/local/bin/ \
-#    && chmod +x /usr/local/bin/tectonic
-
-# Create non-root user early for better layer caching
+# Create non-root user with fixed UID for consistency
 RUN useradd -m -u 1001 -s /bin/bash runner \
     && echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Switch to runner user for Python package installation
+# Switch to runner user for subsequent operations
 USER runner
 WORKDIR /home/runner
 
-# Install common Python packages
-RUN python3 -m pip install --no-cache-dir --upgrade pip \
-    && python3 -m pip install --no-cache-dir \
-    pytest \
-    pytest-cov \
-    pytest-html \
-    pytest-random-order \
-    jupyter-book \
-    sphinx-math-dollar \
-    pdoc \
-    marimo \
-    toml \
-    requests \
-    packaging \
-    deptry
+# Copy requirements file first for better caching
+COPY --chown=runner:runner docker/requirements.txt .
 
-RUN python3 -m pip install --no-cache-dir \
-    pre-commit
+# Install Python packages using recommended method
+#RUN python3 -m pip install --no-cache-dir --upgrade pip \
+#    && python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Label the image
-LABEL maintainer="cradle"
-LABEL description="Docker image for running GitHub Actions workflows"
-LABEL version="1.0"
-LABEL org.opencontainers.image.source="https://github.com/tschm/cradle"
+LABEL maintainer="cradle" \
+      description="Docker image for running GitHub Actions workflows" \
+      version="1.0" \
+      org.opencontainers.image.source="https://github.com/tschm/cradle"
 
-# Default command (GitHub Actions will override this)
+# Default command
 CMD ["/bin/bash"]

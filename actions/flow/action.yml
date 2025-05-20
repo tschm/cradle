@@ -29,4 +29,4 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       run: |
-        act -W .github/workflows/${{ inputs.workflow }} -P ubuntu-22.04=ghcr.io/tschm/cradle:latest --env ACT='true' 2>&1 | grep -v "remote not found"
+        act -W .github/workflows/${{ inputs.workflow}} -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest --env ACT='true' 2>&1 | grep -v "remote not found"
