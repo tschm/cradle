@@ -1,81 +1,107 @@
+# GitHub Actions workflow for building documentation and running various checks
+# This workflow builds documentation components and runs tests for the project
+
 name: "book"
 
 on:
-- push
+- push  # Trigger on push events
 
 permissions:
   contents: read  # Read-only access to repository contents
 
 jobs:
+  # Job to generate marimo interactive notebooks
   marimo:
     runs-on: "ubuntu-latest"
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
+      # Step 3: Run marimo action to process interactive notebooks
       - uses: ./actions/marimo
 
+  # Job to generate API documentation using pdoc
   pdoc:
     runs-on: "ubuntu-latest"
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
+      # Step 3: Generate API documentation with pdoc
       - uses: ./actions/pdoc
         with:
-          source-folder: 'src/cradle'
+          source-folder: 'src/cradle'  # Path to the source code to document
 
+  # Job to analyze code age
   age:
     runs-on: "ubuntu-latest"
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
+      # Step 3: Run code age analysis
       - uses: ./actions/age
 
+  # Job to run tests with coverage reporting
   test:
     runs-on: "ubuntu-latest"
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
+      # Step 3: Run tests with coverage reporting
       - uses: ./actions/coverage
         with:
-          source-folder: 'src/cradle'
-          tests-folder: 'src/tests'
+          source-folder: 'src/cradle'  # Path to the source code
+          tests-folder: 'src/tests'    # Path to the tests
 
+  # Job to process Jupyter notebooks
   jupyter:
     runs-on: "ubuntu-latest"
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Build the virtual environment
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: ./actions/environment
 
+      # Step 3: Process Jupyter notebooks
       - uses: ./actions/jupyter
 
+  # Job to build the final documentation book
   book:
     runs-on: "ubuntu-latest"
-    needs: [test, pdoc, jupyter, marimo, age]
+    needs: [test, pdoc, jupyter, marimo, age]  # This job depends on all previous jobs
 
     permissions:
-      contents: write
+      contents: write  # Permission to write to repository contents (for publishing docs)
 
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
+      # Step 2: Build and publish the documentation book
       - uses: ./actions/book
