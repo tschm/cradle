@@ -749,7 +749,6 @@ version = "0.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "copier" },
-    { name = "dulwich" },
     { name = "fire" },
     { name = "gitpython" },
     { name = "loguru" },
@@ -760,6 +759,7 @@ dependencies = [
 
 [package.optional-dependencies]
 dev = [
+    { name = "dulwich" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -769,7 +769,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "copier", specifier = "==9.7.1" },
-    { name = "dulwich", specifier = ">=0.21.7" },
+    { name = "dulwich", marker = "extra == 'dev'", specifier = ">=0.21.7" },
     { name = "fire", specifier = "==0.7.0" },
     { name = "gitpython", specifier = ">=3.1.44" },
     { name = "loguru", specifier = "==0.7.3" },
