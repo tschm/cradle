@@ -5,4 +5,4 @@ gh_create: gh repo create tschm/xxx13 --public --description 'DemoXYZ updates 4'
 page: https://tschm.github.io/xxx13
 project_name: xxx13
 repository: https://github.com/tschm/xxx13
-ssh_uri: git@github.com:tschm/xxx13.git status: public
+ssh_uri: git@github.com:tschm/xxx13.git
