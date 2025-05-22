@@ -35,9 +35,9 @@ DA:61,1
 DA:62,1
 DA:63,1
 DA:64,1
-DA:65,1
-DA:66,1
-DA:67,1
+DA:65,0
+DA:66,0
+DA:67,0
 DA:70,1
 DA:87,1
 DA:90,1
@@ -75,7 +75,7 @@ DA:152,1
 DA:154,1
 DA:155,1
 LF:73
-LH:73
+LH:70
 FN:30,37,load_templates
 FNDA:1,load_templates
 FN:40,55,append_to_yaml_file
@@ -103,7 +103,7 @@ DA:11,1
 DA:13,1
 DA:15,1
 DA:16,1
-DA:17,0
+DA:17,1
 DA:19,1
 DA:20,1
 DA:21,1
@@ -156,7 +156,7 @@ DA:94,0
 DA:97,0
 DA:99,0
 LF:63
-LH:37
+LH:38
 FN:10,11,GitHubCLI.__init__
 FNDA:1,GitHubCLI.__init__
 FN:13,25,GitHubCLI.run
