@@ -71,6 +71,7 @@ def setup_repository(dst_path: Path, context: Dict[str, str], branch: str = "mai
         Git(str(dst_path)).init(initial_branch=branch)
         repo = Repo(str(dst_path))
         initial = True
+        print("initial")
 
     # Stage all changes
     repo.git.add(A=True)
