@@ -23,7 +23,7 @@ dev = [
     "pytest-cov==6.1.1",
     "pytest==8.3.5",
     "pre-commit==4.2.0",
-    "pytest-mock==3.14.0",
+    "pytest-mock==3.14.1",
     "dulwich>=0.21.7"
 ]
 
