@@ -83,9 +83,14 @@ def setup_repository(dst_path: Path, context: Dict[str, str], branch: str = "mai
     # Create remote repository if initial setup
     if initial:
         gh = GitHubCLI()
+        if context["status"] == "public":
+            private = False
+        else:
+            private = True
+
         gh.create_repo(
             name=f"{context['username']}/{context['project_name']}",
-            private=context.get("status", False),
+            private=private,
             description=context.get("description", ""),
         )
 

@@ -140,6 +140,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         # repo.remotes.origin.push(refspec=f"{branch}:{branch}")
 
     else:
+        logger.info(f"{context}")
         copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
         append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
         setup_repository(dst_path, context=context, branch="main")

@@ -64,7 +64,7 @@ def ask(logger=None, defaults=None):
 
     status = questionary.select(
         "What is the visibility status of the repository?",
-        choices=["public", "private", "internal"],
+        choices=["public", "private"],
         default=defaults.get("status", "public"),
     ).ask()
     status = _validate_status(status)
