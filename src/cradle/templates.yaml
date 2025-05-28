@@ -14,3 +14,6 @@ templates:
   server:
     url: "git@github.com:tschm/server.git"
     display_name: "A (numpy) server"
+  presentation:
+    url: "git@github.com:tschm/presentation.git"
+    display_name: "A (Marimo) presentation"
