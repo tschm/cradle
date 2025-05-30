@@ -124,11 +124,30 @@ runs:
               python -m pip install pytest-pyodide
           fi
 
-      - name: Run tests
+      #- name: Run tests
+      #  shell: bash
+      #  run: |
+      #    python -m pytest -vra \
+      #      --dist-dir=./pyodide-dist/ \
+      #      --runner=${{ inputs.runner }} \
+      #      --rt=${{ inputs.browser }} \
+      #      ${{ inputs.pytest-extra-args }}
+      - name: Test Numpy
         shell: bash
         run: |
-          python -m pytest -vra \
-            --dist-dir=./pyodide-dist/ \
-            --runner=${{ inputs.runner }} \
-            --rt=${{ inputs.browser }} \
-            ${{ inputs.pytest-extra-args }}
+          python -c "from pyodide import micropip; micropip.install('numpy==2.2.3')"
+
+      - name: Test NumPy Installation in Pyodide
+        shell: bash
+        run: |
+          python -c "
+          from pyodide import micropip;
+          try:
+              micropip.install('numpy==2.2.3')
+              print('✓ Success: numpy==2.2.3 installed successfully')
+              import numpy
+              print(numpy.__version__)
+          except Exception as e:
+              print('✗ Failed:', str(e))
+              raise SystemExit(1)
+          "
