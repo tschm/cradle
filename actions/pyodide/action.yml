@@ -70,6 +70,7 @@ runs:
 
       - name: Install playwright
         if: ${{ inputs.runner == 'playwright' }}
+        shell: bash
         run: |
           if [ -n "${{ inputs.playwright-version }}" ]
           then
@@ -106,10 +107,12 @@ runs:
           python-version: 3.12
 
       - name: install pyodide-py
+        shell: bash
         run: |
           python -m pip install pyodide-py==${{inputs.pyodide-version}}
 
       - name: Install pytest-pyodide
+        shell: bash
         run: |
           if [ -d "pytest_pyodide" ]; then
             # Currently we only install the package for dependencies.
@@ -122,6 +125,7 @@ runs:
           fi
 
       - name: Run tests
+        shell: bash
         run: |
           python -m pytest -vra \
             --dist-dir=./pyodide-dist/ \
