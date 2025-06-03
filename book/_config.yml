@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: antarctic
+title: cradle
 author: Thomas Schmelzer
 only_build_toc_files: true
 
@@ -11,7 +11,7 @@ parse:
     - linkify
     - dollarmath
   myst_substitutions:
-    book_url: https://tschm.github.io/antarctic
+    book_url: https://tschm.github.io/cradle
 
 # needed for plotly
 sphinx:
@@ -21,7 +21,7 @@ sphinx:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/tschm/antarctic
+  url: https://github.com/tschm/cradle
   path_to_book: book
   branch: main
 
