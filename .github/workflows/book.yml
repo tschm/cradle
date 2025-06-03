@@ -102,7 +102,7 @@ jobs:
     permissions:
       id-token: write
       pages: write
-  
+
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout [${{ github.repository }}]
