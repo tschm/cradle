@@ -2,29 +2,39 @@ name: Build the book
 description: "Build the book"
 
 permissions:
-  contents: write
+  contents: read
   pages: write
+  id-token: write
+
+outputs:
+  page_url:
+    description: "page_url"
+    value: ${{ steps.deployment.outputs.page_url }}
 
 runs:
   using: "composite"
 
-  steps:
-    - name: Checkout [${{ github.repository }}]
-      uses: actions/checkout@v4
+ # environment:
+ #   name: github-pages
+ #   url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
 
+  steps:
+
+    # Download all artifacts from previous jobs
+    # This collects the outputs from both the jupyter and marimo jobs
     - name: Download all artifacts
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: actions/download-artifact@v4
       with:
-        path: .book
+        path: artifacts
 
-    - name: Create .nojekyll
-      shell: bash
-      run: touch .book/.nojekyll
-
-    - name: GitHub Pages action
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-      uses: JamesIves/github-pages-deploy-action@v4
+      # Package all artifacts for GitHub Pages deployment
+      # This prepares the combined outputs for deployment
+    - name: Upload static files as artifact
+      id: upload
+      uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
       with:
-        branch: gh-pages            # The branch the action should deploy to.
-        folder: .book               # The folder the action should deploy.
+        path: artifacts/  # Path to the directory containing all artifacts
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
