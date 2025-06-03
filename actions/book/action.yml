@@ -26,8 +26,10 @@ runs:
       uses: actions/download-artifact@v4
       with:
         path: artifacts
-
-    - run: |
+        
+    - name: Inspect artifacts folder
+      shell: bash
+      run: |
         tree artifacts
 
       # Package all artifacts for GitHub Pages deployment
