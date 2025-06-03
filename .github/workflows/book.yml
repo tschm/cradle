@@ -3,8 +3,12 @@
 
 name: "book"
 
+# Trigger the workflow on push events
+# This ensures the documentation is automatically updated whenever code changes are pushed to main
 on:
-- push  # Trigger on push events
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read  # Read-only access to repository contents
