@@ -97,7 +97,7 @@ jobs:
 
     permissions:
       contents: write  # Permission to write to repository contents (for publishing docs)
-
+      id-token: write
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout [${{ github.repository }}]
