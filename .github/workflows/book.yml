@@ -100,9 +100,9 @@ jobs:
     needs: [test, pdoc, jupyter, marimo, age]  # This job depends on all previous jobs
 
     permissions:
-      contents: write  # Permission to write to repository contents (for publishing docs)
       id-token: write
       pages: write
+  
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout [${{ github.repository }}]
