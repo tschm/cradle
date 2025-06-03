@@ -5,7 +5,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  
+
 outputs:
   page_url:
     description: "page_url"
@@ -13,11 +13,11 @@ outputs:
 
 runs:
   using: "composite"
-  
+
  # environment:
  #   name: github-pages
  #   url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
-  
+
   steps:
 
     # Download all artifacts from previous jobs
