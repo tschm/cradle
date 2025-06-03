@@ -8,9 +8,9 @@ permissions:
 runs:
   using: "composite"
   
-  environment:
-    name: github-pages
-    url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
+ # environment:
+ #   name: github-pages
+ #   url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
   
   steps:
 #    - name: Checkout [${{ github.repository }}]
