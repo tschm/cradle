@@ -5,6 +5,11 @@ permissions:
   contents: write
   pages: write
 
+outputs:
+  page_url:
+    description: "page_url"
+    value: ${{ steps.deployment.outputs.page_url }}
+
 runs:
   using: "composite"
   
@@ -13,14 +18,14 @@ runs:
  #   url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
   
   steps:
-#    - name: Checkout [${{ github.repository }}]
-#      uses: actions/checkout@v4
+
     # Download all artifacts from previous jobs
     # This collects the outputs from both the jupyter and marimo jobs
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
         path: artifacts
+
       # Package all artifacts for GitHub Pages deployment
       # This prepares the combined outputs for deployment
     - name: Upload static files as artifact
@@ -28,52 +33,7 @@ runs:
       uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
       with:
         path: artifacts/  # Path to the directory containing all artifacts
+
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
-        
-    #- name: Download all artifacts
-    #  if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-    #  uses: actions/download-artifact@v4
-    #  with:
-    #    path: .book
-
-    #- name: Create .nojekyll
-    #  shell: bash
-    #  run: touch .book/.nojekyll
-
-    #- name: GitHub Pages action
-    #  if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-    #  uses: JamesIves/github-pages-deploy-action@v4
-    #  with:
-    #    branch: gh-pages            # The branch the action should deploy to.
-    #    folder: .book               # The folder the action should deploy.
-
-
-  #build:
-    #permissions:
-    #  pages: write      # Permission to deploy to Pages
-    #  id-token: write   # Permission to verify deployment origin
-    #runs-on: ubuntu-latest
-    #needs: [jupyter, marimo]  # This job depends on both jupyter and marimo jobs
-    #environment:
-    #  name: github-pages
-    #  url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
-    #steps:
-    #  # Download all artifacts from previous jobs
-    #  # This collects the outputs from both the jupyter and marimo jobs
-    #  - name: Download all artifacts
-    #    uses: actions/download-artifact@v4
-    #    with:
-    #      path: artifacts
-          
-      # Package all artifacts for GitHub Pages deployment
-      # This prepares the combined outputs for deployment
-      #- name: Upload static files as artifact
-      #  id: upload
-      #  uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
-      #  with:
-      #    path: artifacts/  # Path to the directory containing all artifacts
-      #- name: Deploy to GitHub Pages
-      #  id: deployment
-      #  uses: actions/deploy-pages@v4
