@@ -103,6 +103,9 @@ jobs:
       id-token: write
       pages: write
 
+    environment:
+      name: github-pages
+
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout [${{ github.repository }}]
