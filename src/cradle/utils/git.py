@@ -6,7 +6,6 @@ using the GitPython package, with support for vendor-specific version formats.
 
 import re
 from dataclasses import dataclass
-from typing import Optional, Tuple, Union
 
 from .gh_client import GitHubCLI
 
@@ -25,8 +24,8 @@ class _GitVersion:
 
     major: int
     minor: int
-    patch: Optional[int] = None
-    vendor_info: Optional[str] = None
+    patch: int | None = None
+    vendor_info: str | None = None
 
     def __ge__(self, other):
         if not isinstance(other, _GitVersion):
@@ -40,7 +39,7 @@ class _GitVersion:
 
 
 def _check_git_version(
-    min_version: Union[str, Tuple[int, int], Tuple[int, int, int]],
+    min_version: str | tuple[int, int] | tuple[int, int, int],
 ) -> bool:
     """Check if the installed Git version meets minimum requirements.
 
@@ -57,6 +56,7 @@ def _check_git_version(
     Raises:
         GitVersionError: For version parsing or comparison issues.
         GitNotFoundError: If Git is not installed.
+
     """
     # Convert min_version to GitVersion object
     if isinstance(min_version, str):
@@ -94,7 +94,7 @@ def _check_git_version(
     return installed_version >= min_version
 
 
-def assert_git_version(min_version: Union[str, Tuple[int, int], Tuple[int, int, int]]):
+def assert_git_version(min_version: str | tuple[int, int] | tuple[int, int, int]):
     """Assert that Git version meets minimum requirements.
 
     Args:
@@ -103,6 +103,7 @@ def assert_git_version(min_version: Union[str, Tuple[int, int], Tuple[int, int, 
     Raises:
         GitVersionError: If version requirements are not met.
         GitNotFoundError: If Git is not installed.
+
     """
     if not _check_git_version(min_version):
         raise GitVersionError(f"Insufficient Git version (required: >= {min_version})")

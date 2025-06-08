@@ -1,16 +1,25 @@
+"""GitHub CLI client for qCradle."""
+
 import subprocess
 from pathlib import Path
-from typing import Dict, Optional
 
 from git import Git, InvalidGitRepositoryError, Repo
 from security import safe_command
 
 
 class GitHubCLI:
+    """GitHub CLI client for qCradle."""
+
     def __init__(self, verbose: bool = True):
+        """Initialize the instance of the class and set verbosity level.
+
+        Args:
+            verbose (bool): Determines whether the instance operates in verbose mode.
+
+        """
         self.verbose = verbose
 
-    def run(self, *args: str) -> Optional[str]:
+    def run(self, *args: str) -> str | None:
         """Execute a GitHub CLI command safely."""
         cmd = ["gh", *args]
         if self.verbose:
@@ -24,7 +33,7 @@ class GitHubCLI:
                 print(f"❌ Command failed: {e.stderr}")
             raise RuntimeError(f"GitHub CLI error: {e.stderr}") from e
 
-    def create_repo(self, name: str, private: bool = False, description: Optional[str] = None) -> str:
+    def create_repo(self, name: str, private: bool = False, description: str | None = None) -> str:
         """Create a new GitHub repository."""
         args = ["repo", "create", name.replace(" ", "-")]
         args += ["--private"] if private else ["--public"]
@@ -38,8 +47,8 @@ class GitHubCLI:
         """Verify GitHub CLI is installed."""
         try:
             return safe_command.run(subprocess.run, ["git", "--version"], capture_output=True, text=True)
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            raise subprocess.CalledProcessError("Git is not installed")
+        except subprocess.CalledProcessError as e:
+            raise subprocess.CalledProcessError("Git is not installed") from e
 
 
 def is_git_repo(path: Path) -> bool:
@@ -54,7 +63,7 @@ def is_git_repo(path: Path) -> bool:
         return False
 
 
-def setup_repository(dst_path: Path, context: Dict[str, str], branch: str = "main") -> Repo:
+def setup_repository(dst_path: Path, context: dict[str, str], branch: str = "main") -> Repo:
     """Initialize or update a Git repository with GitHub integration."""
     if not GitHubCLI.version():
         raise RuntimeError("GitHub is not installed")

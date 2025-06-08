@@ -1,3 +1,5 @@
+"""Questionary-based CLI questions and validation."""
+
 import logging
 import re
 
@@ -40,6 +42,26 @@ def _validate_status(status):
 
 
 def ask(logger=None, defaults=None):
+    """Prompt the user for project details and collect input, validate it, and log the repository information.
+
+    This function interacts with the user to gather information required for creating a GitHub repository.
+
+    Args:
+        logger (Optional[logging.Logger]): Logger instance for logging messages.
+        defaults (Optional[dict]): Dictionary containing default values for project details.
+
+    Returns:
+        dict: A dictionary containing the project details gathered from the user:
+            - "project_name": The name of the project (str).
+            - "username": The GitHub username (str).
+            - "description": A brief description of the project (str).
+            - "status": The visibility status of the repository, either "public" or "private" (str).
+            - "ssh_uri": SSH URI for the repository (str).
+            - "repository": The full GitHub repository URL (str).
+            - "gh_create": The GitHub CLI command to create the repository (str).
+            - "page": The URL for the project companion website (str).
+
+    """
     logger = logger or logging.getLogger(__name__)
     defaults = defaults or {}
 

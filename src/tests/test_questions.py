@@ -1,3 +1,5 @@
+"""Tests for the questions module."""
+
 from unittest.mock import patch
 
 import pytest
@@ -16,8 +18,7 @@ from cradle.utils.questions import (
 
 
 def test_validate_project_name_valid():
-    """
-    Test that _validate_project_name accepts valid project names.
+    """Test that _validate_project_name accepts valid project names.
 
     Verifies that the function returns the input name unchanged when given valid project names.
     """
@@ -27,8 +28,7 @@ def test_validate_project_name_valid():
 
 
 def test_validate_project_name_invalid():
-    """
-    Test that _validate_project_name rejects invalid project names.
+    """Test that _validate_project_name rejects invalid project names.
 
     Verifies that the function raises a ValueError when given invalid project names,
     such as empty strings, names with uppercase letters, names starting with numbers,
@@ -47,8 +47,7 @@ def test_validate_project_name_invalid():
 
 
 def test_validate_username_valid():
-    """
-    Test that _validate_username accepts valid usernames.
+    """Test that _validate_username accepts valid usernames.
 
     Verifies that the function returns the input username unchanged when given valid usernames.
     """
@@ -58,8 +57,7 @@ def test_validate_username_valid():
 
 
 def test_validate_username_invalid():
-    """
-    Test that _validate_username rejects invalid usernames.
+    """Test that _validate_username rejects invalid usernames.
 
     Verifies that the function raises a ValueError when given invalid usernames,
     such as empty strings or None values.
@@ -71,8 +69,7 @@ def test_validate_username_invalid():
 
 
 def test_validate_description_valid():
-    """
-    Test that _validate_description accepts valid descriptions.
+    """Test that _validate_description accepts valid descriptions.
 
     Verifies that the function returns the input description unchanged when given valid descriptions,
     including short descriptions and longer descriptions with multiple words.
@@ -83,8 +80,7 @@ def test_validate_description_valid():
 
 
 def test_validate_description_invalid():
-    """
-    Test that _validate_description rejects invalid descriptions.
+    """Test that _validate_description rejects invalid descriptions.
 
     Verifies that the function raises a ValueError when given invalid descriptions,
     such as empty strings or None values.
@@ -96,8 +92,7 @@ def test_validate_description_invalid():
 
 
 def test_validate_status_valid():
-    """
-    Test that _validate_status accepts valid status values.
+    """Test that _validate_status accepts valid status values.
 
     Verifies that the function returns the input status unchanged when given valid status values
     (public, private, internal).
@@ -108,8 +103,7 @@ def test_validate_status_valid():
 
 
 def test_validate_status_invalid():
-    """
-    Test that _validate_status rejects invalid status values.
+    """Test that _validate_status rejects invalid status values.
 
     Verifies that the function raises a ValueError when given invalid status values,
     such as empty strings, None values, unrecognized status values, or status values
@@ -122,8 +116,7 @@ def test_validate_status_invalid():
 
 
 def test_validate_page_invalid():
-    """
-    Test that _validate_page rejects invalid page values.
+    """Test that _validate_page rejects invalid page values.
 
     Verifies that the function raises a ValueError when given invalid page values,
     such as None values.
@@ -135,8 +128,7 @@ def test_validate_page_invalid():
 
 
 def test_ask_integration():
-    """
-    Integration test for the ask function.
+    """Integration test for the ask function.
 
     Tests that the ask function correctly processes user inputs and returns a properly
     formatted context dictionary with all expected keys and values. This test mocks

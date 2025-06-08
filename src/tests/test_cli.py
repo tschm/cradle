@@ -1,3 +1,5 @@
+"""Tests for the CLI module."""
+
 import dataclasses
 
 import pytest
@@ -14,12 +16,12 @@ from cradle.cli import append_to_yaml_file, cli, load_defaults
 
 @pytest.fixture
 def mock_context():
-    """
-    Pytest fixture that provides a mock context dictionary for testing.
+    """Pytest fixture that provides a mock context dictionary for testing.
 
     Returns:
         dict: A dictionary containing mock project information including project name,
               username, SSH URI, status, and description.
+
     """
     return {
         "project_name": "Mocked Project",
@@ -32,32 +34,32 @@ def mock_context():
 
 @dataclasses.dataclass(frozen=True)
 class Answer:
-    """
-    A mock class that simulates questionary's Answer objects for testing.
+    """A mock class that simulates questionary's Answer objects for testing.
 
     Attributes:
         string (str): The string value to be returned when ask() is called.
+
     """
 
     string: str
 
     def ask(self):
-        """
-        Simulates the ask method of questionary's Answer objects.
+        """Simulate the ask method of questionary's Answer objects.
 
         Returns:
             str: The string value stored in this Answer object.
+
         """
         return self.string
 
 
 def test_no_template(mock_context, mocker):
-    """
-    Test the CLI functionality when no template is specified.
+    """Test the CLI functionality when no template is specified.
 
     Args:
         mock_context (dict): Fixture providing mock project context.
         mocker (pytest.MockFixture): Pytest fixture for mocking.
+
     """
     mocker.patch("cradle.cli.questionary.select", return_value=Answer("A LaTeX document"))
     mocker.patch("cradle.cli.ask", return_value=mock_context)
@@ -68,11 +70,11 @@ def test_no_template(mock_context, mocker):
 
 
 def test_append_to_yaml_file(tmp_path):
-    """
-    Test the append_to_yaml_file function to ensure it correctly appends data to a YAML file.
+    """Test the append_to_yaml_file function to ensure it correctly appends data to a YAML file.
 
     Args:
         tmp_path (Path): Pytest fixture providing a temporary directory path.
+
     """
     data = {"A": 100, "B": 200}
     append_to_yaml_file(file_path=tmp_path / "a.yml", new_data=data)
@@ -90,12 +92,12 @@ def test_append_to_yaml_file(tmp_path):
 
 
 def test_without_dst_path(mock_context, mocker):
-    """
-    Test the CLI functionality when no destination path is specified.
+    """Test the CLI functionality when no destination path is specified.
 
     Args:
         mock_context (dict): Fixture providing mock project context.
         mocker (pytest.MockFixture): Pytest fixture for mocking.
+
     """
     mocker.patch("cradle.cli.questionary.select", return_value=Answer("A LaTeX document"))
     mocker.patch("cradle.cli.ask", return_value=mock_context)
@@ -106,11 +108,11 @@ def test_without_dst_path(mock_context, mocker):
 
 
 def test_load_defaults(resource_dir):
-    """
-    Test the load_defaults function with a valid file.
+    """Test the load_defaults function with a valid file.
 
     Args:
         resource_dir (Path): Fixture providing the path to test resources.
+
     """
     data = load_defaults(resource_dir / ".copier-answers.yml")
     print(data)
@@ -118,11 +120,11 @@ def test_load_defaults(resource_dir):
 
 
 def test_load_defaults_no_file(resource_dir):
-    """
-    Test the load_defaults function when the file doesn't exist.
+    """Test the load_defaults function when the file doesn't exist.
 
     Args:
         resource_dir (Path): Fixture providing the path to test resources.
+
     """
     data = load_defaults(file_path=resource_dir / "maffay.yml")
     assert data == {}
@@ -140,13 +142,13 @@ def test_load_defaults_no_file(resource_dir):
 
 
 def test_update(tmp_path, mocker, mock_context):
-    """
-    Test the CLI update functionality.
+    """Test the CLI update functionality.
 
     Args:
         tmp_path (Path): Pytest fixture providing a temporary directory path.
         mocker (pytest.MockFixture): Pytest fixture for mocking.
         mock_context (dict): Fixture providing mock project context.
+
     """
     # copy file resource_dir /.copier-answers into temp_dir
     mocker.patch("cradle.cli.ask", return_value=mock_context)

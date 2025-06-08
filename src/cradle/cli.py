@@ -1,3 +1,5 @@
+"""Command-line interface for qCradle."""
+
 import datetime
 import os
 import shutil
@@ -28,9 +30,7 @@ logger.add(
 
 
 def load_templates(yaml_path: Path) -> dict[str, str]:
-    """
-    Load templates from YAML file and return a dictionary mapping display names to URLs.
-    """
+    """Load templates from YAML file and return a dictionary mapping display names to URLs."""
     with open(yaml_path) as f:
         config = yaml.safe_load(f)
 
@@ -38,6 +38,28 @@ def load_templates(yaml_path: Path) -> dict[str, str]:
 
 
 def append_to_yaml_file(new_data, file_path):
+    """Append or update a YAML file with new data.
+
+    This function checks if the
+    specified YAML file exists. If it exists, the current contents are loaded,
+    updated with the new data, and written back to the file. If the file does not
+    exist, a new file is created, and the provided data is written to it.
+
+    Parameters
+    ----------
+    new_data : dict
+        The new data to append to the YAML file. It should be a dictionary.
+    file_path : str
+        The path of the YAML file to update or create.
+
+    Raises
+    ------
+    yaml.YAMLError
+        If there is an error in parsing or dumping YAML data.
+    IOError
+        If there is an issue with file reading or writing.
+
+    """
     # Check if the file exists
     if os.path.exists(file_path):
         # Load the existing data from the file
@@ -57,6 +79,31 @@ def append_to_yaml_file(new_data, file_path):
 
 # Load defaults from .copier-answers.yml
 def load_defaults(file_path=".copier-answers.yml"):
+    """Load default values from a specified YAML file.
+
+    If the file is missing,
+    it returns an empty dictionary. If the file is present but cannot be
+    parsed due to invalid YAML formatting, an error message is printed and
+    the exception is re-raised.
+
+    Parameters
+    ----------
+    file_path: str
+        The path to the YAML file from which defaults should be loaded. Defaults to
+        ".copier-answers.yml".
+
+    Returns
+    -------
+    dict
+        A dictionary containing the parsed contents of the YAML file. If the file is
+        not found, an empty dictionary is returned.
+
+    Raises
+    ------
+    yaml.YAMLError
+        If there is an error while parsing the YAML file, this exception is raised.
+
+    """
     try:
         with open(file_path) as file:
             return yaml.safe_load(file) or {}
@@ -68,8 +115,8 @@ def load_defaults(file_path=".copier-answers.yml"):
 
 
 def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
-    """
-    The qCradle interface. Create GitHub repositories from the command line.
+    """Create GitHub repositories from the command line.
+
     It is also possible to create a large number of GitHub repositories.
 
     Args:
@@ -81,8 +128,10 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
         vcs_ref: optional (str) revision number to checkout
         a particular Git ref before generating the project.
-    """
 
+        **kwargs: optional keyword arguments to pass to copier.run_copy() or copier.run_update()
+
+    """
     # check the git version
     assert_git_version(min_version="2.28.0")
 
@@ -157,7 +206,5 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
 
 
 def main():  # pragma: no cover
-    """
-    Run the CLI using Fire
-    """
+    """Run the CLI using Fire."""
     Fire(cli)
