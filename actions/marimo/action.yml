@@ -10,7 +10,7 @@ inputs:
   command:
     description: 'command'
     required: false
-    default: 'export html "$file" -o "artifacts/marimo/${filename}/index.html'
+    default: 'export html "$file" -o "artifacts/marimo/${filename}/index.html"'
 
 runs:
   using: composite
