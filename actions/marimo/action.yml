@@ -7,6 +7,10 @@ inputs:
     required: false
     default: 'book/marimo'
 
+  command:
+    description: 'command'
+    required: false
+    default: 'export html "$file" -o "artifacts/marimo/${filename}/index.html'
 
 runs:
   using: composite
@@ -35,7 +39,8 @@ runs:
             found_files=1
             filename=$(basename "$file" .py)
             echo "Converting $filename.py to HTML..."
-            marimo export html "$file" -o "artifacts/marimo/${filename}.html"
+            uv run marimo ${{ inputs.command }}
+            #export html "$file" -o "artifacts/marimo/${filename}.html"
           fi
         done
 

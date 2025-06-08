@@ -1,3 +1,4 @@
+# Project metadata and package information
 [project]
 name = "qCradle"
 version = "0.0.0"
@@ -15,9 +16,11 @@ dependencies = [
     "gitpython>=3.1.44",
 ]
 
+# URLs related to the project
 [project.urls]
 repository = "https://github.com/cvxgrp/cradle"
 
+# Optional dependencies for development
 [project.optional-dependencies]
 dev = [
     "pytest-cov==6.1.1",
@@ -26,9 +29,11 @@ dev = [
     "pytest-mock==3.14.1"
 ]
 
+# Entry points for command-line scripts
 [project.scripts]
 qcradle = "cradle.cli:main"
 
+# Ruff linter configuration
 [tool.ruff]
 line-length = 120
 target-version = "py310"
@@ -36,16 +41,20 @@ exclude = [
     "*__init__.py"
 ]
 
+# Ruff linter rule selection
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 
+# Build system configuration
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# Hatch wheel build configuration
 [tool.hatch.build.targets.wheel]
 packages = ["src/cradle"]
 
+# Hatch build configuration - files to include in the package
 [tool.hatch.build]
 include = [
     "LICENSE",    # Ensure the LICENSE file is included in your package
@@ -54,6 +63,7 @@ include = [
     "src/cradle",
 ]
 
+# Deptry dependency checker configuration
 [tool.deptry]
 # see https://deptry.com/usage/#pep-621-dev-dependency-groups
 pep621_dev_dependency_groups = ["dev"]
