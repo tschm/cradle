@@ -28,6 +28,9 @@ jobs:
 
       # Step 3: Run marimo action to process interactive notebooks
       - uses: ./actions/marimo
+        with:
+          command: 'export html-wasm "$file" -o "artifacts/marimo/${filename}/index.html"'
+
 
   # Job to generate API documentation using pdoc
   pdoc:
