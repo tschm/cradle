@@ -18,7 +18,7 @@ dependencies = [
 
 # URLs related to the project
 [project.urls]
-repository = "https://github.com/cvxgrp/cradle"
+repository = "https://github.com/tschm/cradle"
 
 # Optional dependencies for development
 [project.optional-dependencies]
