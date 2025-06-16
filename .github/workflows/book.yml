@@ -18,18 +18,23 @@ jobs:
   marimo:
     runs-on: "ubuntu-latest"
     steps:
+      - name: Marimushka
+        uses: tschm/marimushka/actions/export@v0.0.15
+        with:
+          notebooks: 'book/marimo'
+
       # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
+      #- name: Checkout ${{ github.repository }}
+      #  uses: actions/checkout@v4
 
       # Step 2: Build the virtual environment
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
+      #- name: "Build the virtual environment for ${{ github.repository }}"
+      #  uses: ./actions/environment
 
       # Step 3: Run marimo action to process interactive notebooks
-      - uses: ./actions/marimo
-        with:
-          command: 'export html-wasm "$file" -o "artifacts/marimo/${filename}/index.html"'
+      #- uses: ./actions/marimo
+      #  with:
+      #    command: 'export html-wasm "$file" -o "artifacts/marimo/${filename}/index.html"'
 
 
   # Job to generate API documentation using pdoc
