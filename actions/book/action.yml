@@ -1,11 +1,6 @@
 name: Build the book
 description: "Build the book"
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 outputs:
   page_url:
     description: "page_url"
@@ -13,14 +8,6 @@ outputs:
 
 runs:
   using: "composite"
-
- # environment:
- #   name: github-pages
- #   url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
-  permissions:
-    contents: read
-    pages: write
-    id-token: write
 
   steps:
 

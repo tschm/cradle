@@ -87,9 +87,5 @@ jobs:
       name: github-pages
 
     steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
-
-      # Step 2: Build and publish the documentation book
+      # Build and publish the documentation book
       - uses: ./actions/book
