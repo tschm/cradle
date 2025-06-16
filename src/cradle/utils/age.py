@@ -7,6 +7,7 @@ import pandas as pd
 import requests
 import toml
 from packaging.version import InvalidVersion, parse
+from security import safe_requests
 
 
 def extract_package_name(dep):
@@ -21,7 +22,7 @@ def get_latest_stable_version(package_name):
 
     url = f"https://pypi.org/pypi/{package_name}/json"
     try:
-        response = requests.get(url, timeout=10)
+        response = safe_requests.get(url, timeout=10)
 
         if response.status_code == 200:
             data = response.json()
