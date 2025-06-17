@@ -19,7 +19,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Marimushka
-        uses: tschm/marimushka/actions/export@v0.0.16
+        uses: tschm/marimushka/actions/export@v0.0.17
         with:
           notebooks: 'book/marimo'
           publish: 'false'
