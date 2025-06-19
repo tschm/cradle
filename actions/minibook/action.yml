@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name: Build the minibook
 description: "Build the Minibook"
 
@@ -70,4 +69,3 @@ runs:
           --format "${{ inputs.format }}" \
           --links "$LINKS" \
           $TIMESTAMP_ARG
-
