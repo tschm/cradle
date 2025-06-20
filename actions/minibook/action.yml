@@ -62,7 +62,7 @@ runs:
           TIMESTAMP_ARG="--timestamp ${{ inputs.timestamp }}"
         fi
 
-        minibook \
+        uvx minibook \
           --title "${{ inputs.title }}" \
           --description "${{ inputs.description }}" \
           --output "${{ inputs.output }}" \
