@@ -47,7 +47,7 @@ runs:
       uses: astral-sh/setup-uv@v6
       with:
         python-version: 3.12
-      
+
     - name: Inspect artifacts folder
       shell: bash
       run: |
