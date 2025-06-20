@@ -19,10 +19,9 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Marimushka
-        uses: tschm/marimushka/actions/export@v0.0.17
+        uses: jebel-quant/marimushka@v0.1.1
         with:
           notebooks: 'book/marimo'
-          publish: 'false'
 
   # Job to generate API documentation using pdoc
   pdoc:
