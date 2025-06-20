@@ -1,0 +1,71 @@
+name: Build the minibook
+description: "Build the Minibook"
+
+inputs:
+  title:
+    description: 'Title of the minibook'
+    required: false
+    default: 'My Links'
+  description:
+    description: 'Description of the minibook'
+    required: false
+    default: ''
+  output:
+    description: 'Output file or directory'
+    required: false
+    default: 'artifacts/minibook.html'
+  links:
+    description: 'Comma-separated list of tuples with (name;url)'
+    required: true
+  #format:
+  #  description: 'Output format: html or mkdocs'
+  #  required: false
+  #  default: 'html'
+  timestamp:
+    description: 'Fixed timestamp for testing purposes'
+    required: false
+    default: ''
+#outputs:
+#  page_url:
+#    description: "page_url"
+#    value: ${{ steps.deployment.outputs.page_url }}
+
+runs:
+  using: "composite"
+
+  steps:
+
+    # Download all artifacts from previous jobs
+    # This collects the outputs from both the jupyter and marimo jobs
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+      # Set up Python environment using uv with the specified version
+    - name: Set up Python and uv/uvx
+      uses: astral-sh/setup-uv@v6
+      with:
+        python-version: 3.12
+
+    - name: Inspect artifacts folder
+      shell: bash
+      run: |
+        tree artifacts
+
+    - name: Create minibook
+      shell: bash
+      run: |
+        LINKS="${{ inputs.links }}"
+        TIMESTAMP_ARG=""
+        if [ -n "${{ inputs.timestamp }}" ]; then
+          TIMESTAMP_ARG="--timestamp ${{ inputs.timestamp }}"
+        fi
+
+        minibook \
+          --title "${{ inputs.title }}" \
+          --description "${{ inputs.description }}" \
+          --output "${{ inputs.output }}" \
+          --format "${{ inputs.format }}" \
+          --links "$LINKS" \
+          $TIMESTAMP_ARG
