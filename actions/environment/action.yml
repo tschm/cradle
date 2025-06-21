@@ -29,11 +29,12 @@ runs:
           uv sync --frozen
         elif [ -f "pyproject.toml" ]; then
           echo "📦 Using pyproject.toml — syncing environment"
-          #if [ -f "uv.lock" ]; then
-          uv pip install --all-extras
-          #else
-          #  uv pip install
-          #fi
+          if [ -f "uv.lock" ]; then
+            uv pip install --require-virtualenv --frozen
+          else
+            echo "⚠️  No uv.lock file found — proceeding without lockfile"
+            uv pip install --require-virtualenv
+          fi
         else
           echo "❌ No requirements.txt or pyproject.toml found"
           exit 1
