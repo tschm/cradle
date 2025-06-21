@@ -6,26 +6,26 @@ inputs:
     description: 'Source folder with all tests'
     required: false
     default: 'tests'
-  python-version:
-    description: 'The Python version to use'
-    required: false
-    default: '3.12'
+  #python-version:
+  #  description: 'The Python version to use'
+  #  required: false
+  #  default: '3.12'
 
 runs:
   using: "composite"
   steps:
-    - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+    #- name: Checkout ${{ github.repository }}
+    #  uses: actions/checkout@v4
 
-    - name: Set up Python ${{ inputs.python-version }}
-      uses: astral-sh/setup-uv@v6
-      with:
-        python-version: ${{ inputs.python-version }}
+    #- name: Set up Python ${{ inputs.python-version }}
+    #  uses: astral-sh/setup-uv@v6
+    #  with:
+    #    python-version: ${{ inputs.python-version }}
 
-    - name: Install package
-      shell: bash
-      run: |
-        uv sync --all-extras
+    #- name: Install package
+    #  shell: bash
+    #  run: |
+    #    uv sync --all-extras
 
     - name: Run tests
       shell: bash
