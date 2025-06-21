@@ -10,6 +10,7 @@ inputs:
 runs:
   using: "composite"
 
+
   steps:
     - name: Checkout [${{ github.repository }}]
       uses: actions/checkout@v4
@@ -62,14 +63,16 @@ runs:
       shell: bash
       run: |
         if [ -f "requirements.txt" ]; then
-          uv pip install --no-cache-dir -r requirements.txt --system
+          #uv sync --frozen
+          uv pip install --no-cache-dir -r requirements.txt
         else
           # Sync environment (install dependencies)
           if [ -f "uv.lock" ]; then
-            uv sync --all-extras --dev --frozen  --system # Install all dependencies (including dev dependencies)
+            #uv pip install
+            uv sync --all-extras --dev --frozen # Install all dependencies (including dev dependencies)
           else
-            uv sync --all-extras --dev  --system # Install all dependencies (including dev dependencies)
+            uv sync --all-extras --dev # Install all dependencies (including dev dependencies)
           fi
         fi
 
-        uv pip install pip --system
+        uv pip install pip
