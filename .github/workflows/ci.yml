@@ -26,6 +26,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
+
       # Step 1: Checkout the repository code
       #- name: Checkout ${{ github.repository }}
       #  uses: actions/checkout@v4
