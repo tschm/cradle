@@ -9,8 +9,8 @@ on:
 permissions:
   contents: read  # Read-only access to repository contents
 
-env:
-  UV_SYSTEM_PYTHON: 1
+#env:
+#  UV_SYSTEM_PYTHON: 1
 
 jobs:
   test:
@@ -27,16 +27,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
+      #- name: Checkout ${{ github.repository }}
+      #  uses: actions/checkout@v4
 
       # Step 2: Build the virtual environment with the specified Python version
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-        with:
-          python-version: ${{ matrix.python-version }}
+      #- name: "Build the virtual environment for ${{ github.repository }}"
+      #  uses: ./actions/environment
+      #  with:
+      #    python-version: ${{ matrix.python-version }}
 
       # Step 3: Run the tests
       - uses: ./actions/test
         with:
           tests-folder: src/tests  # Path to the tests directory
+          python-version: ${{ matrix.python-version }}

@@ -6,6 +6,10 @@ inputs:
     description: 'Source folder with all tests'
     required: false
     default: 'tests'
+  python-version:
+    description: 'The Python version to use'
+    required: false
+    default: '3.12'
 
 runs:
   using: "composite"
@@ -21,7 +25,7 @@ runs:
     - name: Install package
       shell: bash
       run: |
-        uv sync --frozen --all-extras
+        uv sync --all-extras
 
     - name: Run tests
       shell: bash
