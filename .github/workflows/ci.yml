@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read  # Read-only access to repository contents
 
+env:
+  UV_SYSTEM_PYTHON: 1
+
 jobs:
   test:
     # The type of runner that the job will run on
