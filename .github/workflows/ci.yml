@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read  # Read-only access to repository contents
 
+#env:
+#  UV_SYSTEM_PYTHON: 1
+
 jobs:
   test:
     # The type of runner that the job will run on
@@ -17,7 +20,7 @@ jobs:
     strategy:
       matrix:
         # Test on multiple operating systems and Python versions
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
         python-version: [ '3.10', '3.11', '3.12', '3.13' ]
 
 

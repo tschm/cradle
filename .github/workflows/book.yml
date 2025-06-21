@@ -59,24 +59,24 @@ jobs:
           tests-folder: 'src/tests'    # Path to the tests
 
   # Job to process Jupyter notebooks
-  jupyter:
-    runs-on: "ubuntu-latest"
-    steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Build the virtual environment
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
-
-      # Step 3: Process Jupyter notebooks
-      - uses: ./actions/jupyter
+  #jupyter:
+  #  runs-on: "ubuntu-latest"
+  #  steps:
+  #    # Step 1: Checkout the repository code
+  #    - name: Checkout ${{ github.repository }}
+  #      uses: actions/checkout@v4
+  #
+  #    # Step 2: Build the virtual environment
+  #    - name: "Build the virtual environment for ${{ github.repository }}"
+  #      uses: ./actions/environment
+  #
+  #    # Step 3: Process Jupyter notebooks
+  #    - uses: ./actions/jupyter
 
   # Job to build the final documentation book
   book:
     runs-on: "ubuntu-latest"
-    needs: [test, pdoc, jupyter, marimo]  # This job depends on all previous jobs
+    needs: [test, pdoc, marimo]  # This job depends on all previous jobs
 
     permissions:
       id-token: write
@@ -95,3 +95,15 @@ jobs:
         with:
           title: "Cradle minibook test"
           links: 'spiegel;http://www.spiegel.de'
+
+        # Package all artifacts for GitHub Pages deployment
+        # This prepares the combined outputs for deployment
+      - name: Upload static files as artifact
+        id: upload
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: artifacts/  # Path to the directory containing all artifacts
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

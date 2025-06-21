@@ -1,10 +1,17 @@
 name: Build the book
 description: "Build the book"
 
+inputs:
+  path:
+    description: "artifacts path"
+    required: false
+    default: 'artifacts'
+
 outputs:
   page_url:
     description: "page_url"
     value: ${{ steps.deployment.outputs.page_url }}
+
 
 runs:
   using: "composite"
@@ -29,7 +36,7 @@ runs:
       id: upload
       uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
       with:
-        path: artifacts/  # Path to the directory containing all artifacts
+        path: ${{ inputs.path }}  # Path to the directory containing all artifacts
 
     - name: Deploy to GitHub Pages
       id: deployment
