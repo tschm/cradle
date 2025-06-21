@@ -22,22 +22,4 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        #set -euo pipefail
         uv sync --all-extras
-
-
-        #if [ -f "requirements.txt" ]; then
-        #  echo "🔧 Using requirements.txt — syncing environment"
-        #  uv sync --frozen
-        #elif [ -f "pyproject.toml" ]; then
-        #  echo "📦 Using pyproject.toml — syncing environment"
-        #  if [ -f "uv.lock" ]; then
-        #    uv sync --frozen --all-extras
-        #  else
-        #    echo "⚠️  No uv.lock file found — proceeding without lockfile"
-        #    uv pip install --require-virtualenv
-        #  fi
-        #else
-        #  echo "❌ No requirements.txt or pyproject.toml found"
-        #  exit 1
-        #fi

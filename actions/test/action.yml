@@ -28,9 +28,9 @@ runs:
     #    uv sync --all-extras
 
     - name: Run tests
-      shell: bash
+      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
       run: |
-        which python
+        ${{ runner.os == 'Windows' && 'where python' || 'which python' }}
         uv pip install --no-cache-dir pytest
         # uv pip install --no-cache-dir pytest
         uv run pytest ${{ inputs.tests-folder }}
