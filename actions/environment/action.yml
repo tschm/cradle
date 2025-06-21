@@ -51,24 +51,25 @@ runs:
     #    # Unset PYTHONHOME to avoid any system Python being used
     #    Remove-Item -Path Env:PYTHONHOME -ErrorAction SilentlyContinue
 
-    - name: Install pip and create venv
-      shell: bash
-      run: |
-        # Create virtual environment with uv
-        uv venv --python ${{ inputs.python-version }}
+    #- name: Install pip and create venv
+    #  shell: bash
+    #  run: |
+    #    #UNSET PYTHONHOME
+    #    # Create virtual environment with uv
+    #    uv venv --python ${{ inputs.python-version }}
 
     - name: Install dependencies if requirements.txt exists
       shell: bash
       run: |
         if [ -f "requirements.txt" ]; then
-          uv pip install --no-cache-dir -r requirements.txt
+          uv pip install --no-cache-dir -r requirements.txt --system
         else
           # Sync environment (install dependencies)
           if [ -f "uv.lock" ]; then
-            uv sync --all-extras --dev --frozen  # Install all dependencies (including dev dependencies)
+            uv sync --all-extras --dev --frozen  --system # Install all dependencies (including dev dependencies)
           else
-            uv sync --all-extras --dev  # Install all dependencies (including dev dependencies)
+            uv sync --all-extras --dev  --system # Install all dependencies (including dev dependencies)
           fi
         fi
 
-        uv pip install pip
+        uv pip install pip --system
