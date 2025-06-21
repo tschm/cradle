@@ -17,7 +17,7 @@ runs:
     - name: Install deptry
       shell: bash
       run: |
-        python -m pip install --no-cache-dir deptry
+        uv pip install --no-cache-dir deptry
 
     - name: Run Deptry
       shell: bash

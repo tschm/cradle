@@ -31,5 +31,6 @@ runs:
       shell: bash
       run: |
         which python
+        uv pip install --no-cache-dir pytest
         # uv pip install --no-cache-dir pytest
         uv run pytest ${{ inputs.tests-folder }}
