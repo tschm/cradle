@@ -23,13 +23,13 @@ runs:
         which python
 
         # Install coverage tools separately to ensure they don't conflict
-        python -m pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
+        uv pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
 
         # Create output directories
         mkdir -p artifacts/tests/{html-report,coverage,html-coverage}
 
         # Run pytest with coverage reporting
-        pytest \
+        uv run pytest \
           --cov=${{ inputs.source-folder }} \
           --random-order \
           --verbose \
