@@ -30,9 +30,9 @@ runs:
         elif [ -f "pyproject.toml" ]; then
           echo "📦 Using pyproject.toml — syncing environment"
           if [ -f "uv.lock" ]; then
-            uv pip install --require-virtualenv --frozen
+            uv pip install --frozen
           else
-            uv pip install --require-virtualenv
+            uv pip install
           fi
         else
           echo "❌ No requirements.txt or pyproject.toml found"
