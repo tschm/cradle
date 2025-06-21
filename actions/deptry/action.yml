@@ -21,4 +21,5 @@ runs:
 
     - name: Run Deptry
       shell: bash
-      run: deptry ${{ inputs.source-folder }} ${{ inputs.options }}
+      run: |
+        uv run deptry ${{ inputs.source-folder }} ${{ inputs.options }}
