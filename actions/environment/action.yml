@@ -52,12 +52,12 @@ runs:
     #    # Unset PYTHONHOME to avoid any system Python being used
     #    Remove-Item -Path Env:PYTHONHOME -ErrorAction SilentlyContinue
 
-    #- name: Install pip and create venv
-    #  shell: bash
-    #  run: |
+    - name: Install pip and create venv
+      shell: bash
+      run: |
     #    #UNSET PYTHONHOME
-    #    # Create virtual environment with uv
-    #    uv venv --python ${{ inputs.python-version }}
+        # Create virtual environment with uv
+        uv venv --python ${{ inputs.python-version }}
 
     - name: Install dependencies if requirements.txt exists
       shell: bash
