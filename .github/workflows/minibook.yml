@@ -1,5 +1,8 @@
 name: minibook.yml
 
+permissions:
+  contents: read
+
 on:
   push
 
