@@ -39,10 +39,10 @@ runs:
 
     # Download all artifacts from previous jobs
     # This collects the outputs from both the jupyter and marimo jobs
-    #- name: Download all artifacts
-    #  uses: actions/download-artifact@v4
-    #  with:
-    #    path: artifacts
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
 
       # Set up Python environment using uv with the specified version
     - name: Set up Python and uv/uvx
@@ -50,15 +50,15 @@ runs:
       with:
         python-version: 3.12
 
-    #- name: Inspect artifacts folder
-    #  shell: bash
-    #  run: |
-    #    tree artifacts
+    - name: Inspect artifacts folder
+      shell: bash
+      run: |
+        tree artifacts
 
     - name: Create minibook
       shell: bash
       run: |
-        mkdir -p artifacts
+        #mkdir -p artifacts
 
         LINKS="${{ inputs.links }}"
         TIMESTAMP_ARG=""
