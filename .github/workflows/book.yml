@@ -58,21 +58,6 @@ jobs:
           source-folder: 'src/cradle'  # Path to the source code
           tests-folder: 'src/tests'    # Path to the tests
 
-  # Job to process Jupyter notebooks
-  #jupyter:
-  #  runs-on: "ubuntu-latest"
-  #  steps:
-  #    # Step 1: Checkout the repository code
-  #    - name: Checkout ${{ github.repository }}
-  #      uses: actions/checkout@v4
-  #
-  #    # Step 2: Build the virtual environment
-  #    - name: "Build the virtual environment for ${{ github.repository }}"
-  #      uses: ./actions/environment
-  #
-  #    # Step 3: Process Jupyter notebooks
-  #    - uses: ./actions/jupyter
-
   # Job to build the final documentation book
   book:
     runs-on: "ubuntu-latest"
