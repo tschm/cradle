@@ -70,7 +70,7 @@ runs:
           --title "${{ inputs.title }}" \
           --description "${{ inputs.description }}" \
           --output "artifacts/minibook/index.html" \
-          --format "${{ inputs.format }}" \
+          --format "html" \
           --links "$LINKS" \
           $TIMESTAMP_ARG
 
