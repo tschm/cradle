@@ -100,7 +100,7 @@ jobs:
       - uses: ./actions/minibook
         with:
           links: "spiegel;https://www.spiegel.de"
-
+          output: artifacts
 
       # Step 2: Build and publish the documentation book
       #- uses: ./actions/minibook
