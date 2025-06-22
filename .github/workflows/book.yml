@@ -81,6 +81,10 @@ jobs:
           title: "Cradle minibook test"
           links: 'spiegel;http://www.spiegel.de'
 
+      - name: Inspect artifacts folder
+        run: |
+          tree artifacts
+
         # Package all artifacts for GitHub Pages deployment
         # This prepares the combined outputs for deployment
       - name: Upload static files as artifact

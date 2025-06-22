@@ -13,7 +13,7 @@ inputs:
   output:
     description: 'Output file or directory'
     required: false
-    default: 'artifacts/minibook.html'
+    default: 'artifacts/index.html'
   links:
     description: 'Comma-separated list of tuples with (name;url)'
     required: true
