@@ -48,10 +48,10 @@ runs:
       with:
         python-version: 3.12
 
-    - name: Inspect artifacts folder
-      shell: bash
-      run: |
-        tree artifacts
+    #- name: Inspect artifacts folder
+    #  shell: bash
+    #  run: |
+    #    tree artifacts
 
     - name: Create minibook
       shell: bash
