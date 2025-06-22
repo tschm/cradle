@@ -58,7 +58,7 @@ runs:
     - name: Create minibook
       shell: bash
       run: |
-        mkdir -p artifacts/minibook
+        mkdir -p artifacts
 
         LINKS="${{ inputs.links }}"
         TIMESTAMP_ARG=""
@@ -69,15 +69,15 @@ runs:
         uvx minibook \
           --title "${{ inputs.title }}" \
           --description "${{ inputs.description }}" \
-          --output "artifacts/minibook/index.html" \
+          --output "artifacts/index.html" \
           --format "html" \
           --links "$LINKS" \
           $TIMESTAMP_ARG
 
-    - name: Upload documentation
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-      uses: actions/upload-artifact@v4
-      with:
-        name: minibook
-        path: artifacts/minibook
-        retention-days: 1
+    #- name: Upload documentation
+    #  if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+    #  uses: actions/upload-artifact@v4
+    #  with:
+    #    name: minibook
+    #    path: artifacts/minibook
+    #    retention-days: 1
