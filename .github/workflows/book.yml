@@ -21,7 +21,7 @@ jobs:
       - name: Marimushka
         uses: jebel-quant/marimushka@v0.1.1
         with:
-          notebooks: 'book/marimo'
+          notebooks: 'notebooks'
 
   # Job to generate API documentation using pdoc
   pdoc:
