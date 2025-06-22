@@ -35,8 +35,8 @@ runs:
   using: "composite"
 
   steps:
-    - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+    #- name: Checkout ${{ github.repository }}
+    #  uses: actions/checkout@v4
 
     # Download all artifacts from previous jobs
     # This collects the outputs from both the jupyter and marimo jobs
@@ -51,10 +51,10 @@ runs:
       with:
         python-version: 3.12
 
-    - name: Inspect artifacts folder
-      shell: bash
-      run: |
-        tree artifacts
+    #- name: Inspect artifacts folder
+    #  shell: bash
+    #  run: |
+    #    tree artifacts
 
     - name: Create minibook
       shell: bash
