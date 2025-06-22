@@ -58,17 +58,6 @@ jobs:
           source-folder: 'src/cradle'  # Path to the source code
           tests-folder: 'src/tests'    # Path to the tests
 
-  #minibook:
-  #  runs-on: "ubuntu-latest"
-  #  steps:
-  #    # Step 1: Checkout the repository code
-  #    - name: Checkout ${{ github.repository }}
-  #      uses: actions/checkout@v4
-  #
-  #    - uses: ./actions/minibook
-  #      with:
-  #        links: "spiegel;https://www.spiegel.de"
-
 
   # Job to build the final documentation book
   book:
@@ -86,12 +75,6 @@ jobs:
       # Step 1: Checkout the repository code only to make sure we see the actions folder
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
-
-      # Download all artifacts
-      #- name: Download all artifacts
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    path: artifacts
 
       - uses: ./actions/minibook
         with:
