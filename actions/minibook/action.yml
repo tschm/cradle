@@ -13,7 +13,7 @@ inputs:
   output:
     description: 'Output file or directory'
     required: false
-    default: 'artifacts/index.html'
+    default: 'artifacts/minibook/index.html'
   links:
     description: 'Comma-separated list of tuples with (name;url)'
     required: true
@@ -34,13 +34,15 @@ runs:
   using: "composite"
 
   steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v4
 
     # Download all artifacts from previous jobs
     # This collects the outputs from both the jupyter and marimo jobs
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
+    #- name: Download all artifacts
+    #  uses: actions/download-artifact@v4
+    #  with:
+    #    path: artifacts
 
       # Set up Python environment using uv with the specified version
     - name: Set up Python and uv/uvx
@@ -75,5 +77,5 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: minibook
-        path: artifacts
+        path: artifacts/minibook
         retention-days: 1
