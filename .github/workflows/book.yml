@@ -78,7 +78,7 @@ jobs:
 
       - uses: ./actions/minibook
         with:
-          links: "spiegel;https://www.spiegel.de"
+          links: "notebooks;marimushka/index.html,spiegel;https://www.spiegel.de"
           output: artifacts
 
       - name: Inspect artifacts folder
