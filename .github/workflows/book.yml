@@ -19,7 +19,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Marimushka
-        uses: jebel-quant/marimushka@v0.1.1
+        uses: jebel-quant/marimushka@v0.1.2
         with:
           notebooks: 'notebooks'
 
