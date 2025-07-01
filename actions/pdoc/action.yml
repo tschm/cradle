@@ -28,7 +28,7 @@ runs:
         ignore-empty-workdir: true
         enable-cache: false
         version: '0.7.16'
-        
+
     - name: Install and build pdoc
       shell: bash
       run: |
