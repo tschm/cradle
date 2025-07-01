@@ -60,7 +60,7 @@ runs:
       shell: bash  # Use bash shell to run the command
       run: |
         # Run minibook CLI tool with uvx (uv execute)
-        uvx minibook@v0.0.15 \
+        uvx minibook@v0.0.16 \
           --title "${{ inputs.title }}" \
           --subtitle "${{ inputs.subtitle }}" \
           --links '${{ inputs.links }}' \
