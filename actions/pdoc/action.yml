@@ -32,7 +32,7 @@ runs:
     - name: Install and build pdoc
       shell: bash
       run: |
-        uv pip install pdoc 
+        uv pip install pdoc
         uv run pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
 
