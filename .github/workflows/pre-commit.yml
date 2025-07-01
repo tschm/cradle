@@ -22,14 +22,11 @@ jobs:
       - name: Install uv/uvx
         uses: astral-sh/setup-uv@v6
 
-      # Step 2: Build the virtual environment
-      # - name: "Build the virtual environment for ${{ github.repository }}"
-      #   uses: ./actions/environment
-
       # Step 3: Run deptry to check for dependency issues
-      - uses: ./actions/deptry
-        with:
-          source-folder: src/cradle  # Path to the source code
+      - name: Run deptry
+        shell: bash
+        run: |
+          uvx deptry
 
   # Job to run pre-commit hooks
   pre-commit:

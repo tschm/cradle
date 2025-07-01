@@ -76,26 +76,12 @@ jobs:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
-      - uses: ./actions/minibook
+      - name: Upload book
+        uses: tschm/minibook/.github/actions/book@v0.0.15
         with:
+          title: "cradle"
           links: |
-            API;pdoc/index.html
-            notebooks;marimushka/index.html
-            spiegel;https://www.spiegel.de
-          output: artifacts
-
-      - name: Inspect artifacts folder
-        run: |
-          tree artifacts
-
-        # Package all artifacts for GitHub Pages deployment
-        # This prepares the combined outputs for deployment
-      - name: Upload static files as artifact
-        id: upload
-        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
-        with:
-          path: artifacts/  # Path to the directory containing all artifacts
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+            {
+              "API":"./pdoc/index.html",
+              "notebooks":"./marimushka/index.html"
+            }
