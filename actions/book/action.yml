@@ -1,43 +1,86 @@
-name: Build the book
-description: "Build the book"
+# GitHub Action to generate a minibook from a list of links and deploy it to GitHub Pages
+# This action creates an HTML page with links, downloads any artifacts from previous jobs,
+# and deploys everything to GitHub Pages in a single step.
+name: 'Book Action'
+description: 'Create a Book from a list of links and deploy it to GitHub Pages'
 
+# Input parameters that can be provided when using this action
 inputs:
-  path:
-    description: "artifacts path"
+  # The title will be displayed at the top of the generated HTML page
+  title:
+    description: 'Title of the minibook that appears at the top of the page'
     required: false
-    default: 'artifacts'
+    default: 'My Links'
 
-outputs:
-  page_url:
-    description: "page_url"
-    value: ${{ steps.deployment.outputs.page_url }}
+  # The subtitle/description appears below the title in the generated HTML page
+  subtitle:
+    description: 'Description text that appears below the title'
+    required: false
+    default: ''
 
+  # Links parameter is the core content of the minibook
+  # It defines what links will be displayed on the page
+  links:
+    description: 'JSON formatted links that will be displayed on the page. Can be formatted as:
+      - A dictionary: {"name1": "url1", "name2": "url2"}
+      - A list of objects: [{"name": "name1", "url": "url1"}, {"name": "name2", "url": "url2"}]
+      - A list of arrays: [["name1", "url1"], ["name2", "url2"]]'
+    required: true
 
+  # Optional custom template for advanced customization of the HTML output
+  template:
+    description: 'Path to a custom Jinja2 template file for HTML output. Use this to customize the appearance of the generated page.'
+    required: false
+    default: ''
+
+# Define how the action will run
 runs:
-  using: "composite"
-
+  using: 'composite'  # Composite actions combine multiple steps
   steps:
-
-    # Download all artifacts from previous jobs
-    # This collects the outputs from both the jupyter and marimo jobs
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
+    # Step 1: Set up the Python environment with uv (faster alternative to pip)
+    # This step installs Python 3.12 and the uv package manager
+    - name: Set up Python 3.12
+      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
       with:
-        path: ${{ inputs.path }}
+        python-version: 3.12
+        ignore-empty-workdir: true
+        enable-cache: false
+        version: '0.7.16'
 
-    - name: Inspect artifacts folder
+    # Step 2: Download all artifacts from previous jobs
+    # This automatically retrieves artifacts uploaded by jobs specified in the 'needs' field
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4  # Official GitHub artifact download action
+      with:
+        path: artifacts  # Directory where artifacts will be downloaded
+
+    # Step 3: Generate the minibook using the minibook CLI tool
+    # This step runs the minibook command with the input parameters
+    - name: Create minibook
+      shell: bash  # Use bash shell to run the command
+      run: |
+        # Run minibook CLI tool with uvx (uv execute)
+        uvx minibook@v0.0.15 \
+          --title "${{ inputs.title }}" \
+          --subtitle "${{ inputs.subtitle }}" \
+          --links '${{ inputs.links }}' \
+          --template '${{ inputs.template }}'
+
+    # Step 4: Display the structure of the artifacts directory
+    # This helps with debugging by showing what files were generated
+    - name: Inspect artifacts
       shell: bash
       run: |
-        tree ${{ inputs.path }}
+        tree artifacts  # Show directory structure in tree format
 
-      # Package all artifacts for GitHub Pages deployment
-      # This prepares the combined outputs for deployment
+    # Step 5: Package all artifacts for GitHub Pages deployment
+    # This prepares the combined outputs for deployment by creating a single artifact
     - name: Upload static files as artifact
-      id: upload
-      uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+      uses: actions/upload-pages-artifact@v3  # Official GitHub Pages artifact upload action
       with:
-        path: ${{ inputs.path }}  # Path to the directory containing all artifacts
+        path: artifacts/  # Path to the directory containing all artifacts to deploy
 
+    # Step 6: Deploy the packaged artifacts to GitHub Pages
+    # This step publishes the content to GitHub Pages
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v4  # Official GitHub Pages deployment action
