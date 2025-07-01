@@ -117,3 +117,7 @@ include = [
 [tool.deptry]
 # see https://deptry.com/usage/#pep-621-dev-dependency-groups
 pep621_dev_dependency_groups = ["dev"]
+
+[tool.deptry.package_module_name_map]
+pyyaml = ["yaml"]
+gitpython = ["git"]

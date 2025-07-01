@@ -14,12 +14,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install deptry
-      shell: bash
-      run: |
-        uv pip install --no-cache-dir deptry
-
     - name: Run Deptry
       shell: bash
       run: |
-        uv run deptry ${{ inputs.source-folder }} ${{ inputs.options }}
+        uvx deptry ${{ inputs.source-folder }} ${{ inputs.options }}
