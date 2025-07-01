@@ -18,14 +18,15 @@ jobs:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
-      # Step 2: Build the virtual environment
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
+      # Step 2: Install uv/uvx
+      - name: Install uv/uvx
+        uses: astral-sh/setup-uv@v6
 
       # Step 3: Run deptry to check for dependency issues
-      - uses: ./actions/deptry
-        with:
-          source-folder: src/cradle  # Path to the source code
+      - name: Run deptry
+        shell: bash
+        run: |
+          uvx deptry src/cradle
 
   # Job to run pre-commit hooks
   pre-commit:
