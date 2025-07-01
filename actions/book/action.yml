@@ -23,12 +23,12 @@ runs:
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        path: artifacts
+        path: ${{ inputs.path }}
 
     - name: Inspect artifacts folder
       shell: bash
       run: |
-        tree artifacts
+        tree ${{ inputs.path }}
 
       # Package all artifacts for GitHub Pages deployment
       # This prepares the combined outputs for deployment
