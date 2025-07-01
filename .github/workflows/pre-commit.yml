@@ -26,7 +26,7 @@ jobs:
       - name: Run deptry
         shell: bash
         run: |
-          uvx deptry
+          uvx deptry src/cradle
 
   # Job to run pre-commit hooks
   pre-commit:
