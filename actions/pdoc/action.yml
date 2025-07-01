@@ -32,7 +32,8 @@ runs:
     - name: Install and build pdoc
       shell: bash
       run: |
-        uvx pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
+        uv pip install pdoc 
+        uv run pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
 
     - name: Upload documentation
