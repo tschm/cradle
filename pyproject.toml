@@ -120,4 +120,5 @@ pep621_dev_dependency_groups = ["dev"]
 
 [tool.deptry.package_module_name_map]
 pyyaml = ["yaml"]
+gitpython = ["git"]
 
