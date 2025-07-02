@@ -20,6 +20,10 @@ inputs:
     required: false
     default: '3.12'
 
+  destination-path:
+    description: 'Path we copy the copier template into'
+    required: false
+    default: 'template'
 
 runs:
   using: "composite"
