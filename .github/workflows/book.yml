@@ -14,15 +14,6 @@ permissions:
   contents: read  # Read-only access to repository contents
 
 jobs:
-  # Job to generate marimo interactive notebooks
-  marimo:
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: Marimushka
-        uses: jebel-quant/marimushka@v0.1.2
-        with:
-          notebooks: 'notebooks'
-
   # Job to generate API documentation using pdoc
   pdoc:
     runs-on: "ubuntu-latest"
@@ -62,7 +53,7 @@ jobs:
   # Job to build the final documentation book
   book:
     runs-on: "ubuntu-latest"
-    needs: [test, pdoc, marimo]  # This job depends on all previous jobs
+    needs: [test, pdoc]  # This job depends on all previous jobs
 
     permissions:
       id-token: write
@@ -82,6 +73,5 @@ jobs:
           title: "cradle"
           links: |
             {
-              "API":"./pdoc/index.html",
-              "notebooks":"./marimushka/index.html"
+              "API":"./pdoc/index.html"
             }
