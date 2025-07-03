@@ -4,8 +4,7 @@ description: 'Run deptry to check for dependency issues'
 inputs:
   source-folder:
     description: 'Source folder to analyze'
-    required: false
-    default: 'cvx'
+    required: true
   options:
     description: 'Extra options for deptry'
     required: false
@@ -14,6 +13,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    # Step 1: Set up the Python environment with uv (faster alternative to pip)
+    # This step installs Python 3.12 and the uv package manager
+    - name: Set up Python 3.12
+      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+
     - name: Run Deptry
       shell: bash
       run: |
