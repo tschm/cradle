@@ -16,7 +16,7 @@ runs:
 
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4
-        
+
     - name: Set up Python 3.12
       uses: astral-sh/setup-uv@v6  # Official action for setting up uv
 
