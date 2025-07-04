@@ -19,17 +19,20 @@ inputs:
 runs:
   using: "composite"  # Composite actions combine multiple steps
   steps:
+    - name: Set up Python 3.12
+      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+
     # Step 1: Install pdoc and generate documentation
     # This installs the pdoc tool and runs it on the source code
     - name: Install and build pdoc
       shell: bash
       run: |
         # Install pdoc documentation generator
-        uv pip install pdoc
+        # uv pip install pdoc
 
         # Run pdoc to generate HTML documentation
         # Output is saved to artifacts/pdoc directory
-        uv run pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
+        uvx pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
     # Step 2: Upload the generated documentation as an artifact
     # This makes the documentation available for download from the GitHub Actions UI
