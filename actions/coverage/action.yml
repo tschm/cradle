@@ -42,6 +42,9 @@ runs:
     - name: Run tests with coverage
       shell: bash
       run: |
+        echo ${{ inputs.source-folder }}
+        echo ${{ inputs.test-folder }}
+
         # Install coverage tools separately to ensure they don't conflict
         uv pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
 
