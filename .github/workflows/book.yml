@@ -22,6 +22,12 @@ jobs:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
+      # Step 2: Set up the Python environment with uv (faster alternative to pip)
+      # This step installs Python with the specified version and the uv package manager
+      - name: Set up uv/uvx ${{ inputs.python-version }}
+        uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+
+
       # Step 2: Build the virtual environment
       #- name: "Build the virtual environment for ${{ github.repository }}"
       #  uses: ./actions/environment
