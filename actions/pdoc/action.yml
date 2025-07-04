@@ -28,11 +28,11 @@ runs:
       shell: bash
       run: |
         # Install pdoc documentation generator
-        # uv pip install pdoc
+        uv pip install pdoc
 
         # Run pdoc to generate HTML documentation
         # Output is saved to artifacts/pdoc directory
-        uvx pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
+        uv run pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
     # Step 2: Upload the generated documentation as an artifact
     # This makes the documentation available for download from the GitHub Actions UI
