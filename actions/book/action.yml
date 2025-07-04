@@ -71,7 +71,13 @@ runs:
     - name: Inspect artifacts
       shell: bash
       run: |
-        tree artifacts  # Show directory structure in tree format
+        # Check if tree is installed, otherwise use find/ls as fallback
+        if command -v tree &> /dev/null; then
+          tree artifacts  # Show directory structure in tree format
+        else
+          echo "tree command not found, using fallback:"
+          find artifacts -type f | sort
+        fi
 
     # Step 5: Package all artifacts for GitHub Pages deployment
     # This prepares the combined outputs for deployment by creating a single artifact
