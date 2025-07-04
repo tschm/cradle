@@ -19,6 +19,10 @@ runs:
 
   using: "composite"
   steps:
+    # Step 1: Checkout the repository code
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v4
+
     # Step 1: Set up the Python environment with uv (faster alternative to pip)
     # This step installs Python 3.12 and the uv package manager
     - name: Set up Python 3.12
