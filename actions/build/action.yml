@@ -43,7 +43,7 @@ runs:
     - name: Build package
       shell: bash
       run: |
-        uv pip install hatch  # Install the build tool
+        uv pip install --system hatch  # Install the build tool
         uv run hatch build  # Build both wheel and sdist packages
 
     # Step 5: Upload the built distribution files as artifacts
