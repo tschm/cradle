@@ -1,17 +1,25 @@
+# GitHub Action to run pre-commit hooks on all files in the repository
+# This action ensures code quality and consistency by running all configured pre-commit hooks
 name: Check all pre-commit hooks on all files
-description: "Check all pre-commit hooks"
+description: "Run all pre-commit hooks on all files in the repository to ensure code quality"
 
 runs:
-  using: "composite"
+  using: "composite"  # Composite actions combine multiple steps
   steps:
+    # Step 1: Check out the repository code
+    # This ensures we have the latest code from the specified ref
     - name: Checkout [${{ github.repository }}]
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Official GitHub checkout action
 
-    - name: Install Node 20
-      uses: actions/setup-node@v4
+    # Step 2: Set up Node.js environment
+    # This is required for some pre-commit hooks that use Node.js
+    - name: Install Node 22
+      uses: actions/setup-node@v4  # Official Node.js setup action
       with:
-        node-version: '22'
+        node-version: '22'  # Use Node.js version 22
 
-    - uses: pre-commit/action@v3.0.1
+    # Step 3: Run all pre-commit hooks on all files
+    # This executes all hooks defined in .pre-commit-config.yaml
+    - uses: pre-commit/action@v3.0.1  # Official pre-commit GitHub Action
       with:
-        extra_args: '--verbose --all-files'
+        extra_args: '--verbose --all-files'  # Run on all files with verbose output

@@ -1,64 +1,92 @@
+# GitHub Action to run tests with comprehensive code coverage reporting
+# This action executes tests and generates detailed coverage reports in multiple formats
 name: Measure Test Coverage
-description: "Run tests with comprehensive coverage reporting"
+description: "Run tests with comprehensive coverage reporting and optional Coveralls integration"
 
 inputs:
   tests-folder:
-    description: 'Source folder with all tests'
+    description: 'Source folder containing all test files to execute'
     required: true
+    # No default provided as this should be explicitly set for each project
+
   source-folder:
-    description: 'Source folder to measure coverage for'
+    description: 'Source folder containing the code to measure coverage for'
     required: true
+    # No default provided as this should be explicitly set for each project
+
   coveralls:
-    description: 'Upload to coverallsapp'
+    description: 'Whether to upload coverage reports to Coveralls.io (true/false)'
     required: false
-    default: "true"
+    default: "true"  # By default, upload to Coveralls for public visibility of coverage metrics
 
 runs:
-  using: "composite"
+  using: "composite"  # Composite actions combine multiple steps
   steps:
+    # Step 1: Check out the repository code
+    # This ensures we have the latest code from the specified ref
+    - name: Checkout [${{ github.repository }}]
+      uses: actions/checkout@v4  # Official GitHub checkout action
+
+    # Step 2: Set up the Python environment with uv (faster alternative to pip)
+    # This step installs Python 3.12 and the uv package manager
+    - name: Set up Python 3.12
+      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      with:
+        python-version: 3.12  # Specify Python version
+        ignore-empty-workdir: true  # Don't fail if directory is empty
+        enable-cache: false  # Disable caching for CI reliability
+        version: '0.7.16'  # Specific uv version for consistency
+
+    # Step 3: Run tests with coverage measurement
+    # This executes the test suite and generates coverage reports in multiple formats
     - name: Run tests with coverage
       shell: bash
       run: |
-        # this should point to .venv/bin/python
-        which python
-
         # Install coverage tools separately to ensure they don't conflict
         uv pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
 
-        # Create output directories
+        # Create output directories for various reports
         mkdir -p artifacts/tests/{html-report,coverage,html-coverage}
 
         # Run pytest with coverage reporting
+        # This generates reports in multiple formats for different use cases
         uv run pytest \
-          --cov=${{ inputs.source-folder }} \
-          --random-order \
-          --verbose \
-          --html=artifacts/tests/html-report/report.html \
-          --cov-report=term \
-          --cov-report=xml:artifacts/tests/coverage/coverage.xml \
-          --cov-report=json:artifacts/tests/coverage/coverage.json \
-          --cov-report=lcov:artifacts/tests/coverage/coverage.info \
-          --cov-report=html:artifacts/tests/html-coverage \
-          ${{ inputs.tests-folder }}
+          --cov=${{ inputs.source-folder }} \  # Measure coverage for the specified source folder
+          --random-order \  # Randomize test order to detect order dependencies
+          --verbose \  # Show detailed test output
+          --html=artifacts/tests/html-report/report.html \  # Generate HTML test report
+          --cov-report=term \  # Show coverage in terminal output
+          --cov-report=xml:artifacts/tests/coverage/coverage.xml \  # XML for tools like SonarQube
+          --cov-report=json:artifacts/tests/coverage/coverage.json \  # JSON for custom processing
+          --cov-report=lcov:artifacts/tests/coverage/coverage.info \  # LCOV for Coveralls
+          --cov-report=html:artifacts/tests/html-coverage \  # HTML for human-readable reports
+          ${{ inputs.tests-folder }}  # Run tests from the specified folder
 
         # Remove .gitignore for gh-pages compatibility
+        # This ensures all files are included when deploying to GitHub Pages
         rm -f artifacts/tests/html-coverage/.gitignore
 
+    # Step 4: Upload test results as artifacts
+    # This makes the reports available for download from the GitHub Actions UI
     - name: Upload test results
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-      uses: actions/upload-artifact@v4
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act' (local testing)
+      uses: actions/upload-artifact@v4  # Official artifact upload action
       with:
-        name: tests
-        path: artifacts/tests
-        retention-days: 1
+        name: tests  # Name of the artifact
+        path: artifacts/tests  # Path to the files to upload
+        retention-days: 1  # Keep artifacts for 1 day to save space
 
+    # Step 5: Debug coverage files
+    # This helps with troubleshooting by showing what files were generated
     - name: Debug Coverage Files
       shell: bash
-      run: ls -l artifacts/tests/coverage
+      run: ls -l artifacts/tests/coverage  # List all coverage files with details
 
+    # Step 6: Upload coverage to Coveralls.io (if enabled)
+    # This publishes coverage metrics to a public dashboard
     - name: Coveralls GitHub Action
-      if: ${{ inputs.coveralls == 'true' }}
-      uses: coverallsapp/github-action@v2
+      if: ${{ inputs.coveralls == 'true' }}  # Only run if coveralls input is true
+      uses: coverallsapp/github-action@v2  # Official Coveralls GitHub Action
       with:
-        files: artifacts/tests/coverage/coverage.info
-        format: lcov
+        files: artifacts/tests/coverage/coverage.info  # Path to LCOV coverage file
+        format: lcov  # Format of the coverage file

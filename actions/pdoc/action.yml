@@ -1,45 +1,42 @@
+# GitHub Action to generate API documentation using pdoc
+# This action creates HTML documentation from Python source code
 name: Build pdoc documentation
-description: "Build pdoc documentation"
+description: "Build API documentation from Python source code using pdoc"
 
 inputs:
   source-folder:
-    description: 'Source folder to generate documentation for'
+    description: 'Source folder containing Python code to generate documentation for'
     type: string
     required: false
-    default: 'cvx'
-  pdoc-arguments:
-    description: 'Additional pdoc command line arguments'
-    type: string
-    required: false
-    default: ''
+    default: 'cvx'  # Default source folder
 
+  pdoc-arguments:
+    description: 'Additional pdoc command line arguments (e.g., --docformat=google)'
+    type: string
+    required: false
+    default: ''  # No additional arguments by default
 
 runs:
-
-
-  using: "composite"
+  using: "composite"  # Composite actions combine multiple steps
   steps:
-    # Step 1: Set up the Python environment with uv (faster alternative to pip)
-    # This step installs Python 3.12 and the uv package manager
-    - name: Set up Python 3.12
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
-      with:
-        python-version: 3.12
-        ignore-empty-workdir: true
-        enable-cache: false
-        version: '0.7.16'
-
+    # Step 1: Install pdoc and generate documentation
+    # This installs the pdoc tool and runs it on the source code
     - name: Install and build pdoc
       shell: bash
       run: |
+        # Install pdoc documentation generator
         uv pip install pdoc
+
+        # Run pdoc to generate HTML documentation
+        # Output is saved to artifacts/pdoc directory
         uv run pdoc -o artifacts/pdoc ${{ inputs.pdoc-arguments }} ${{ inputs.source-folder }}
 
-
+    # Step 2: Upload the generated documentation as an artifact
+    # This makes the documentation available for download from the GitHub Actions UI
     - name: Upload documentation
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-      uses: actions/upload-artifact@v4
+      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act' (local testing)
+      uses: actions/upload-artifact@v4  # Official artifact upload action
       with:
-        name: pdoc
-        path: artifacts/pdoc
-        retention-days: 1
+        name: pdoc  # Name of the artifact
+        path: artifacts/pdoc  # Path to the documentation files
+        retention-days: 1  # Keep artifacts for 1 day to save space
