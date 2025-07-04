@@ -43,7 +43,7 @@ runs:
       shell: bash
       run: |
         echo ${{ inputs.source-folder }}
-        echo ${{ inputs.test-folder }}
+        echo ${{ inputs.tests-folder }}
 
         # Install coverage tools separately to ensure they don't conflict
         uv pip install --no-cache-dir pytest pytest-cov pytest-html pytest-random-order
