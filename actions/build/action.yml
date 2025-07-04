@@ -43,8 +43,8 @@ runs:
     - name: Build package
       shell: bash
       run: |
-        uv pip install --system hatch  # Install the build tool
-        uv run hatch build  # Build both wheel and sdist packages
+        python -m pip install hatch  # Install the build tool
+        python run hatch build                # Build both wheel and sdist packages
 
     # Step 5: Upload the built distribution files as artifacts
     # This makes the files available for download from the GitHub Actions UI
