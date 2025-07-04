@@ -24,18 +24,18 @@ runs:
   steps:
     # Step 1: Check out the repository code
     # This ensures we have the latest code from the specified ref
-    - name: Checkout [${{ github.repository }}]
-      uses: actions/checkout@v4  # Official GitHub checkout action
+    #- name: Checkout [${{ github.repository }}]
+    #  uses: actions/checkout@v4  # Official GitHub checkout action
 
     # Step 2: Set up the Python environment with uv (faster alternative to pip)
     # This step installs Python 3.12 and the uv package manager
-    - name: Set up Python 3.12
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
-      with:
-        python-version: 3.12  # Specify Python version
-        ignore-empty-workdir: true  # Don't fail if directory is empty
-        enable-cache: false  # Disable caching for CI reliability
-        version: '0.7.16'  # Specific uv version for consistency
+    #- name: Set up Python 3.12
+    #  uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+    #  with:
+    #    python-version: 3.12  # Specify Python version
+    #    ignore-empty-workdir: true  # Don't fail if directory is empty
+    #    enable-cache: false  # Disable caching for CI reliability
+    #    version: '0.7.16'  # Specific uv version for consistency
 
     # Step 3: Run tests with coverage measurement
     # This executes the test suite and generates coverage reports in multiple formats
