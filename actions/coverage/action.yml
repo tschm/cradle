@@ -56,16 +56,16 @@ runs:
         # Run pytest with coverage reporting
         # This generates reports in multiple formats for different use cases
         uv run pytest \
-          --cov=${{ inputs.source-folder }} \  # Measure coverage for the specified source folder
-          --random-order \  # Randomize test order to detect order dependencies
-          --verbose \  # Show detailed test output
-          --html=artifacts/tests/html-report/report.html \  # Generate HTML test report
-          --cov-report=term \  # Show coverage in terminal output
-          --cov-report=xml:artifacts/tests/coverage/coverage.xml \  # XML for tools like SonarQube
-          --cov-report=json:artifacts/tests/coverage/coverage.json \  # JSON for custom processing
-          --cov-report=lcov:artifacts/tests/coverage/coverage.info \  # LCOV for Coveralls
-          --cov-report=html:artifacts/tests/html-coverage \  # HTML for human-readable reports
-          ${{ inputs.tests-folder }}  # Run tests from the specified folder
+          --cov=${{ inputs.source-folder }} \
+          --random-order \
+          --verbose \
+          --html=artifacts/tests/html-report/report.html \
+          --cov-report=term \
+          --cov-report=xml:artifacts/tests/coverage/coverage.xml \
+          --cov-report=json:artifacts/tests/coverage/coverage.json \
+          --cov-report=lcov:artifacts/tests/coverage/coverage.info \
+          --cov-report=html:artifacts/tests/html-coverage \
+          ${{ inputs.tests-folder }}
 
         # Remove .gitignore for gh-pages compatibility
         # This ensures all files are included when deploying to GitHub Pages
