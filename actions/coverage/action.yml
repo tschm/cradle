@@ -51,6 +51,8 @@ runs:
         # Create output directories for various reports
         mkdir -p artifacts/tests/{html-report,coverage,html-coverage}
 
+        ls artifacts/tests
+
         # Run pytest with coverage reporting
         # This generates reports in multiple formats for different use cases
         uv run pytest \
