@@ -1,117 +1,12 @@
+# GitHub Action to compile LaTeX documents and deploy them
+# This action compiles LaTeX files to PDF using Tectonic and can deploy them to GitHub Pages
 name: Compile and Deploy LaTeX Documents
 
-description: "Advanced LaTeX document compilation with error handling and artifacts"
+description: "Advanced LaTeX document compilation with error handling, GitHub Pages deployment, and release creation"
 
 inputs:
   tag:
-    description: 'tag'
+    description: 'Tag for creating a GitHub release (leave empty to skip release creation)'
     type: string
     required: false
-    default: ''
-  paper:
-    description: 'Space-separated LaTeX files to compile'
-    type: string
-    required: true
-  output-folder:
-    description: 'Output directory for compiled documents'
-    type: string
-    required: false
-    default: 'compiled'
-  draft:
-    description: 'Target branch for deployment'
-    type: string
-    required: false
-    default: 'draft'
-
-
-runs:
-  using: "composite"
-  steps:
-    - name: Set up Git repository
-      uses: actions/checkout@v4
-
-    - name: Setup environment variables
-      shell: bash
-      run: |
-        echo "BUILD_DIR=build_${{ github.run_id }}" >> $GITHUB_ENV
-
-    - name: Create output directories
-      shell: bash
-      run: |
-        mkdir -p ${{ env.BUILD_DIR }}
-        mkdir -p ${{ inputs.output-folder }}
-
-    - name: Validate input files
-      shell: bash
-      run: |
-        for f in ${{ inputs.paper }}; do
-          if [ ! -f "$f" ]; then
-            echo "Error: File $f not found!"
-            exit 1
-          fi
-        done
-
-    - name: Install Tectonic and biber
-      shell: bash
-      run: |
-        # install tectonic in the directory you run from
-        curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-        # install biber
-        sudo apt-get update -y
-        sudo apt-get install -y biber
-
-        ./tectonic --version
-        biber --version
-
-    - name: Compile LaTeX documents
-      shell: bash
-      env:
-        RUST_BACKTRACE: '1'
-      run: |
-        echo "Starting compilation at $(date)"
-
-        # Function to compile a single document
-        compile_doc() {
-          local doc="$1"
-          echo "Compiling $doc"
-
-          # First pass
-          if ! ./tectonic "$doc" --outdir ${{ env.BUILD_DIR }} --keep-logs; then
-            echo "Error compiling $doc - check logs"
-            return 1
-          fi
-
-          # Copy final PDF to publish directory
-          cp ${{ env.BUILD_DIR }}/*.pdf ${{ inputs.output-folder }}/
-          echo "Successfully compiled $doc"
-        }
-
-        for f in ${{ inputs.paper }}; do
-          compile_doc "$f" || exit 1
-        done
-
-    - name: Deploy to GitHub Pages
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: ${{ inputs.draft }}
-        folder: ${{ inputs.output-folder }}
-        commit-message: "Build: ${{ github.run_id }} [skip ci]"
-        clean: true
-        single-commit: false
-
-    - name: Create GitHub Release
-      if: inputs.tag != ''
-      uses: softprops/action-gh-release@v2
-      with:
-        files: ${{ inputs.output-folder }}/*.pdf
-        tag_name: ${{ inputs.tag }}
-
-    - name: Upload build artifacts
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-      uses: actions/upload-artifact@v4
-      with:
-        name: latex-build-${{ github.run_id }}
-        path: |
-          ${{ env.BUILD_DIR }}
-        retention-days: 7
+    default: ''  # Empty by default,

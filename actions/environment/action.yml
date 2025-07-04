@@ -1,25 +1,35 @@
+# GitHub Action to set up a Python development environment
+# This action installs all dependencies defined in pyproject.toml using uv
 name: Build Environment
-description: "Build the environment using pyproject.toml and uv"
+description: "Build the Python development environment using pyproject.toml and uv package manager"
 
 inputs:
   python-version:
-    description: 'The Python version to use'
+    description: 'The Python version to use for the environment (e.g., 3.9, 3.10, 3.11, 3.12)'
     required: false
-    default: '3.12'
+    default: '3.12'  # Default to the latest stable Python version
 
 runs:
-  using: "composite"
+  using: "composite"  # Composite actions combine multiple steps
 
   steps:
+    # Step 1: Check out the repository code
+    # This ensures we have the latest code from the specified ref
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Official GitHub checkout action
 
+    # Step 2: Set up Python with the uv package manager
+    # This installs Python and uv for faster dependency management
     - name: Set up Python ${{ inputs.python-version }}
-      uses: astral-sh/setup-uv@v6
+      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
       with:
-        python-version: ${{ inputs.python-version }}
+        python-version: ${{ inputs.python-version }}  # Use the specified Python version
 
+    # Step 3: Install all dependencies from pyproject.toml
+    # This uses uv sync to install dependencies faster than pip
     - name: Install dependencies
       shell: bash
       run: |
+        # Install all dependencies including optional extras
+        # This is equivalent to pip install -e ".[all]" but much faster
         uv sync --all-extras

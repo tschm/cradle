@@ -1,19 +1,35 @@
+# GitHub Action to build a Python package and create a release
+# This action handles the entire build process from version update to GitHub release
 name: Build package
-description: "Build the package"
+description: "Build the package and create a GitHub release with the built artifacts"
 
 inputs:
   tag:
-    description: 'tag'
+    description: 'The version tag to use for the package and release (e.g., v1.0.0)'
     required: true
-
+    # No default provided as this should be explicitly set for each release
 
 runs:
-  using: "composite"
+  using: "composite"  # Composite actions combine multiple steps
 
   steps:
+    # Step 1: Check out the repository code
+    # This ensures we have the latest code from the specified ref
     - name: Checkout [${{ github.repository }}]
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Official GitHub checkout action
 
+    # Step 2: Set up the Python environment with uv (faster alternative to pip)
+    # This step installs Python 3.12 and the uv package manager
+    - name: Set up Python 3.12
+      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      with:
+        python-version: 3.12  # Specify Python version
+        ignore-empty-workdir: true  # Don't fail if directory is empty
+        enable-cache: false  # Disable caching for CI reliability
+        version: '0.7.16'  # Specific uv version for consistency
+
+    # Step 3: Update the version in pyproject.toml to match the tag
+    # This ensures the package version matches the release tag
     - name: Update version in pyproject.toml
       shell: bash
       run: |
@@ -22,22 +38,28 @@ runs:
         # Use a regex to find and replace the version line (works for PEP 621 or Poetry)
         sed -i -E "s/^version = \".*\"/version = \"${VERSION}\"/" pyproject.toml
 
+    # Step 4: Build the Python package using hatch
+    # This creates distribution files in the dist/ directory
     - name: Build package
       shell: bash
       run: |
-        python -m pip install hatch
-        hatch build
+        uv pip install hatch  # Install the build tool
+        uv run hatch build  # Build both wheel and sdist packages
 
+    # Step 5: Upload the built distribution files as artifacts
+    # This makes the files available for download from the GitHub Actions UI
     - name: Upload distribution artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4  # Official artifact upload action
       with:
-        name: dist
-        path: dist/
-        retention-days: 1
+        name: dist  # Name of the artifact
+        path: dist/  # Path to the files to upload
+        retention-days: 1  # Keep artifacts for 1 day to save space
 
+    # Step 6: Create a GitHub release with the built artifacts
+    # This creates a release on GitHub and attaches the distribution files
     - name: Create GitHub release with artifacts
-      uses: softprops/action-gh-release@v2.3.2
+      uses: softprops/action-gh-release@v2.3.2  # Third-party release action
       with:
-        tag_name: ${{ inputs.tag }}
-        generate_release_notes: true
-        files: dist/*
+        tag_name: ${{ inputs.tag }}  # Use the provided tag
+        generate_release_notes: true  # Automatically generate notes from commits
+        files: dist/*  # Attach all files in the dist directory

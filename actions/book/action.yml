@@ -89,4 +89,5 @@ runs:
     # Step 6: Deploy the packaged artifacts to GitHub Pages
     # This step publishes the content to GitHub Pages
     - name: Deploy to GitHub Pages
+      if: ${{ !github.event.repository.fork }}
       uses: actions/deploy-pages@v4  # Official GitHub Pages deployment action

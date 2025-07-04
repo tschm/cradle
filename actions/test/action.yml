@@ -1,36 +1,25 @@
+# GitHub Action to run Python tests using pytest
+# This action provides a simple way to execute the test suite in a project
 name: Run Tests
-description: "Run pytest test suite"
+description: "Run pytest test suite with configurable test directory"
 
 inputs:
   tests-folder:
-    description: 'Source folder with all tests'
+    description: 'Source folder containing the test files to execute'
     required: false
-    default: 'tests'
-  #python-version:
-  #  description: 'The Python version to use'
-  #  required: false
-  #  default: '3.12'
+    default: 'tests'  # Most projects use 'tests' as the default test directory
 
 runs:
-  using: "composite"
+  using: "composite"  # Composite actions combine multiple steps
   steps:
-    #- name: Checkout ${{ github.repository }}
-    #  uses: actions/checkout@v4
-
-    #- name: Set up Python ${{ inputs.python-version }}
-    #  uses: astral-sh/setup-uv@v6
-    #  with:
-    #    python-version: ${{ inputs.python-version }}
-
-    #- name: Install package
-    #  shell: bash
-    #  run: |
-    #    uv sync --all-extras
-
+    # Step 1: Install pytest and run the test suite
+    # This step handles both installation and test execution in one step
     - name: Run tests
-      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
+      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}  # Cross-platform shell selection
       run: |
-        ${{ runner.os == 'Windows' && 'where python' || 'which python' }}
+        # Install pytest without using cache to ensure clean installation
         uv pip install --no-cache-dir pytest
-        # uv pip install --no-cache-dir pytest
+
+        # Run pytest on the specified tests folder
+        # This will execute all test_*.py files in the directory
         uv run pytest ${{ inputs.tests-folder }}
