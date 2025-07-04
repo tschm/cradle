@@ -24,13 +24,13 @@ jobs:
 
       # Step 2: Set up the Python environment with uv (faster alternative to pip)
       # This step installs Python with the specified version and the uv package manager
-      - name: Set up uv/uvx
-        uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      #- name: Set up uv/uvx
+      #  uses: astral-sh/setup-uv@v6  # Official action for setting up uv
 
 
       # Step 2: Build the virtual environment
-      #- name: "Build the virtual environment for ${{ github.repository }}"
-      #  uses: ./actions/environment
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: ./actions/environment
 
       # Step 3: Generate API documentation with pdoc
       - uses: ./actions/pdoc
