@@ -19,20 +19,8 @@ inputs:
 runs:
   using: "composite"  # Composite actions combine multiple steps
   steps:
-    # Step 1: Checkout the repository code
-    - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
-
-    # Step 1: Set up the Python environment with uv (faster alternative to pip)
-    # This step installs Python 3.12 and the uv package manager
-    - name: Set up Python 3.12
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
-      with:
-        python-version: 3.12
-        ignore-empty-workdir: true
-        enable-cache: false
-        version: '0.7.16'
-
+    # Step 1: Install pdoc and generate documentation
+    # This installs the pdoc tool and runs it on the source code
     - name: Install and build pdoc
       shell: bash
       run: |
