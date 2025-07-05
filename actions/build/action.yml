@@ -21,13 +21,10 @@ runs:
     # Step 2: Set up the Python environment with uv (faster alternative to pip)
     # This step installs Python 3.12 and the uv package manager
     - name: Set up Python 3.12
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.12  # Specify Python version
-        ignore-empty-workdir: true  # Don't fail if directory is empty
-        enable-cache: false  # Disable caching for CI reliability
-        version: '0.7.16'  # Specific uv version for consistency
-
+        python-version: '3.12'
+          
     # Step 3: Update the version in pyproject.toml to match the tag
     # This ensures the package version matches the release tag
     - name: Update version in pyproject.toml
