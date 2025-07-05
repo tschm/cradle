@@ -23,7 +23,7 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
-          
+
     # Step 3: Update the version in pyproject.toml to match the tag
     # This ensures the package version matches the release tag
     - name: Update version in pyproject.toml
