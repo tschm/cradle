@@ -36,22 +36,18 @@ runs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4  # Official GitHub checkout action
 
-      # Step 2: Set up the Python environment with uv (faster alternative to pip)
-      # This step installs Python with the specified version and the uv package manager
-      - name: Set up Python ${{ inputs.python-version }}
-        uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      # Step 2: Set up Python 3.12
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ inputs.python-version }}  # Use the specified Python version
-          ignore-empty-workdir: true  # Don't fail if directory is empty
-          enable-cache: false  # Disable caching for CI reliability
-          version: '0.7.16'  # Specific uv version for consistency
+          python-version: '3.12'
 
       # Step 3: Install copier tool
       # Copier is used to create a new project from a template
       - name: Update pip and install copier
         shell: bash
         run: |
-          uv pip install --no-cache-dir copier  # Install copier without using cache
+          pip install --no-cache-dir copier  # Install copier without using cache
 
       # Step 4: Configure Git user information
       # This is needed for Git operations in the new repository
