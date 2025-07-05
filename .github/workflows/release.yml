@@ -31,6 +31,8 @@ jobs:
   build:
     needs: tagging
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Limit permissions to read-only access to repository contents
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
