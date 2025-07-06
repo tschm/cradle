@@ -33,18 +33,28 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}  # Use the specified Python version
 
-    # Step 3: Install all dependencies from pyproject.toml or requirements.txt
-    # This uses uv to install dependencies faster than pip
-    - name: Install dependencies
+    # Step 2.5
+    - name: Create a Python virtual environment
       shell: bash
       run: |
-        if [ "${{ inputs.use-requirements-txt }}" == "true" ]; then
-          # Install dependencies from requirements.txt
-          echo "Installing dependencies from ${{ inputs.requirements-path }}"
-          uv pip install -r ${{ inputs.requirements-path }}
-        else
-          # Install all dependencies including optional extras from pyproject.toml
-          # This is equivalent to pip install -e ".[all]" but much faster
-          echo "Installing dependencies from pyproject.toml"
-          uv sync --all-extras
-        fi
+        set -e  # Exit immediately if any command fails
+        echo "Creating virtual environment with Python ${{ inputs.python-version }}"
+        uv venv --python "${{ inputs.python-version }}"
+
+    # Step 3 with requirements.txt
+    - name: Setup venv based on requirements.txt
+      shell: bash
+      if: inputs.use-requirements-txt == 'true'
+      run: |
+        set -e  # Exit immediately if any command fails
+        echo "Installing dependencies from ${{ inputs.requirements-path }}"
+        uv pip install -r "${{ inputs.requirements-path }}"
+
+    # Step 3 with pyproject.toml
+    - name: Setup venv using pyproject.toml
+      shell: bash
+      if: inputs.use-requirements-txt == 'false'
+      run: |
+        set -e
+        echo "Installing dependencies from pyproject.toml"
+        uv sync --all-extras
