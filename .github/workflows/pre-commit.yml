@@ -18,15 +18,11 @@ jobs:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
 
-      # Step 2: Install uv/uvx
-      - name: Install uv/uvx
-        uses: astral-sh/setup-uv@v6
-
-      # Step 3: Run deptry to check for dependency issues
+      # Step 2: Run deptry to check for dependency issues
       - name: Run deptry
-        shell: bash
-        run: |
-          uvx deptry src/cradle
+        uses: ./actions/deptry
+        with:
+          source-folder: src/cradle
 
   # Job to run pre-commit hooks
   pre-commit:
