@@ -37,7 +37,7 @@ inputs:
   labels:
     description: 'Docker image labels to apply. Separate by newline. For example, "io.containers.capabilities=sys_admin,mknod".'
     required: false
-    # No default provided as labels are optional
+    default: ''  # Empty string as default for optional labels
 
 runs:
   using: "composite"  # Composite actions combine multiple steps
