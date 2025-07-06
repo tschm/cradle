@@ -4,7 +4,12 @@
 name: Bump version and publish
 
 on:
-  workflow_dispatch  # Manual trigger only
+  workflow_dispatch:  # Manual trigger only
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.2.3)'
+        required: true
+        type: string
 
 jobs:
   # Job to create a new version tag and build the package
