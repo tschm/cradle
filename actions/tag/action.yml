@@ -33,5 +33,6 @@ runs:
     - name: Create GitHub release without artifacts
       uses: softprops/action-gh-release@v2  # Third-party release action
       with:
+        token: ${{ inputs.github_token }}  # Token for authentication
         tag_name: ${{ steps.tag_version.outputs.new_tag }}  # Use the tag created in step 1
         generate_release_notes: true  # Automatically generate notes from commits

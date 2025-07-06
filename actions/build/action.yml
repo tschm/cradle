@@ -8,6 +8,10 @@ inputs:
     description: 'The version tag to use for the package and release (e.g., v1.0.0)'
     required: true
     # No default provided as this should be explicitly set for each release
+  github_token:
+    description: 'GitHub token for authentication with the repository'
+    required: true
+    # No default provided as this should be passed from the workflow secrets
 
 runs:
   using: "composite"  # Composite actions combine multiple steps
@@ -56,6 +60,7 @@ runs:
     - name: Create GitHub release with artifacts
       uses: softprops/action-gh-release@v2.3.2  # Third-party release action
       with:
+        token: ${{ inputs.github_token }}  # Token for authentication
         tag_name: ${{ inputs.tag }}  # Use the provided tag
         generate_release_notes: true  # Automatically generate notes from commits
         files: dist/*  # Attach all files in the dist directory

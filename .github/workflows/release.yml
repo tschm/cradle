@@ -37,7 +37,7 @@ jobs:
     needs: tagging
     runs-on: ubuntu-latest
     permissions:
-      contents: read  # Limit permissions to read-only access to repository contents
+      contents: write  # Permission to write to repository contents (for creating releases)
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout ${{ github.repository }}
@@ -47,6 +47,7 @@ jobs:
         uses: ./actions/build
         with:
           tag: ${{ needs.tagging.outputs.new_tag }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
 
   # Job to publish the built package to PyPI
