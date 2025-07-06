@@ -12,29 +12,8 @@ on:
         type: string
 
 jobs:
-  # Job to create a new version tag and build the package
-  tagging:
-    permissions:
-      contents: write  # Permission to write to repository contents (for creating tags)
-
-    runs-on: ubuntu-latest
-    outputs:
-      new_tag: ${{ steps.tag_version.outputs.new_tag }}
-    steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Generate a new version tag
-      - name: Generate Tag
-        id: tag_version  # ID to reference this step's outputs later
-        uses: ./actions/tag
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
-
-
   build:
-    needs: tagging
+    #needs: tagging
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Permission to write to repository contents (for creating releases)
@@ -46,7 +25,7 @@ jobs:
       - name: build
         uses: ./actions/build
         with:
-          tag: ${{ needs.tagging.outputs.new_tag }}
+          tag: ${{ inputs.tag }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
 
