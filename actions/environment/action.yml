@@ -1,13 +1,21 @@
 # GitHub Action to set up a Python development environment
-# This action installs all dependencies defined in pyproject.toml using uv
+# This action installs all dependencies defined in pyproject.toml or requirements.txt using uv
 name: Build Environment
-description: "Build the Python development environment using pyproject.toml and uv package manager"
+description: "Build the Python development environment using pyproject.toml or requirements.txt with uv package manager"
 
 inputs:
   python-version:
     description: 'The Python version to use for the environment (e.g., 3.9, 3.10, 3.11, 3.12)'
     required: false
     default: '3.12'  # Default to the latest stable Python version
+  use-requirements-txt:
+    description: 'Whether to use requirements.txt instead of pyproject.toml'
+    required: false
+    default: 'false'
+  requirements-path:
+    description: 'Path to the requirements.txt file'
+    required: false
+    default: 'requirements.txt'
 
 runs:
   using: "composite"  # Composite actions combine multiple steps
@@ -25,11 +33,18 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}  # Use the specified Python version
 
-    # Step 3: Install all dependencies from pyproject.toml
-    # This uses uv sync to install dependencies faster than pip
+    # Step 3: Install all dependencies from pyproject.toml or requirements.txt
+    # This uses uv to install dependencies faster than pip
     - name: Install dependencies
       shell: bash
       run: |
-        # Install all dependencies including optional extras
-        # This is equivalent to pip install -e ".[all]" but much faster
-        uv sync --all-extras
+        if [ "${{ inputs.use-requirements-txt }}" == "true" ]; then
+          # Install dependencies from requirements.txt
+          echo "Installing dependencies from ${{ inputs.requirements-path }}"
+          uv pip install -r ${{ inputs.requirements-path }}
+        else
+          # Install all dependencies including optional extras from pyproject.toml
+          # This is equivalent to pip install -e ".[all]" but much faster
+          echo "Installing dependencies from pyproject.toml"
+          uv sync --all-extras
+        fi
