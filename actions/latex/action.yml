@@ -6,22 +6,18 @@ description: "Advanced LaTeX document compilation with error handling, GitHub Pa
 
 inputs:
   tag:
-te    description: 'Release tag for creating a GitHub release with the compiled documents'
-    type: string
+    description: 'Release tag for creating a GitHub release with the compiled documents'
     required: false
     default: ''
   paper:
     description: 'Space-separated LaTeX files to compile'
-    type: string
     required: true
   output-folder:
     description: 'Output directory for compiled documents'
-    type: string
     required: false
     default: 'compiled'
   draft:
     description: 'Target branch for deployment'
-    type: string
     required: false
     default: 'draft'
 
