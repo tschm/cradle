@@ -7,7 +7,7 @@ readme = "README.md"
 authors = [{ name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = [
-    "copier==9.7.1",
+    "copier==9.8.0",
     "questionary==2.1.0",
     "loguru==0.7.3",
     "fire==0.7.0",
