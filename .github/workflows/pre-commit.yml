@@ -35,3 +35,5 @@ jobs:
       # Step 2: Run pre-commit hooks
       - name: pre-commit
         uses: ./actions/pre-commit
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
