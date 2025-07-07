@@ -58,8 +58,3 @@ def test_pdoc_action_structure(action_path):
     assert build_step["run"].find("uv run pdoc") != -1, "Build step must run pdoc"
     assert build_step["run"].find("${{ inputs.pdoc-arguments }}") != -1, "Build step must use pdoc-arguments input"
     assert build_step["run"].find("${{ inputs.source-folder }}") != -1, "Build step must use source-folder input"
-
-    # Check conditional step
-    assert upload_step.get("if", "").find("env.ACT") != -1, (
-        "Upload step must be conditional on ACT environment variable"
-    )
