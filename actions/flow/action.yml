@@ -36,6 +36,15 @@ runs:
         # Check act version to confirm installation
         act --version
 
+    - name: Check workflow file exists
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        if [ ! -f ".github/workflows/${{ inputs.workflow }}" ]; then
+          echo "ERROR: Workflow .github/workflows/${{ inputs.workflow }} not found in $PWD"
+          exit 1
+        fi
+
     # Step 3: Run the specified workflow using act
     # This executes the workflow file locally with a Ubuntu container
     - name: Test workflow
