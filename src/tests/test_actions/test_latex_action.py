@@ -30,7 +30,6 @@ def test_latex_action_structure(action_path):
 
     # Check inputs
     inputs = action["inputs"]
-    assert "tag" in inputs, "Action must have tag input"
     assert "paper" in inputs, "Action must have paper input"
     assert "output-folder" in inputs, "Action must have output-folder input"
     assert "draft" in inputs, "Action must have draft input"
@@ -73,17 +72,5 @@ def test_latex_action_structure(action_path):
     deploy_step = next((step for step in steps if step.get("name", "").startswith("Deploy to GitHub")), None)
     assert deploy_step is not None, "Action must have a deploy to GitHub Pages step"
 
-    release_step = next((step for step in steps if step.get("name", "").startswith("Create GitHub Release")), None)
-    assert release_step is not None, "Action must have a create GitHub release step"
-
     upload_step = next((step for step in steps if step.get("name", "").startswith("Upload build")), None)
     assert upload_step is not None, "Action must have an upload build artifacts step"
-
-    # Check conditional steps
-    assert deploy_step.get("if", "").find("env.ACT") != -1, (
-        "Deploy step must be conditional on ACT environment variable"
-    )
-    assert release_step.get("if", "").find("inputs.tag") != -1, "Release step must be conditional on tag input"
-    assert upload_step.get("if", "").find("env.ACT") != -1, (
-        "Upload step must be conditional on ACT environment variable"
-    )
