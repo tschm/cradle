@@ -31,14 +31,12 @@ and efficient setup following the most recent standards set in 2025.
 
 We use [uv](https://github.com/astral-sh/uv), [hatch](https://hatch.pypa.io/),
 [marimo](https://marimo.io/) and [Tectonic](https://tectonic-typesetting.github.io/).
-Supporting [DevContainers](https://containers.dev/),
-[Renovate](https://github.com/renovatebot/renovate),
-and [Dependabot](https://github.com/dependabot),
-we take full advantage of [GitHub Workflows](https://docs.github.com/en/actions/using-workflows/about-workflows).
+We support
+[Renovate](https://github.com/renovatebot/renovate) and
+take full advantage of [GitHub Workflows](https://docs.github.com/en/actions/using-workflows/about-workflows).
 
 Each template comes with curated [pre-commit hooks](https://pre-commit.com/).
-We compile [Jupyter Books](https://jupyterbook.org/) to collect
-test reports, API documentation, and notebooks.
+We collect test reports, API documentation, and notebooks.
 
 Let’s make project setup as rigorous as your research!
 
@@ -123,12 +121,11 @@ across your team or organization.
 It's essentially a project scaffolding tool that helps maintain consistency
 in Python projects.
 
-We currently offer $4$ standard templates out of the box
+We currently offer $3$ standard templates out of the box
 
 * 📄 The document template
 * 🧪 The experiments template
 * 📦 The package template
-* 📊 The R template
 
 ### 🌟 Standard Templates
 
@@ -155,10 +152,6 @@ goal is the release of software to a registry, e.g. pypi.
 It offers full uv support and compiles documentation
 into a Jupyter Book.
 
-#### 📊 [The R template](https://github.com/tschm/cradle_r)
-
-Here we expose R Studio in a devcontainer.
-
 ### 🔒 Proprietary templates
 
 #### 🛠️ Creation
@@ -170,10 +163,6 @@ for the job.
 
 Templates rely on [Jinja](https://jinja.palletsprojects.com/en/stable/).
 At the root level the repo needs a 'copier.yml' file and a 'template' folder.
-
-Each template is tested using [act](https://github.com/nektos/act), e.g.
-we render the project template and test the workflows of the created project.
-This helps to avoid creating projects starting their life in a broken state.
 
 #### 🚀 Usage
 
@@ -215,18 +204,13 @@ can be referenced in your workflows.
 
 ### 🛠️ Available Actions
 
-* 🔐 **age**: Encrypts and decrypts files using [age](https://github.com/FiloSottile/age)
 * 📚 **book**: Builds and publishes a Jupyter Book
 * 📦 **build**: Builds a Python package and uploads artifacts
 * 📊 **coverage**: Generates and uploads code coverage reports
-* 🚀 **cradle**: Runs the qCradle tool
 * 🔍 **deptry**: Checks for dependency issues using deptry
 * 🐳 **docker**: Builds and pushes Docker images
 * 🔧 **environment**: Sets up Python environment with dependencies
-* ⚙️ **flow**: Tests GitHub workflows using act
-* 📓 **jupyter**: Runs Jupyter notebooks
 * 📄 **latex**: Compiles LaTeX documents
-* 🧪 **marimo**: Runs marimo notebooks
 * 📝 **pdoc**: Generates API documentation using pdoc
 * ✅ **pre-commit**: Runs pre-commit hooks
 * 🏷️ **tag**: Bumps version, creates a tag, and publishes a release
