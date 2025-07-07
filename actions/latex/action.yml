@@ -5,10 +5,6 @@ name: Compile and Deploy LaTeX Documents
 description: "Advanced LaTeX document compilation with error handling, GitHub Pages deployment, and release creation"
 
 inputs:
-  tag:
-    description: 'Release tag for creating a GitHub release with the compiled documents'
-    required: false
-    default: ''
   paper:
     description: 'Space-separated LaTeX files to compile'
     required: true
@@ -89,7 +85,6 @@ runs:
         done
 
     - name: Deploy to GitHub Pages
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: ${{ inputs.draft }}
@@ -98,18 +93,10 @@ runs:
         clean: true
         single-commit: false
 
-    - name: Create GitHub Release
-      if: inputs.tag != ''
-      uses: softprops/action-gh-release@v2
-      with:
-        files: ${{ inputs.output-folder }}/*.pdf
-        tag_name: ${{ inputs.tag }}
-
     - name: Upload build artifacts
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
       uses: actions/upload-artifact@v4
       with:
-        name: latex-build-${{ github.run_id }}
+        name: latex
         path: |
-          ${{ env.BUILD_DIR }}
+          ${{ inputs.output-folder }}
         retention-days: 7
