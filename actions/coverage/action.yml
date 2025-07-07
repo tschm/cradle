@@ -74,7 +74,6 @@ runs:
     # Step 4: Upload test results as artifacts
     # This makes the reports available for download from the GitHub Actions UI
     - name: Upload test results
-      if: ${{ env.ACT != 'true' }}  # Skip if running with 'act' (local testing)
       uses: actions/upload-artifact@v4  # Official artifact upload action
       with:
         name: tests  # Name of the artifact
