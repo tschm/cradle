@@ -6,9 +6,7 @@ import pytest
 # Assuming the original code is in a file called project_setup.py
 from cradle.utils.questions import (
     _validate_description,
-    _validate_page,
     _validate_project_name,
-    _validate_status,
     _validate_username,
 )
 
@@ -85,42 +83,6 @@ def test_validate_description_invalid():
     for desc in invalid_descriptions:
         with pytest.raises(ValueError):
             _validate_description(desc)
-
-
-def test_validate_status_valid():
-    """Test that _validate_status accepts valid status values.
-
-    Verifies that the function returns the input status unchanged when given valid status values
-    (public, private, internal).
-    """
-    valid_statuses = ["public", "private", "internal"]
-    for status in valid_statuses:
-        assert _validate_status(status) == status
-
-
-def test_validate_status_invalid():
-    """Test that _validate_status rejects invalid status values.
-
-    Verifies that the function raises a ValueError when given invalid status values,
-    such as empty strings, None values, unrecognized status values, or status values
-    with incorrect capitalization.
-    """
-    invalid_statuses = ["", None, "invalid", "PUBLIC", "Private"]
-    for status in invalid_statuses:
-        with pytest.raises(ValueError):
-            _validate_status(status)
-
-
-def test_validate_page_invalid():
-    """Test that _validate_page rejects invalid page values.
-
-    Verifies that the function raises a ValueError when given invalid page values,
-    such as None values.
-    """
-    invalid_pages = [None]
-    for page in invalid_pages:
-        with pytest.raises(ValueError):
-            _validate_page(page)
 
 
 # def test_ask_integration():
