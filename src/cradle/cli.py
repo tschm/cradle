@@ -1,6 +1,5 @@
 """Command-line interface for qCradle."""
 
-import datetime
 import os
 import shutil
 import sys
@@ -13,8 +12,6 @@ import yaml
 from fire import Fire
 from loguru import logger
 
-from .utils.gh_client import setup_repository
-from .utils.git import assert_git_version
 from .utils.questions import ask
 
 # from .utils.shell import run_shell_command
@@ -132,9 +129,6 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         **kwargs: optional keyword arguments to pass to copier.run_copy() or copier.run_update()
 
     """
-    # check the git version
-    assert_git_version(min_version="2.28.0")
-
     # answer a bunch of questions
     logger.info("The qCradle will ask a group of questions to create a repository for you")
 
@@ -175,10 +169,8 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     # Copy material into the random path
     if update:
         copier.run_update(dst_path, data=context, overwrite=True, **kwargs)
-        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        branch = f"update-qcradle-{timestamp}"
 
-        setup_repository(dst_path, context=context, branch=branch)
+        # setup_repository(dst_path, context=context, branch=branch)
         # Wrap with Repo object
         # repo = Repo(dst_path)
         # repo.git.checkout(branch)
@@ -192,7 +184,7 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         logger.info(f"{context}")
         copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
         append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
-        setup_repository(dst_path, context=context, branch="main")
+        # setup_repository(dst_path, context=context, branch="main")
 
     # go back to the repo
     os.chdir(home)
@@ -201,8 +193,8 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     if remove_path:
         shutil.rmtree(dst_path)
 
-    if not update:
-        logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
+    # if not update:
+    #    logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
 def main():  # pragma: no cover

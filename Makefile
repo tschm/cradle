@@ -9,23 +9,18 @@ RESET := \033[0m
 
 ##@ Development Setup
 
-venv:
+uv:
 	@printf "$(BLUE)Creating virtual environment...$(RESET)\n"
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
-	@uv venv --python 3.12
 
-verify:  ## Verify existence of ssh connection and gh
-	@printf "$(BLUE)Verify existence of ssh and gh...$(RESET)\n"
-	ssh -T git@github.com || true
-	gh --version
-
-install: venv ## Install all dependencies using uv
+install: uv ## Install all dependencies using uv
 	@printf "$(BLUE)Installing dependencies...$(RESET)\n"
+	@uv venv --python 3.12
 	@uv sync --all-extras
 
 ##@ Code Quality
 
-fmt: venv ## Run code formatting and linting
+fmt: uv ## Run code formatting and linting
 	@printf "$(BLUE)Running formatters and linters...$(RESET)\n"
 	@uvx pre-commit run --all-files
 
