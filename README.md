@@ -12,8 +12,8 @@ It has been created
 to accelerate, simplify and harmonize the development
 of experiments and quantitative strategies.
 
-Assuming the presence of gh, uvx and a valid ssh-connection
-with GitHub you can start the tool with
+Assuming the presence of uvx
+you can start the tool with
 
 ```bash
 uvx qcradle
@@ -57,21 +57,6 @@ created with the qcradle. We start with
 ### 🧩 User templates
 
 Please share your templates with the world!
-
-## 🔧 Install gh
-
-Please install GitHub's official command line tool [gh](https://github.com/cli/cli).
-This tool is used to create GitHub repos from the command line.
-
-Verify the existence of the tool and a valid SSH connection with
-
-```bash
-ssh -T git@github.com
-gh --version
-```
-
-[Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-to establish a new ssh keypair.
 
 ## 🔄 Install uv and uvx
 
@@ -177,7 +162,7 @@ argument
 uvx qcradle --template=git@github.com:tschm/paper.git
 ```
 
-By default, Copier (and hence the repo-launcher) will copy from the last
+By default, Copier (and hence the cradle) will copy from the last
 release found in template Git tags, sorted as
 [PEP 440](https://peps.python.org/pep-0440/).
 
