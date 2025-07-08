@@ -30,12 +30,9 @@ def test_all_actions_exist(all_action_paths):
 def test_action_basic_structure(action_file, all_action_paths, request):
     """Test that all actions have the required basic structure."""
     # Get the actual paths from the fixture if using the special 'all_action_paths' parameter
-    if action_file == "all_action_paths":
-        paths = all_action_paths
-        for path in paths:
-            _test_action_basic_structure(path)
-    else:
-        _test_action_basic_structure(action_file)
+    paths = all_action_paths
+    for path in paths:
+        _test_action_basic_structure(path)
 
 
 def _test_action_basic_structure(action_path):
@@ -65,12 +62,9 @@ def _test_action_basic_structure(action_path):
 def test_action_description_quality(action_file, all_action_paths, request):
     """Test that all actions have a good quality description."""
     # Get the actual paths from the fixture if using the special 'all_action_paths' parameter
-    if action_file == "all_action_paths":
-        paths = all_action_paths
-        for path in paths:
-            _test_action_description_quality(path)
-    else:
-        _test_action_description_quality(action_file)
+    paths = all_action_paths
+    for path in paths:
+        _test_action_description_quality(path)
 
 
 def _test_action_description_quality(action_path):
@@ -94,12 +88,9 @@ def _test_action_description_quality(action_path):
 def test_action_inputs_documentation(action_file, all_action_paths, request):
     """Test that all action inputs are well documented."""
     # Get the actual paths from the fixture if using the special 'all_action_paths' parameter
-    if action_file == "all_action_paths":
-        paths = all_action_paths
-        for path in paths:
-            _test_action_inputs_documentation(path)
-    else:
-        _test_action_inputs_documentation(action_file)
+    paths = all_action_paths
+    for path in paths:
+        _test_action_inputs_documentation(path)
 
 
 def _test_action_inputs_documentation(action_path):
