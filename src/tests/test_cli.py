@@ -7,12 +7,6 @@ import yaml
 
 from cradle.cli import append_to_yaml_file, cli, load_defaults
 
-# @pytest.fixture
-# def mock_run_shell_command(mocker):
-#    """Fixture to mock `run_shell_command`."""
-#    # Mock run_shell_command and return a MagicMock so we can check calls
-#    return mocker.patch("cradle.cli.run_shell_command", autospec=True)
-
 
 @pytest.fixture
 def mock_context():
