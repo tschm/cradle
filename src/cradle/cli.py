@@ -1,20 +1,14 @@
 """Command-line interface for qCradle."""
 
-import os
 import sys
-from pathlib import Path
 
-import copier
-import questionary
 import typer
-import yaml
 from loguru import logger
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
-from .config import get_all_templates
-from .utils.questions import ask
+from .config import get_all_templates, get_template_info
 
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
@@ -33,12 +27,12 @@ app = typer.Typer(
 )
 
 # Create a subcommand for template management
-template_app = typer.Typer(
-    name="template", help="Manage template repositories in the configuration file (~/.cradle/config.yaml)"
-)
+# template_app = typer.Typer(
+#   name="template", help="Manage template repositories in the configuration file (~/.cradle/config.yaml)"
+# )
 
 # Add the template subcommand to the main app
-app.add_typer(template_app, name="template")
+# app.add_typer(template_app, name="template")
 
 # Initialize Rich console
 console = Console()
@@ -74,174 +68,64 @@ def list_templates():
     console.print(table)
 
 
-def load_templates(yaml_path: Path) -> dict[str, str]:
-    """Load templates from YAML file and return a dictionary mapping display names to URLs."""
-    with open(yaml_path) as f:
-        config = yaml.safe_load(f)
+@app.command("create")
+def create_project(
+    template: str = typer.Argument(..., help="Template to use"),
+    project_name: str = typer.Option(..., "--name", "-n", help="Name of the project"),
+    # output_dir: Optional[str] = typer.Option(None, "--output", "-o", help="Output directory"),
+    # username: str = typer.Option(os.environ.get("USER", "user"), "--username", "-u", help="Your username"),
+    description: str = typer.Option(
+        "A project created with Cradle CLI", "--description", "-d", help="Project description"
+    ),
+    # repository: str = typer.Option("", "--repository", "-r", help="Repository URL"),
+):
+    """Create a new project from a template."""
+    templates = get_available_templates()
 
-    return {details["display_name"]: details["url"] for template_name, details in config["templates"].items()}
+    if template not in templates:
+        rprint(f"[bold red]Template '{template}' not found![/bold red]")
+        rprint(f"Available templates: {', '.join(templates)}")
+        sys.exit(1)
 
+    # Get template information from config
+    template_info = get_template_info(template)
+    if not template_info or "url" not in template_info:
+        rprint(f"[bold red]Template '{template}' has no URL defined![/bold red]")
+        sys.exit(1)
 
-def append_to_yaml_file(new_data, file_path):
-    """Append or update a YAML file with new data.
+    template_url = template_info["url"]
 
-    This function checks if the
-    specified YAML file exists. If it exists, the current contents are loaded,
-    updated with the new data, and written back to the file. If the file does not
-    exist, a new file is created, and the provided data is written to it.
+    # if output_dir is None:
+    output_dir = project_name
 
-    Parameters
-    ----------
-    new_data : dict
-        The new data to append to the YAML file. It should be a dictionary.
-    file_path : str
-        The path of the YAML file to update or create.
+    # Prepare data for copier
+    data = {
+        "project_name": project_name,
+        # "username": username,
+        "description": description,
+        # "repository": repository,
+    }
 
-    Raises
-    ------
-    yaml.YAMLError
-        If there is an error in parsing or dumping YAML data.
-    IOError
-        If there is an issue with file reading or writing.
+    # Import copier here to avoid slow startup time
+    import copier
 
-    """
-    # Check if the file exists
-    if os.path.exists(file_path):
-        # Load the existing data from the file
-        with open(file_path) as file:
-            existing_data = yaml.safe_load(file) or {}  # Load existing data or empty dict if file is empty
-    else:
-        # If the file doesn't exist, start with an empty dict
-        existing_data = {}
-
-    # Append new data (update or add new keys)
-    existing_data.update(new_data)
-
-    # Write the updated data back to the YAML file
-    with open(file_path, "w") as file:
-        yaml.dump(existing_data, file, default_flow_style=False)
-
-
-# Load defaults from .copier-answers.yml
-def load_defaults(file_path=".copier-answers.yml"):
-    """Load default values from a specified YAML file.
-
-    If the file is missing,
-    it returns an empty dictionary. If the file is present but cannot be
-    parsed due to invalid YAML formatting, an error message is printed and
-    the exception is re-raised.
-
-    Parameters
-    ----------
-    file_path: str
-        The path to the YAML file from which defaults should be loaded. Defaults to
-        ".copier-answers.yml".
-
-    Returns
-    -------
-    dict
-        A dictionary containing the parsed contents of the YAML file. If the file is
-        not found, an empty dictionary is returned.
-
-    Raises
-    ------
-    yaml.YAMLError
-        If there is an error while parsing the YAML file, this exception is raised.
-
-    """
     try:
-        with open(file_path) as file:
-            return yaml.safe_load(file) or {}
-    except FileNotFoundError:
-        return {}  # Return empty dict if the file is missing
-    except yaml.YAMLError as e:
-        print(f"⚠️ Error parsing YAML file: {e}")
-        raise e
+        rprint(f"[bold]Creating project '{project_name}' from template '{template}'...[/bold]")
+        rprint(f"[bold]Using template URL: {template_url}[/bold]")
 
+        # Run copier with the template URL
+        copier.run_copy(
+            src_path=template_url,
+            dst_path=output_dir,
+            data=data,
+            unsafe=True,
+            defaults=True,
+        )
 
-def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, **kwargs) -> None:
-    """Create GitHub repositories from the command line.
-
-    It is also possible to create a large number of GitHub repositories.
-
-    Args:
-        template: optional (str) template. Use a git URI, e.g. 'git@...'.
-                  Offers a group of standard templates to choose from if not specified.
-
-        dst_path: optional (str) destination path. Useful when updating existing projects.
-                  It has to be a full path. When given the template is ignored.
-
-        vcs_ref: optional (str) revision number to checkout
-        a particular Git ref before generating the project.
-
-        **kwargs: optional keyword arguments to pass to copier.run_copy() or copier.run_update()
-
-    """
-    # answer a bunch of questions
-    logger.info("The qCradle will ask a group of questions to create a repository for you")
-
-    home = os.getcwd()
-
-    if dst_path is None:
-        if template is None:
-            # Load templates from YAML file
-            yaml_path = Path(__file__).parent / "templates.yaml"  # Adjust path as needed
-            templates = load_templates(yaml_path)
-
-            # Let user select from the display names
-            result = questionary.select(
-                "What kind of project do you want to create?",
-                choices=list(templates.keys()),
-            ).ask()
-
-            template = templates[result]
-        # remove_path = True
-        update = False
-        dst_path = home  # Path(tempfile.mkdtemp())
-        logger.info(f"No destination path specified. Use {dst_path}")
-        defaults = {}
-        os.chdir(dst_path)
-
-    else:
-        logger.info(f"Destination path specified. Use {dst_path}")
-        update = True
-        os.chdir(dst_path)
-
-        defaults = load_defaults(".copier-answers.yml")
-
-    context = ask(logger=logger, defaults=defaults)
-
-    logger.info("*** Copier is parsing the template ***")
-
-    # Copy material into the random path
-    if update:
-        copier.run_update(dst_path, data=context, overwrite=True, **kwargs)
-
-        # setup_repository(dst_path, context=context, branch=branch)
-        # Wrap with Repo object
-        # repo = Repo(dst_path)
-        # repo.git.checkout(branch)
-        # repo.git.add(all=True)
-        # repo.git.commit("-m", "Updates by qcradle")
-
-        # Push to origin main
-        # repo.remotes.origin.push(refspec=f"{branch}:{branch}")
-
-    else:
-        logger.info(f"{context}")
-        copier.run_copy(template, dst_path, data=context, vcs_ref=vcs_ref, **kwargs)
-        append_to_yaml_file(new_data=context, file_path=".copier-answers.yml")
-        # setup_repository(dst_path, context=context, branch="main")
-
-    # go back to the repo
-    # os.chdir(home)
-
-    # delete the path you have created
-    # if remove_path:
-    #    shutil.rmtree(dst_path)
-
-    # if not update:
-    #    logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
+        rprint(f"[bold green]Project created successfully at '{output_dir}'![/bold green]")
+    except Exception as e:
+        rprint(f"[bold red]Error creating project: {e}[/bold red]")
+        sys.exit(1)
 
 
 @app.callback()

@@ -17,15 +17,15 @@ CONFIG_FILE = CONFIG_DIR / "config.yaml"
 DEFAULT_CONFIG = {
     "templates": {
         "experiments": {
-            "url": "https://github.com/tschm/cradle_templates/experiments",
+            "url": "https://github.com/tschm/experiments",
             "description": "Template for experimental projects with Marimo notebooks",
         },
         "package": {
-            "url": "https://github.com/tschm/cradle_templates/package",
+            "url": "https://github.com/tschm/package",
             "description": "Template for Python packages with PyPI publishing support",
         },
         "paper": {
-            "url": "https://github.com/tschm/cradle_templates/paper",
+            "url": "https://github.com/tschm/paper",
             "description": "Template for academic papers with LaTeX support",
         },
     }
