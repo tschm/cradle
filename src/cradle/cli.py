@@ -1,9 +1,7 @@
 """Command-line interface for qCradle."""
 
 import os
-import shutil
 import sys
-import tempfile
 from pathlib import Path
 
 import copier
@@ -13,8 +11,6 @@ from fire import Fire
 from loguru import logger
 
 from .utils.questions import ask
-
-# from .utils.shell import run_shell_command
 
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
@@ -147,16 +143,15 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
             ).ask()
 
             template = templates[result]
-        remove_path = True
+        # remove_path = True
         update = False
-        dst_path = Path(tempfile.mkdtemp())
+        dst_path = home  # Path(tempfile.mkdtemp())
         logger.info(f"No destination path specified. Use {dst_path}")
         defaults = {}
         os.chdir(dst_path)
 
     else:
         logger.info(f"Destination path specified. Use {dst_path}")
-        remove_path = False
         update = True
         os.chdir(dst_path)
 
@@ -187,11 +182,11 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
         # setup_repository(dst_path, context=context, branch="main")
 
     # go back to the repo
-    os.chdir(home)
+    # os.chdir(home)
 
     # delete the path you have created
-    if remove_path:
-        shutil.rmtree(dst_path)
+    # if remove_path:
+    #    shutil.rmtree(dst_path)
 
     # if not update:
     #    logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
