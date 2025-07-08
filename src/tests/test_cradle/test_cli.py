@@ -13,7 +13,6 @@ from typer.testing import CliRunner
 from cradle.cli import (
     app,
     create_project,
-    get_available_templates,
     list_templates,
 )
 
@@ -43,38 +42,33 @@ def runner():
     return CliRunner()
 
 
+# @patch("cradle.config.get_all_templates")
+# def test_get_available_templates(mock_get_all_templates, mock_templates):
+#     """Test that get_available_templates returns a sorted list of template names."""
+#     # Setup
+#     mock_get_all_templates.return_value = mock_templates
+#
+#     # Execute
+#     result = get_available_templates()
+#
+#     # Assert
+#     mock_get_all_templates.assert_called_once()
+#     assert result == ["experiments", "package", "paper"]
+
+
 @patch("cradle.cli.get_all_templates")
-def test_get_available_templates(mock_get_all_templates, mock_templates):
-    """Test that get_available_templates returns a sorted list of template names."""
-    # Setup
-    mock_get_all_templates.return_value = mock_templates
-
-    # Execute
-    result = get_available_templates()
-
-    # Assert
-    mock_get_all_templates.assert_called_once()
-    assert result == ["experiments", "package", "paper"]
-
-
-@patch("cradle.cli.get_all_templates")
-@patch("cradle.cli.get_available_templates")
 @patch("cradle.cli.console.print")
 @patch("cradle.cli.rprint")
-def test_list_templates_with_templates(
-    mock_rprint, mock_console_print, mock_get_available_templates, mock_get_all_templates, mock_templates
-):
+def test_list_templates_with_templates(mock_rprint, mock_console_print, mock_get_all_templates, mock_templates):
     """Test that list_templates displays a table of templates when templates are available."""
     # Setup
     mock_get_all_templates.return_value = mock_templates
-    mock_get_available_templates.return_value = ["experiments", "package", "paper"]
 
     # Execute
     list_templates()
 
     # Assert
     mock_get_all_templates.assert_called_once()
-    mock_get_available_templates.assert_called_once()
     mock_rprint.assert_not_called()
     mock_console_print.assert_called_once()
     # Check that the argument to console.print is a Table
@@ -82,38 +76,29 @@ def test_list_templates_with_templates(
 
 
 @patch("cradle.cli.get_all_templates")
-@patch("cradle.cli.get_available_templates")
 @patch("cradle.cli.console.print")
 @patch("cradle.cli.rprint")
-def test_list_templates_no_templates(
-    mock_rprint, mock_console_print, mock_get_available_templates, mock_get_all_templates
-):
+def test_list_templates_no_templates(mock_rprint, mock_console_print, mock_get_all_templates):
     """Test that list_templates displays an error message when no templates are available."""
     # Setup
     mock_get_all_templates.return_value = {}
-    mock_get_available_templates.return_value = []
 
     # Execute
     list_templates()
 
     # Assert
     mock_get_all_templates.assert_called_once()
-    mock_get_available_templates.assert_called_once()
     mock_rprint.assert_called_once_with("[bold red]No templates found![/bold red]")
     mock_console_print.assert_not_called()
 
 
-@patch("cradle.cli.get_available_templates")
-@patch("cradle.cli.get_template_info")
+@patch("cradle.cli.get_all_templates")
 @patch("cradle.cli.rprint")
 @patch("cradle.cli.sys.exit")
-def test_create_project_success(
-    mock_exit, mock_rprint, mock_get_template_info, mock_get_available_templates, mock_templates
-):
+def test_create_project_success(mock_exit, mock_rprint, mock_get_all_templates, mock_templates):
     """Test that create_project creates a project successfully."""
     # Setup
-    mock_get_available_templates.return_value = ["experiments", "package", "paper"]
-    mock_get_template_info.return_value = mock_templates["package"]
+    mock_get_all_templates.return_value = mock_templates
 
     # Mock the copier module
     mock_copier = MagicMock()
@@ -122,8 +107,7 @@ def test_create_project_success(
         create_project(template="package", project_name="test-project", description="Test project")
 
         # Assert
-        mock_get_available_templates.assert_called_once()
-        mock_get_template_info.assert_called_once_with("package")
+        mock_get_all_templates.assert_called_once()
         mock_rprint.assert_has_calls(
             [
                 call("[bold]Creating project 'test-project' from template 'package'...[/bold]"),
@@ -146,9 +130,13 @@ def test_create_project_success(
 
 def test_create_project_template_not_found(runner):
     """Test that create_project exits with an error when the template is not found."""
-    with patch("cradle.cli.get_available_templates") as mock_get_available_templates:
+    with patch("cradle.cli.get_all_templates") as mock_get_all_templates:
         # Setup
-        mock_get_available_templates.return_value = ["experiments", "package", "paper"]
+        mock_get_all_templates.return_value = {
+            "experiments": {"url": "https://example.com/experiments"},
+            "package": {"url": "https://example.com/package"},
+            "paper": {"url": "https://example.com/paper"},
+        }
 
         # Execute
         result = runner.invoke(
@@ -163,14 +151,13 @@ def test_create_project_template_not_found(runner):
 
 def test_create_project_no_url(runner):
     """Test that create_project exits with an error when the template has no URL."""
-    with (
-        patch("cradle.cli.get_available_templates") as mock_get_available_templates,
-        patch("cradle.cli.get_template_info") as mock_get_template_info,
-    ):
+    with patch("cradle.cli.get_all_templates") as mock_get_all_templates:
         # Setup
-        mock_get_available_templates.return_value = ["experiments", "package", "paper"]
-        # Return a dictionary without a URL key to simulate a template with no URL
-        mock_get_template_info.return_value = {"description": "Template with no URL"}
+        mock_get_all_templates.return_value = {
+            "experiments": {"url": "https://example.com/experiments"},
+            "package": {"description": "Template with no URL"},  # No URL key
+            "paper": {"url": "https://example.com/paper"},
+        }
 
         # Execute
         result = runner.invoke(app, ["create", "package", "--name", "test-project", "--description", "Test project"])
@@ -180,17 +167,14 @@ def test_create_project_no_url(runner):
         assert result.exit_code != 0
 
 
-@patch("cradle.cli.get_available_templates")
-@patch("cradle.cli.get_template_info")
+@patch("cradle.cli.get_all_templates")
 @patch("cradle.cli.rprint")
 @patch("cradle.cli.sys.exit")
-def test_create_project_copier_error(
-    mock_exit, mock_rprint, mock_get_template_info, mock_get_available_templates, mock_templates
-):
+def test_create_project_copier_error(mock_exit, mock_rprint, mock_get_all_templates, mock_templates):
     """Test that create_project handles errors from copier."""
     # Setup
-    mock_get_available_templates.return_value = ["experiments", "package", "paper"]
-    mock_get_template_info.return_value = mock_templates["package"]
+    mock_get_all_templates.return_value = mock_templates
+    # mock_get_template_info.return_value = mock_templates["package"]
 
     # Mock the copier module with an error
     mock_copier = MagicMock()
@@ -201,8 +185,8 @@ def test_create_project_copier_error(
         create_project(template="package", project_name="test-project", description="Test project")
 
         # Assert
-        mock_get_available_templates.assert_called_once()
-        mock_get_template_info.assert_called_once_with("package")
+        mock_get_all_templates.assert_called_once()
+        # mock_get_template_info.assert_called_once_with("package")
         mock_rprint.assert_has_calls(
             [
                 call("[bold]Creating project 'test-project' from template 'package'...[/bold]"),
@@ -240,23 +224,27 @@ def test_cli_runner_list(runner):
 
         # Assert
         assert result.exit_code == 0
-        # get_all_templates is called twice: once directly and once through get_available_templates
-        assert mock_get_all_templates.call_count == 2
+        # get_all_templates is called once directly
+        mock_get_all_templates.assert_called_once()
         mock_console_print.assert_called_once()
 
 
 def test_cli_runner_create(runner):
     """Test the create command using the CliRunner."""
     with (
-        patch("cradle.cli.get_available_templates") as mock_get_available_templates,
-        patch("cradle.cli.get_template_info") as mock_get_template_info,
+        patch("cradle.cli.get_all_templates") as mock_get_all_templates,
     ):
         # Setup
-        mock_get_available_templates.return_value = ["package"]
-        mock_get_template_info.return_value = {
-            "url": "https://github.com/tschm/package",
-            "description": "Template for Python packages with PyPI publishing support",
+        mock_get_all_templates.return_value = {
+            "package": {
+                "url": "https://github.com/tschm/package",
+                "description": "Template for Python packages with PyPI publishing support",
+            }
         }
+        # mock_get_template_info.return_value = {
+        #    "url": "https://github.com/tschm/package",
+        #    "description": "Template for Python packages with PyPI publishing support",
+        # }
 
         # Mock the copier module
         mock_copier = MagicMock()
@@ -268,6 +256,6 @@ def test_cli_runner_create(runner):
 
             # Assert
             assert result.exit_code == 0
-            mock_get_available_templates.assert_called_once()
-            mock_get_template_info.assert_called_once_with("package")
+            mock_get_all_templates.assert_called_once()
+            # mock_get_template_info.assert_called_once_with("package")
             mock_copier.run_copy.assert_called_once()

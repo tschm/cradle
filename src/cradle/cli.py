@@ -8,7 +8,7 @@ from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
-from .config import get_all_templates, get_template_info
+from .config import get_all_templates
 
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
@@ -26,29 +26,15 @@ app = typer.Typer(
     add_completion=False,
 )
 
-# Create a subcommand for template management
-# template_app = typer.Typer(
-#   name="template", help="Manage template repositories in the configuration file (~/.cradle/config.yaml)"
-# )
-
-# Add the template subcommand to the main app
-# app.add_typer(template_app, name="template")
-
 # Initialize Rich console
 console = Console()
-
-
-def get_available_templates() -> list[str]:
-    """Get a list of available templates from the configuration."""
-    templates = get_all_templates()
-    return sorted(templates.keys())
 
 
 @app.command("list")
 def list_templates():
     """List all available templates."""
     template_configs = get_all_templates()
-    template_names = get_available_templates()
+    template_names = sorted(template_configs.keys())
 
     if not template_names:
         rprint("[bold red]No templates found![/bold red]")
@@ -72,38 +58,34 @@ def list_templates():
 def create_project(
     template: str = typer.Argument(..., help="Template to use"),
     project_name: str = typer.Option(..., "--name", "-n", help="Name of the project"),
-    # output_dir: Optional[str] = typer.Option(None, "--output", "-o", help="Output directory"),
-    # username: str = typer.Option(os.environ.get("USER", "user"), "--username", "-u", help="Your username"),
     description: str = typer.Option(
         "A project created with Cradle CLI", "--description", "-d", help="Project description"
     ),
-    # repository: str = typer.Option("", "--repository", "-r", help="Repository URL"),
 ):
     """Create a new project from a template."""
-    templates = get_available_templates()
+    template_configs = get_all_templates()
+    available_templates = sorted(template_configs.keys())
 
-    if template not in templates:
+    if template not in available_templates:
         rprint(f"[bold red]Template '{template}' not found![/bold red]")
-        rprint(f"Available templates: {', '.join(templates)}")
+        rprint(f"Available templates: {', '.join(available_templates)}")
         sys.exit(1)
 
     # Get template information from config
-    template_info = get_template_info(template)
+    template_info = template_configs.get(template, None)
+
     if not template_info or "url" not in template_info:
         rprint(f"[bold red]Template '{template}' has no URL defined![/bold red]")
         sys.exit(1)
 
     template_url = template_info["url"]
 
-    # if output_dir is None:
     output_dir = project_name
 
     # Prepare data for copier
     data = {
         "project_name": project_name,
-        # "username": username,
         "description": description,
-        # "repository": repository,
     }
 
     # Import copier here to avoid slow startup time
@@ -133,7 +115,7 @@ def callback():
     """Cradle CLI - A command-line interface for generating projects using Copier templates.
 
     Templates are defined in a configuration file (~/.cradle/config.yaml) that maps
-    template names to repository URLs. Use the 'template' subcommand to manage templates.
+    template names to repository URLs.
     """
     pass
 

@@ -32,7 +32,7 @@ DEFAULT_CONFIG = {
 }
 
 
-def ensure_config_file() -> None:
+def _ensure_config_file() -> None:
     """Ensure the configuration file exists."""
     if not CONFIG_DIR.exists():
         CONFIG_DIR.mkdir(parents=True)
@@ -42,29 +42,17 @@ def ensure_config_file() -> None:
             yaml.dump(DEFAULT_CONFIG, f)
 
 
-def read_config() -> dict[str, Any]:
+def _read_config(config_file=None) -> dict[str, Any]:
     """Read the configuration file."""
-    ensure_config_file()
+    if config_file is None:
+        _ensure_config_file()
+        config_file = CONFIG_FILE
 
-    with open(CONFIG_FILE) as f:
+    with open(config_file) as f:
         return yaml.safe_load(f)
 
 
-def write_config(config: dict[str, Any]) -> None:
-    """Write the configuration file."""
-    ensure_config_file()
-
-    with open(CONFIG_FILE, "w") as f:
-        yaml.dump(config, f)
-
-
-def get_template_info(template_name: str) -> dict[str, Any] | None:
-    """Get information about a specific template."""
-    config = read_config()
-    return config.get("templates", {}).get(template_name)
-
-
-def get_all_templates() -> dict[str, dict[str, Any]]:
+def get_all_templates(config_file=None) -> dict[str, dict[str, Any]]:
     """Get information about all templates."""
-    config = read_config()
+    config = _read_config(config_file)
     return config.get("templates", {})
