@@ -140,4 +140,4 @@ def callback():
 
 def main():
     """Entry point for the CLI."""
-    app()
+    app()  # pragma: no cover
