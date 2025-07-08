@@ -6,10 +6,14 @@ from pathlib import Path
 
 import copier
 import questionary
+import typer
 import yaml
-from fire import Fire
 from loguru import logger
+from rich import print as rprint
+from rich.console import Console
+from rich.table import Table
 
+from .config import get_all_templates
 from .utils.questions import ask
 
 # Add a new logger with a simpler format
@@ -20,6 +24,54 @@ logger.add(
     format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
     "<level>{level: <8}</level> | {function}:{line} | <cyan>{message}</cyan>",
 )
+
+# Initialize Typer app
+app = typer.Typer(
+    name="qCradle",
+    help="CLI tool for generating projects using Copier templates from configured repositories",
+    add_completion=False,
+)
+
+# Create a subcommand for template management
+template_app = typer.Typer(
+    name="template", help="Manage template repositories in the configuration file (~/.cradle/config.yaml)"
+)
+
+# Add the template subcommand to the main app
+app.add_typer(template_app, name="template")
+
+# Initialize Rich console
+console = Console()
+
+
+def get_available_templates() -> list[str]:
+    """Get a list of available templates from the configuration."""
+    templates = get_all_templates()
+    return sorted(templates.keys())
+
+
+@app.command("list")
+def list_templates():
+    """List all available templates."""
+    template_configs = get_all_templates()
+    template_names = get_available_templates()
+
+    if not template_names:
+        rprint("[bold red]No templates found![/bold red]")
+        return
+
+    table = Table(title="Available Templates")
+    table.add_column("Name", style="cyan")
+    table.add_column("Description", style="green")
+    table.add_column("URL", style="blue")
+
+    for name in template_names:
+        template_info = template_configs[name]
+        description = template_info.get("description", "No description available")
+        url = template_info.get("url", "")
+        table.add_row(name, description, url)
+
+    console.print(table)
 
 
 def load_templates(yaml_path: Path) -> dict[str, str]:
@@ -192,6 +244,16 @@ def cli(template: str = None, dst_path: str = None, vcs_ref: str | None = None, 
     #    logger.info(f"\n\nYou may have to perform 'git clone {context['ssh_uri']}'")
 
 
-def main():  # pragma: no cover
-    """Run the CLI using Fire."""
-    Fire(cli)
+@app.callback()
+def callback():
+    """Cradle CLI - A command-line interface for generating projects using Copier templates.
+
+    Templates are defined in a configuration file (~/.cradle/config.yaml) that maps
+    template names to repository URLs. Use the 'template' subcommand to manage templates.
+    """
+    pass
+
+
+def main():
+    """Entry point for the CLI."""
+    app()
