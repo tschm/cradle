@@ -38,8 +38,6 @@ def test_ensure_config_file_creates_dir_and_file(mock_open_file, mock_file, mock
     mock_open_file().write.assert_called()
 
 
-#
-#
 @patch("cradle.config.CONFIG_DIR")
 @patch("cradle.config.CONFIG_FILE")
 @patch("builtins.open", new_callable=mock_open)
@@ -58,8 +56,6 @@ def test_ensure_config_file_creates_only_file(mock_open_file, mock_file, mock_di
     mock_open_file().write.assert_called()
 
 
-#
-#
 @patch("cradle.config.CONFIG_DIR")
 @patch("cradle.config.CONFIG_FILE")
 @patch("builtins.open", new_callable=mock_open)
