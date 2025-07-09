@@ -42,20 +42,6 @@ def runner():
     return CliRunner()
 
 
-# @patch("cradle.config.get_all_templates")
-# def test_get_available_templates(mock_get_all_templates, mock_templates):
-#     """Test that get_available_templates returns a sorted list of template names."""
-#     # Setup
-#     mock_get_all_templates.return_value = mock_templates
-#
-#     # Execute
-#     result = get_available_templates()
-#
-#     # Assert
-#     mock_get_all_templates.assert_called_once()
-#     assert result == ["experiments", "package", "paper"]
-
-
 @patch("cradle.cli.get_all_templates")
 @patch("cradle.cli.console.print")
 @patch("cradle.cli.rprint")
@@ -104,7 +90,13 @@ def test_create_project_success(mock_exit, mock_rprint, mock_get_all_templates, 
     mock_copier = MagicMock()
     with patch.dict("sys.modules", {"copier": mock_copier}):
         # Execute
-        create_project(template="package", project_name="test-project", description="Test project")
+        create_project(
+            template="package",
+            project_name="test-project",
+            description="Test project",
+            user_name="testuser",
+            visibility="private",
+        )
 
         # Assert
         mock_get_all_templates.assert_called_once()
@@ -122,6 +114,8 @@ def test_create_project_success(mock_exit, mock_rprint, mock_get_all_templates, 
             data={
                 "project_name": "test-project",
                 "description": "Test project",
+                "username": "testuser",
+                "repository": "https://github.com/testuser/test-project",
             },
             unsafe=True,
             defaults=True,
@@ -140,7 +134,19 @@ def test_create_project_template_not_found(runner):
 
         # Execute
         result = runner.invoke(
-            app, ["create", "nonexistent", "--name", "test-project", "--description", "Test project"]
+            app,
+            [
+                "create",
+                "nonexistent",
+                "--name",
+                "test-project",
+                "--description",
+                "Test project",
+                "--username",
+                "testuser",
+                "--visibility",
+                "private",
+            ],
         )
 
         # Assert
@@ -160,7 +166,21 @@ def test_create_project_no_url(runner):
         }
 
         # Execute
-        result = runner.invoke(app, ["create", "package", "--name", "test-project", "--description", "Test project"])
+        result = runner.invoke(
+            app,
+            [
+                "create",
+                "package",
+                "--name",
+                "test-project",
+                "--description",
+                "Test project",
+                "--username",
+                "testuser",
+                "--visibility",
+                "private",
+            ],
+        )
 
         # Assert
         assert "Template 'package' has no URL defined!" in result.output
@@ -182,7 +202,13 @@ def test_create_project_copier_error(mock_exit, mock_rprint, mock_get_all_templa
 
     with patch.dict("sys.modules", {"copier": mock_copier}):
         # Execute
-        create_project(template="package", project_name="test-project", description="Test project")
+        create_project(
+            template="package",
+            project_name="test-project",
+            description="Test project",
+            user_name="testuser",
+            visibility="private",
+        )
 
         # Assert
         mock_get_all_templates.assert_called_once()
@@ -241,21 +267,28 @@ def test_cli_runner_create(runner):
                 "description": "Template for Python packages with PyPI publishing support",
             }
         }
-        # mock_get_template_info.return_value = {
-        #    "url": "https://github.com/tschm/package",
-        #    "description": "Template for Python packages with PyPI publishing support",
-        # }
 
         # Mock the copier module
         mock_copier = MagicMock()
         with patch.dict("sys.modules", {"copier": mock_copier}):
             # Execute
             result = runner.invoke(
-                app, ["create", "package", "--name", "test-project", "--description", "Test project"]
+                app,
+                [
+                    "create",
+                    "package",
+                    "--name",
+                    "test-project",
+                    "--description",
+                    "Test project",
+                    "--username",
+                    "testuser",
+                    "--visibility",
+                    "private",
+                ],
             )
 
             # Assert
             assert result.exit_code == 0
             mock_get_all_templates.assert_called_once()
-            # mock_get_template_info.assert_called_once_with("package")
             mock_copier.run_copy.assert_called_once()
