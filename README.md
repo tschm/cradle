@@ -220,9 +220,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-Replace `tschm/cradle` with the appropriate repository
-owner and name, and `@main` with the branch, tag, or commit SHA you want to use.
-
 Each action has its own inputs and outputs defined in
 its `action.yml` file. You can find more details by
 examining these files in the repository.
