@@ -3,21 +3,11 @@
 import sys
 
 import typer
-from loguru import logger
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
 from .config import get_all_templates
-
-# Add a new logger with a simpler format
-logger.remove()  # Remove the default logger
-logger.add(
-    sys.stdout,
-    colorize=True,  # Enable color output
-    format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
-    "<level>{level: <8}</level> | {function}:{line} | <cyan>{message}</cyan>",
-)
 
 # Initialize Typer app
 app = typer.Typer(
