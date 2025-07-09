@@ -73,5 +73,7 @@ jobs:
           title: "cradle"
           links: |
             {
-              "API":"./pdoc/index.html"
+              "API":"./pdoc/index.html",
+              "Coverage":"./tests/html-coverage/index.html",
+              "Tests":"./tests/html-report/report.html"
             }
