@@ -10,14 +10,6 @@ from rich.table import Table
 
 from .config import get_all_templates
 
-# class Visibility(str, Enum):
-#    """Enum for repository visibility options."""
-
-#    PRIVATE = "private"
-#    PUBLIC = "public"
-#    INTERNAL = "internal"
-
-
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
 logger.add(
