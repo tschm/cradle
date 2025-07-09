@@ -10,6 +10,14 @@ from rich.table import Table
 
 from .config import get_all_templates
 
+# class Visibility(str, Enum):
+#    """Enum for repository visibility options."""
+
+#    PRIVATE = "private"
+#    PUBLIC = "public"
+#    INTERNAL = "internal"
+
+
 # Add a new logger with a simpler format
 logger.remove()  # Remove the default logger
 logger.add(
@@ -61,6 +69,13 @@ def create_project(
     description: str = typer.Option(
         "A project created with Cradle CLI", "--description", "-d", help="Project description"
     ),
+    user_name: str = typer.Option(..., "--username", "-u", help="GitHub username for repository URL"),
+    visibility: str = typer.Option(
+        "private",
+        "--visibility",
+        "-v",
+        help="Visibility of the GitHub repository: private, public, or internal",
+    ),
 ):
     """Create a new project from a template."""
     template_configs = get_all_templates()
@@ -86,6 +101,8 @@ def create_project(
     data = {
         "project_name": project_name,
         "description": description,
+        "username": user_name,
+        "repository": f"https://github.com/{user_name}/{project_name}",
     }
 
     # Import copier here to avoid slow startup time
@@ -105,6 +122,19 @@ def create_project(
         )
 
         rprint(f"[bold green]Project created successfully at '{output_dir}'![/bold green]")
+        rprint("To create the project on GitHub, run the following commands in your terminal:")
+        rprint("")
+        rprint(f"""
+        gh repo create --{visibility} {user_name}/{project_name} --description '{description}'
+        cd {output_dir}
+        git init
+        git add .
+        git commit -m "first commit"
+        git branch -M main
+        git remote add origin git@github.com:{user_name}/{project_name}.git
+        git push -u origin main
+        """)
+
     except Exception as e:
         rprint(f"[bold red]Error creating project: {e}[/bold red]")
         sys.exit(1)
