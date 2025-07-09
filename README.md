@@ -9,7 +9,7 @@
 
 🛠️ qcradle is a command line tool to create repos based on a group of templates.
 It has been created
-to accelerate, simplify and harmonize the development
+to speed up, simplify, and to harmonize the development
 of experiments and quantitative strategies.
 
 Assuming the presence of uvx
