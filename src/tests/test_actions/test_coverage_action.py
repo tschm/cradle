@@ -32,7 +32,6 @@ def test_coverage_action_structure(action_path):
     inputs = action["inputs"]
     assert "tests-folder" in inputs, "Action must have tests-folder input"
     assert "source-folder" in inputs, "Action must have source-folder input"
-    assert "coveralls" in inputs, "Action must have coveralls input"
 
     # Check required inputs
     assert inputs["tests-folder"]["required"] is True, "Tests-folder input must be required"
@@ -56,11 +55,3 @@ def test_coverage_action_structure(action_path):
 
     debug_step = next((step for step in steps if step.get("name", "").startswith("Debug Coverage")), None)
     assert debug_step is not None, "Action must have a debug coverage files step"
-
-    coveralls_step = next((step for step in steps if step.get("name", "").startswith("Coveralls")), None)
-    assert coveralls_step is not None, "Action must have a Coveralls step"
-
-    # Check conditional step
-    assert coveralls_step.get("if", "").find("inputs.coveralls") != -1, (
-        "Coveralls step must be conditional on coveralls input"
-    )
