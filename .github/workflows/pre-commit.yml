@@ -1,39 +1,13 @@
-# GitHub Actions workflow for code quality checks
-# This workflow runs various checks including tests, dependency analysis, pre-commit hooks, and dependency age analysis
-name: pre-commit
+name: "PRE-COMMIT"
 
 on:
-  push:  # Trigger on push events
+  push:
 
 permissions:
-  checks: write   # Permission to write check results
-  contents: read  # Read-only access to repository contents
+  contents: read
 
 jobs:
-  # Job to check for dependency issues
-  deptry:
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Run deptry to check for dependency issues
-      - name: Run deptry
-        uses: ./actions/deptry
-        with:
-          source-folder: src/cradle
-
-  # Job to run pre-commit hooks
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Run pre-commit hooks
-      - name: pre-commit
-        uses: ./actions/pre-commit
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: tschm/cradle/actions/pre-commit@v0.3.01
