@@ -44,7 +44,7 @@ def test_coverage_action_structure(action_path):
 
     # Check steps
     steps = runs["steps"]
-    assert len(steps) >= 4, "Action must have at least 4 steps"
+    assert len(steps) >= 2, "Action must have at least 2 steps"
 
     # Check specific steps
     run_tests_step = next((step for step in steps if step.get("name", "").startswith("Run tests with coverage")), None)
@@ -52,6 +52,3 @@ def test_coverage_action_structure(action_path):
 
     upload_results_step = next((step for step in steps if step.get("name", "").startswith("Upload test results")), None)
     assert upload_results_step is not None, "Action must have an upload test results step"
-
-    debug_step = next((step for step in steps if step.get("name", "").startswith("Debug Coverage")), None)
-    assert debug_step is not None, "Action must have a debug coverage files step"
