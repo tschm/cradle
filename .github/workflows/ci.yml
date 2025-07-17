@@ -1,42 +1,30 @@
-# GitHub Actions workflow for continuous integration
-# This workflow runs tests on multiple operating systems and Python versions
-
 name: "CI"
 
 on:
-  push:  # Trigger on push events
+- push
 
 permissions:
-  contents: read  # Read-only access to repository contents
-
-#env:
-#  UV_SYSTEM_PYTHON: 1
+  contents: read
 
 jobs:
   test:
+    if: github.repository != 'tschm/.config-templates'
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        # Test on multiple operating systems and Python versions
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: [ '3.10', '3.11', '3.12', '3.13' ]
-
+        # mongo container action only supported on Linux
+        os: [ ubuntu-latest ]
+        python-version: [ '3.11', '3.12', '3.13' ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
-
-      # Step 2: Build the virtual environment with the specified Python version
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: ./actions/environment
+        uses: tschm/cradle/actions/environment@v0.3.01
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Step 3: Run the tests
-      - uses: ./actions/test
+      - uses: tschm/cradle/actions/test@v0.3.01
         with:
-          tests-folder: src/tests  # Path to the tests directory
+          tests-folder: src/tests

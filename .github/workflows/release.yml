@@ -1,52 +1,54 @@
-# GitHub Actions workflow for version bumping and package publishing
-# This workflow creates a new version tag, builds the package, and publishes it to PyPI
-
 name: Bump version and publish
 
 on:
-  workflow_dispatch:  # Manual trigger only
-    inputs:
-      tag:
-        description: 'Release tag (e.g. v1.2.3)'
-        required: true
-        type: string
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  build:
-    #needs: tagging
+  tagging:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Permission to write to repository contents (for creating releases)
-    steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
+    outputs:
+      new_tag: ${{ steps.tag_step.outputs.new_tag }}
 
-      - name: build
-        uses: ./actions/build
+    steps:
+      - name: Generate Tag
+        id: tag_step
+        uses: tschm/cradle/actions/tag@v0.3.01
         with:
-          tag: ${{ inputs.tag }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-
-  # Job to publish the built package to PyPI
-  publish:
-    needs: build  # This job depends on the tag job
+  build:
+    if: github.repository != 'tschm/.config-templates'
     runs-on: ubuntu-latest
-    environment: release  # Use the release environment
+    needs: tagging
+    steps:
+      - name: build
+        uses: tschm/cradle/actions/build@v0.3.01
+        with:
+          tag: ${{ needs.tagging.outputs.new_tag }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    if: github.repository != 'tschm/.config-templates'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: release
 
     permissions:
-      contents: read  # Read-only access to repository contents
-      # This permission is required for trusted publishing to PyPI
-      id-token: write  # Permission to write ID tokens for PyPI authentication
+       contents: read
+       # This permission is required for trusted publishing.
+       id-token: write
 
     steps:
-      # Step 1: Download the built package artifact
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
-          name: dist  # Name of the artifact
-          path: dist  # Path to download the artifact to
+          name: dist
+          path: dist
 
-      # Step 2: Publish the package to PyPI
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1  # Official PyPI publishing action
+        uses: pypa/gh-action-pypi-publish@release/v1

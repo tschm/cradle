@@ -3,14 +3,14 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-toml
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
+      - id: check-yaml
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+    rev: 'v0.12.3'
     hooks:
       - id: ruff
-        args: [ --fix, --exit-non-zero-on-fix, --unsafe-fixes ]
+        args: [ --fix, --exit-non-zero-on-fix ]
+
       # Run the formatter
       - id: ruff-format
 
@@ -19,16 +19,12 @@ repos:
     hooks:
       - id: markdownlint
 
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
-    hooks:
-      - id: pyupgrade
-
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.33.2
     hooks:
       - id: check-renovate
-        args: ["--verbose"]
+        args: [ "--verbose" ]
+
       - id: check-github-workflows
         args: ["--verbose"]
 
@@ -36,15 +32,14 @@ repos:
     rev: v1.7.7
     hooks:
       - id: actionlint
-        args: [-ignore, SC]
-
-  - repo: https://github.com/crate-ci/typos
-    rev: v1.34.0
-    hooks:
-      - id: typos
-        exclude: \.gitignore
+        args: [ -ignore, SC ]
 
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.24.1
     hooks:
       - id: validate-pyproject
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.34.0
+    hooks:
+      - id: typos
