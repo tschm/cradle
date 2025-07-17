@@ -14,11 +14,6 @@ inputs:
     required: true
     # No default provided as this should be explicitly set for each project
 
-  coveralls:
-    description: 'Whether to upload coverage reports to Coveralls.io (true/false)'
-    required: false
-    default: "true"  # By default, upload to Coveralls for public visibility of coverage metrics
-
 runs:
   using: "composite"  # Composite actions combine multiple steps
   steps:
@@ -79,18 +74,3 @@ runs:
         name: tests  # Name of the artifact
         path: artifacts/tests  # Path to the files to upload
         retention-days: 1  # Keep artifacts for 1 day to save space
-
-    # Step 5: Debug coverage files
-    # This helps with troubleshooting by showing what files were generated
-    - name: Debug Coverage Files
-      shell: bash
-      run: ls -l artifacts/tests/coverage  # List all coverage files with details
-
-    # Step 6: Upload coverage to Coveralls.io (if enabled)
-    # This publishes coverage metrics to a public dashboard
-    - name: Coveralls GitHub Action
-      if: ${{ inputs.coveralls == 'true' }}  # Only run if coveralls input is true
-      uses: coverallsapp/github-action@v2  # Official Coveralls GitHub Action
-      with:
-        files: artifacts/tests/coverage/coverage.info  # Path to LCOV coverage file
-        format: lcov  # Format of the coverage file
