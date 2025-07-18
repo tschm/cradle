@@ -63,6 +63,9 @@ else
   git checkout --quiet -b "${BRANCH_NAME}"
 fi
 
+ls -all
+tree ${TEMP_DIR}
+
 # Copy new files (preserving existing files with --ignore-existing)
 cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
   die "Failed to copy templates"
