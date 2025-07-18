@@ -22,6 +22,7 @@ cleanup() {
   # This runs on script exit (normal or error)
   echo "🧹 Cleaning up temporary files..."
   rm -rf "${TEMP_DIR}" templates.zip
+  git checkout --quiet main
 }
 
 # ---- Register cleanup trap ----
@@ -53,7 +54,7 @@ fi
 echo "🔄 Updating git repository..."
 
 # Stash any existing changes to avoid conflicts
-git stash push --quiet --include-untracked --message "update.sh auto-stash"
+# git stash push --quiet --include-untracked --message "update.sh auto-stash"
 
 # Checkout/Create branch
 if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
@@ -62,7 +63,6 @@ else
   git checkout --quiet -b "${BRANCH_NAME}"
 fi
 
-ls -all
 tree ${TEMP_DIR}
 
 # Copy new files (preserving existing files with --ignore-existing)
