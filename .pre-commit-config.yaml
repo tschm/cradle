@@ -9,7 +9,7 @@ repos:
     rev: 'v0.12.4'
     hooks:
       - id: ruff
-        args: [ --fix, --exit-non-zero-on-fix ]
+        args: [ --fix, --exit-non-zero-on-fix, --unsafe-fixes ]
 
       # Run the formatter
       - id: ruff-format

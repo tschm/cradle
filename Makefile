@@ -26,7 +26,7 @@ uv:
 
 install: uv ## Install all dependencies using uv
 	@printf "$(BLUE)Installing dependencies...$(RESET)\n"
-	@uv venv --python 3.12
+	@uv venv --clear --python 3.12
 	@uv sync --all-extras --frozen
 
 ##@ Code Quality
@@ -86,10 +86,6 @@ clean: ## Clean generated files and directories
 marimo: uv ## Start a Marimo server
 	@printf "$(BLUE)Start Marimo server...$(RESET)\n"
 	@uvx marimo edit --sandbox $(MARIMO_FOLDER)
-
-#run-marimo: uv ## Run the Marimo notebook from the command line
-#	@printf "$(BLUE)Running Marimo notebook...$(RESET)\n"
-#	@uvx marimo run --sandbox book/marimo/demo.py
 
 ##@ Help
 

@@ -1,4 +1,6 @@
+# Maximum line length for the entire project
 line-length = 120
+# Target Python version
 target-version = "py312"
 
 [lint]
@@ -41,9 +43,31 @@ target-version = "py312"
 # TID: flake8-tidy-imports - Import tidying
 # TRY: flake8-try-except-raise - Try/except/raise checks
 # YTT: flake8-2020 - Python 2020+ compatibility
-select = ["D", "E", "F", "I", "N", "W", "I", "UP"]
 
+# Selected rule sets to enforce:
+# D: pydocstyle - Check docstring style
+# E: pycodestyle errors - PEP 8 style guide
+# F: pyflakes - Detect logical errors
+# I: isort - Sort imports
+# N: pep8-naming - Check PEP 8 naming conventions
+# W: pycodestyle warnings - PEP 8 style guide warnings
+# UP: pyupgrade - Upgrade syntax for newer Python
+select = ["D", "E", "F", "I", "N", "W", "UP"]
+
+[lint.pydocstyle]
+convention = "google"
+
+# Formatting configuration
 [format]
+# Use double quotes for strings
 quote-style = "double"
+# Use spaces for indentation
 indent-style = "space"
+# Automatically detect and use the appropriate line ending
 line-ending = "auto"
+
+# File-specific rule exceptions
+[lint.per-file-ignores]
+"src/tests/**/*.py" = ["S101"]        # Allow assert statements in tests
+"book/marimo/*.py" = ["N803", "S101"] # Allow non-lowercase variable names (N803)
+                                      # and assert statements in marimo files
