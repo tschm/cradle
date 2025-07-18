@@ -45,6 +45,9 @@ if ! unzip -q templates.zip -d "${TEMP_DIR}"; then
   die "Failed to extract templates."
 fi
 
+# remove the zip file
+rm templates.zip
+
 # ---- Verify Extraction ----
 if [[ ! -d "${TEMP_DIR}/.config-templates-main" ]]; then
   die "Extracted directory structure doesn't match expectations."
@@ -63,12 +66,12 @@ else
   git checkout --quiet -b "${BRANCH_NAME}"
 fi
 
-tree ${TEMP_DIR}
-
 # Copy new files (preserving existing files with --ignore-existing)
 cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
   die "Failed to copy templates"
 }
+
+rm -rf "${TEMP_DIR}"
 
 # Install pre-commit as needed for the git commit further below
 uv pip install pre-commit
