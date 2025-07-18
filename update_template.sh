@@ -22,6 +22,7 @@ cleanup() {
   # This runs on script exit (normal or error)
   echo "🧹 Cleaning up temporary files..."
   rm -rf "${TEMP_DIR}" templates.zip
+  git checkout --quiet main
 }
 
 # ---- Register cleanup trap ----
