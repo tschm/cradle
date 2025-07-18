@@ -3,8 +3,6 @@ docs
 pdoc
 
 quantstats.md
-templates.zip
-.temp_templates
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
