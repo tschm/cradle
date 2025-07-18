@@ -1,3 +1,13 @@
+# Workflow: Continuous Integration
+# Purpose: This workflow runs tests on multiple Python versions to ensure
+#          compatibility and code quality across different environments.
+#
+# Trigger: This workflow runs on every push
+#
+# Components:
+#   - 🧪 Run tests on multiple Python versions
+#   - 🔄 Matrix strategy for testing on different environments
+
 name: "CI"
 
 on:

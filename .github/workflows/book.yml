@@ -1,3 +1,17 @@
+# Workflow: Book
+# Purpose: This workflow builds and deploys comprehensive documentation for the project.
+#          It combines API documentation, test coverage reports, test results, and
+#          interactive notebooks into a single GitHub Pages site.
+#
+# Trigger: This workflow runs on every push to the main branch
+#
+# Components:
+#   - 📚 Parse .env file for configuration
+#   - 📓 Process Marimo notebooks
+#   - 📖 Generate API documentation with pdoc
+#   - 🧪 Run tests and generate coverage reports
+#   - 🚀 Deploy combined documentation to GitHub Pages
+
 name: "BOOK"
 
 on:
