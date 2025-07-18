@@ -72,7 +72,7 @@ jobs:
         if: steps.check_file.outputs.exists == 'true'
         uses: actions/setup-python@v5
         with:
-            python-version: '3.12'
+            python-version: '3.13'
 
       - name: Install Hatch
         if: steps.check_file.outputs.exists == 'true'

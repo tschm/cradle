@@ -24,6 +24,8 @@ jobs:
   parse-env:
     if: github.repository != 'tschm/.config-templates'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       source-folder: ${{ steps.export.outputs.SOURCE_FOLDER }}
       tests-folder: ${{ steps.export.outputs.TESTS_FOLDER }}
