@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: build
-        uses: tschm/cradle/actions/build@v0.3.01
+        uses: tschm/cradle/actions/build@v0.3.02
         with:
           tag: ${{ inputs.tag }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
