@@ -98,17 +98,10 @@ echo "📦 Install pre-commit within that environment"
 uv pip install pre-commit
 
 echo "🔄 Checking for changes..."
-git diff-index HEAD --
-
-# Verify we are on the correct branch before committing
-#echo "🔍 Verifying current branch is ${BRANCH_NAME}..."
-#CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-#if [[ "${CURRENT_BRANCH}" != "${BRANCH_NAME}" ]]; then
-#  die "❌ Expected to be on branch ${BRANCH_NAME}, but currently on ${CURRENT_BRANCH}"
-#fi
+git diff-index --quiet HEAD --
 
 # Commit changes if there are any
-if git diff-index HEAD --; then
+if git diff-index --quiet HEAD --; then
   echo "✅ No changes to commit."
 else
   git add .
@@ -127,13 +120,5 @@ fi
 
 echo "🔍 Status of current branch..."
 git status
-
-## Return to original branch
-#echo "🔙 Returning to original branch..."
-#if git rev-parse --verify main >/dev/null; then
-#  git checkout main
-#else
-#  echo "ℹ️ main branch does not exist, staying on ${BRANCH_NAME}"
-#fi
 
 echo "✨ Done!"
