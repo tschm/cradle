@@ -83,7 +83,6 @@ curl -sSL -o templates.zip "$REPO_URL/archive/refs/heads/main.zip" || die "Faile
 # ---- Extract ----
 info "Extracting templates..."
 unzip -q templates.zip -d "$TEMP_DIR" || die "Failed to unzip."
-
 rm -f templates.zip
 
 EXTRACTED_DIR="${TEMP_DIR}/.config-templates-main"
