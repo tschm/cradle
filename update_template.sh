@@ -10,6 +10,7 @@ set -euo pipefail  # Fail on errors, undefined variables, and pipeline failures
 REPO_URL="https://github.com/tschm/.config-templates"
 TEMP_DIR=".temp_templates"  # Avoid naming conflicts with possible existing dirs
 BRANCH_NAME="config-sync"
+ORIGINAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # ---- Helper Functions ----
 die() {
@@ -22,7 +23,7 @@ cleanup() {
   # This runs on script exit (normal or error)
   echo "🧹 Cleaning up temporary files..."
   rm -rf "${TEMP_DIR}" templates.zip
-  git checkout --quiet main
+  git checkout --quiet "${ORIGINAL_BRANCH}"
 }
 
 # ---- Register cleanup trap ----
@@ -32,6 +33,10 @@ trap cleanup EXIT
 command -v curl >/dev/null || die "🌐 curl is not installed."
 command -v unzip >/dev/null || die "📂 unzip is not installed."
 command -v git >/dev/null || die "🔄 git is not installed."
+
+echo "Check in a repo"
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "🚫 Not inside a Git repository."
+
 
 # ---- Download Templates ----
 echo "⬇️ Downloading templates from ${REPO_URL}..."
