@@ -40,11 +40,13 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "🚫 Not inside a Gi
 # Checkout/Create branch
 if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
   echo "🔀 Checking out existing branch ${BRANCH_NAME}..."
-  git checkout --quiet "${BRANCH_NAME}"
+  git checkout "${BRANCH_NAME}"
 else
   echo "🌱 Creating and checking out new branch ${BRANCH_NAME}..."
   git checkout -b "${BRANCH_NAME}"
 fi
+
+git status
 
 # ---- Download Templates ----
 echo "⬇️ Downloading templates from ${REPO_URL}..."
