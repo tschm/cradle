@@ -1,16 +1,27 @@
 #!/bin/bash
 # Script: update.sh
 # Description: Safely downloads and extracts configuration templates from GitHub repository
-# Author: Thomas Schmelzer
-# Usage: ./update.sh
+# Author: Thomas Schmelzer (with revisions)
 
-set -euo pipefail  # Fail on errors, undefined variables, and pipeline failures
+set -euo pipefail
 
 # ---- Configuration ----
 REPO_URL="https://github.com/tschm/.config-templates"
-TEMP_DIR=".temp_templates"  # Avoid naming conflicts with possible existing dirs
 BRANCH_NAME="config-sync"
+TEMP_DIR="$(mktemp -d -t config-templates-XXXXXXXX)"
 ORIGINAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# ---- Command-line flags ----
+YES=false
+DRY_RUN=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --yes|-y) YES=true ;;
+    --dry-run|-n) DRY_RUN=true ;;
+    *) echo "❓ Unknown option: $arg"; exit 1 ;;
+  esac
+done
 
 # ---- Helper Functions ----
 die() {
@@ -18,91 +29,91 @@ die() {
   exit 1
 }
 
-# ---- Cleanup Function ----
-cleanup() {
-  # This runs on script exit (normal or error)
-  echo "🧹 Cleaning up temporary files..."
-  rm -rf "${TEMP_DIR}" templates.zip
-  git checkout --quiet "${ORIGINAL_BRANCH}"
+info() {
+  echo "🔹 $*"
 }
 
-# ---- Register cleanup trap ----
+# ---- Cleanup ----
+cleanup() {
+  echo "🧹 Cleaning up..."
+  rm -rf "$TEMP_DIR" templates.zip
+  if [[ "$(git rev-parse --abbrev-ref HEAD)" != "$ORIGINAL_BRANCH" ]]; then
+    if git show-ref --quiet "refs/heads/${ORIGINAL_BRANCH}"; then
+      git checkout "$ORIGINAL_BRANCH"
+    else
+      echo "⚠️ Original branch '${ORIGINAL_BRANCH}' no longer exists."
+    fi
+  fi
+}
 trap cleanup EXIT
 
-# ---- Check Dependencies ----
-command -v curl >/dev/null || die "🌐 curl is not installed."
-command -v unzip >/dev/null || die "📂 unzip is not installed."
-command -v git >/dev/null || die "🔄 git is not installed."
+# ---- Dependency Checks ----
+command -v curl >/dev/null || die "curl is not installed."
+command -v unzip >/dev/null || die "unzip is not installed."
+command -v git >/dev/null || die "git is not installed."
 
-echo "🔍 Check in a repo"
-git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "🚫 Not inside a Git repository."
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "Not inside a Git repository."
 
-# Checkout/Create branch
-if git show-ref --verify "refs/heads/${BRANCH_NAME}"; then
-  echo "🔀 Checking out existing branch ${BRANCH_NAME}..."
-  git checkout "${BRANCH_NAME}"
-else
-  echo "🌱 Creating and checking out new branch ${BRANCH_NAME}..."
-  git checkout -b "${BRANCH_NAME}"
+# ---- Check for uncommitted changes ----
+if ! git diff-index --quiet HEAD --; then
+  echo "⚠️ Uncommitted changes detected in working directory."
 fi
 
-git status
-
-# ---- Download Templates ----
-echo "⬇️ Downloading templates from ${REPO_URL}..."
-if ! curl -sSL -o templates.zip "${REPO_URL}/archive/refs/heads/main.zip"; then
-  die "❌ Failed to download templates."
+# ---- Confirm Overwrite ----
+if [[ $YES == false && $DRY_RUN == false ]]; then
+  read -p "⚠️ This may overwrite files in your current directory. Continue? (y/N): " confirm
+  [[ "$confirm" =~ ^[Yy]$ ]] || die "Aborted by user."
 fi
 
-# ---- Extract Templates ----
-echo "📦 Extracting templates..."
-if ! unzip -q templates.zip -d "${TEMP_DIR}"; then
-  die "❌ Failed to extract templates."
+# ---- Checkout or Create Branch ----
+if [[ "$(git rev-parse --abbrev-ref HEAD)" != "$BRANCH_NAME" ]]; then
+  if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
+    info "Checking out existing branch '$BRANCH_NAME'..."
+    git checkout "$BRANCH_NAME"
+  else
+    info "Creating and checking out new branch '$BRANCH_NAME'..."
+    git checkout -b "$BRANCH_NAME"
+  fi
 fi
 
-echo "🗑️ Remove the zip file..."
-rm templates.zip
+# ---- Download ----
+info "Downloading templates from $REPO_URL..."
+curl -sSL -o templates.zip "$REPO_URL/archive/refs/heads/main.zip" || die "Failed to download templates."
 
-# ---- Verify Extraction ----
-if [[ ! -d "${TEMP_DIR}/.config-templates-main" ]]; then
-  die "❌ Extracted directory structure doesn't match expectations."
+# ---- Extract ----
+info "Extracting templates..."
+unzip -q templates.zip -d "$TEMP_DIR" || die "Failed to unzip."
+
+rm -f templates.zip
+
+EXTRACTED_DIR="${TEMP_DIR}/.config-templates-main"
+[[ -d "$EXTRACTED_DIR" ]] || die "Extracted directory structure doesn't match expectations."
+
+# ---- Dry Run Exit Point ----
+if [[ $DRY_RUN == true ]]; then
+  echo "🧪 Dry-run complete. No files were copied or committed."
+  exit 0
 fi
 
-# ---- Git Operations ----
-echo "🔄 Updating git repository..."
+# ---- Copy Files ----
+info "Copying template files..."
+cp -Rf "$EXTRACTED_DIR/." . || die "Failed to copy template files."
 
-# Stash any existing changes to avoid conflicts
-# git stash push --quiet --include-untracked --message "update.sh auto-stash"
-
-# Copy new files (preserving existing files with --ignore-existing)
-echo "📋 Copying template files to current directory..."
-cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
-  die "❌ Failed to copy templates"
-}
-
-echo "🗑️ Removing temporary directory..."
-rm -rf "${TEMP_DIR}"
-
-echo "🔄 Checking for changes..."
-git diff-index --quiet HEAD --
-
-# Commit changes if there are any
+# ---- Commit Changes ----
+info "Checking for file changes..."
 if git diff-index --quiet HEAD --; then
   echo "✅ No changes to commit."
 else
   git add .
-  if git commit -m "Update configuration templates from ${REPO_URL}" --no-verify; then
-    echo "✅ Changes committed."
-  else
-    echo "⚠️ Could not commit changes."
-  fi
+  git commit -m "Update configuration templates from $REPO_URL" --no-verify && \
+    echo "✅ Changes committed." || echo "⚠️ Failed to commit changes."
 fi
 
-# Always push the branch to ensure it exists on GitHub
-echo "🚀 Ensuring branch '${BRANCH_NAME}' is pushed to GitHub..."
-git push -u origin "${BRANCH_NAME}" || echo "⚠️ Could not push '${BRANCH_NAME}' to remote."
+# ---- Push Branch ----
+info "Pushing branch '$BRANCH_NAME' to origin..."
+git push -u origin "$BRANCH_NAME" || echo "⚠️ Could not push to remote."
 
-echo "🔍 Status of current branch..."
+# ---- Final Status ----
 git status
-
 echo "✨ Done!"
+
