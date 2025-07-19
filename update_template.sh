@@ -38,7 +38,7 @@ echo "🔍 Check in a repo"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "🚫 Not inside a Git repository."
 
 # Checkout/Create branch
-if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
+if git show-ref --verify "refs/heads/${BRANCH_NAME}"; then
   echo "🔀 Checking out existing branch ${BRANCH_NAME}..."
   git checkout "${BRANCH_NAME}"
 else
@@ -86,19 +86,19 @@ rm -rf "${TEMP_DIR}"
 # Install pre-commit as needed for the git commit further below
 echo "🔧 Installing pre-commit hooks..."
 
-echo "🔧 Install uv"
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# echo "🔧 Install uv"
+# curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # make a virtual environment
-echo "🏗️ Create a virtual environment"
-uv venv --clear --python 3.12
+# echo "🏗️ Create a virtual environment"
+# uv venv --clear --python 3.12
 
 # install pre-commit there
 echo "📦 Install pre-commit within that environment"
 uv pip install pre-commit
 
 echo "🔄 Checking for changes..."
-git diff-index --quiet HEAD --
+git diff-index HEAD --
 
 # Verify we are on the correct branch before committing
 #echo "🔍 Verifying current branch is ${BRANCH_NAME}..."
@@ -108,14 +108,14 @@ git diff-index --quiet HEAD --
 #fi
 
 # Commit changes if there are any
-if git diff-index --quiet HEAD --; then
+if git diff-index HEAD --; then
   echo "✅ No changes to commit."
 else
   git add .
   if git commit -m "Update configuration templates from ${REPO_URL}"; then
     echo "✅ Changes committed."
     # Only push if commit succeeded
-    if git push --quiet origin "${BRANCH_NAME}"; then
+    if git push origin "${BRANCH_NAME}"; then
       echo "📤 Pushed changes to ${BRANCH_NAME}."
     else
       echo "⚠️ Could not push changes (remote not configured?)."
@@ -129,11 +129,11 @@ echo "🔍 Status of current branch..."
 git status
 
 ## Return to original branch
-echo "🔙 Returning to original branch..."
-if git rev-parse --quiet --verify main >/dev/null; then
-  git checkout --quiet main
-else
-  echo "ℹ️ main branch does not exist, staying on ${BRANCH_NAME}"
-fi
+#echo "🔙 Returning to original branch..."
+#if git rev-parse --verify main >/dev/null; then
+#  git checkout main
+#else
+#  echo "ℹ️ main branch does not exist, staying on ${BRANCH_NAME}"
+#fi
 
 echo "✨ Done!"
