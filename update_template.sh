@@ -37,6 +37,14 @@ command -v git >/dev/null || die "🔄 git is not installed."
 echo "🔍 Check in a repo"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "🚫 Not inside a Git repository."
 
+# Checkout/Create branch
+if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
+  echo "🔀 Checking out existing branch ${BRANCH_NAME}..."
+  git checkout --quiet "${BRANCH_NAME}"
+else
+  echo "🌱 Creating and checking out new branch ${BRANCH_NAME}..."
+  git checkout --quiet -b "${BRANCH_NAME}"
+fi
 
 # ---- Download Templates ----
 echo "⬇️ Downloading templates from ${REPO_URL}..."
@@ -64,15 +72,6 @@ echo "🔄 Updating git repository..."
 # Stash any existing changes to avoid conflicts
 # git stash push --quiet --include-untracked --message "update.sh auto-stash"
 
-# Checkout/Create branch
-if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
-  echo "🔀 Checking out existing branch ${BRANCH_NAME}..."
-  git checkout --quiet "${BRANCH_NAME}"
-else
-  echo "🌱 Creating and checking out new branch ${BRANCH_NAME}..."
-  git checkout --quiet -b "${BRANCH_NAME}"
-fi
-
 # Copy new files (preserving existing files with --ignore-existing)
 echo "📋 Copying template files to current directory..."
 cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
@@ -84,22 +83,27 @@ rm -rf "${TEMP_DIR}"
 
 # Install pre-commit as needed for the git commit further below
 echo "🔧 Installing pre-commit hooks..."
-# install uv
+
+echo "🔧 Install uv"
 curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # make a virtual environment
+echo "🏗️ Create a virtual environment"
 uv venv --clear --python 3.12
+
 # install pre-commit there
+echo "📦 Install pre-commit within that environment"
 uv pip install pre-commit
 
 echo "🔄 Checking for changes..."
 git diff-index --quiet HEAD --
 
 # Verify we are on the correct branch before committing
-echo "🔍 Verifying current branch is ${BRANCH_NAME}..."
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [[ "${CURRENT_BRANCH}" != "${BRANCH_NAME}" ]]; then
-  die "❌ Expected to be on branch ${BRANCH_NAME}, but currently on ${CURRENT_BRANCH}"
-fi
+#echo "🔍 Verifying current branch is ${BRANCH_NAME}..."
+#CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+#if [[ "${CURRENT_BRANCH}" != "${BRANCH_NAME}" ]]; then
+#  die "❌ Expected to be on branch ${BRANCH_NAME}, but currently on ${CURRENT_BRANCH}"
+#fi
 
 # Commit changes if there are any
 if git diff-index --quiet HEAD --; then
