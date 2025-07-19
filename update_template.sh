@@ -61,7 +61,9 @@ main() {
 
   # Preview changes
   info "Files available for update:"
-  find "$EXTRACTED_DIR" -type f -printf "  - %P\n"
+  rsync -avun "$EXTRACTED_DIR/" ./
+
+  #find "$EXTRACTED_DIR" -type f -printf "  - %P\n"
 
   if ! prompt_confirm "Continue? (Will only update existing files)"; then
     die "Aborted by user"
