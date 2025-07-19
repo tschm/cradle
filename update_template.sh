@@ -83,20 +83,6 @@ cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
 echo "🗑️ Removing temporary directory..."
 rm -rf "${TEMP_DIR}"
 
-# Install pre-commit as needed for the git commit further below
-echo "🔧 Installing pre-commit hooks..."
-
-# echo "🔧 Install uv"
-# curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# make a virtual environment
-# echo "🏗️ Create a virtual environment"
-# uv venv --clear --python 3.12
-
-# install pre-commit there
-echo "📦 Install pre-commit within that environment"
-uv pip install pre-commit
-
 echo "🔄 Checking for changes..."
 git diff-index --quiet HEAD --
 
@@ -105,14 +91,8 @@ if git diff-index --quiet HEAD --; then
   echo "✅ No changes to commit."
 else
   git add .
-  if git commit -m "Update configuration templates from ${REPO_URL}"; then
+  if git commit -m "Update configuration templates from ${REPO_URL}" --no-verify; then
     echo "✅ Changes committed."
-    # Only push if commit succeeded
-    #if git push origin "${BRANCH_NAME}"; then
-    #  echo "📤 Pushed changes to ${BRANCH_NAME}."
-    #else
-    #  echo "⚠️ Could not push changes (remote not configured?)."
-    #fi
   else
     echo "⚠️ Could not commit changes."
   fi
