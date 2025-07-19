@@ -77,7 +77,7 @@ cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
 echo "🗑️ Removing temporary directory..."
 rm -rf "${TEMP_DIR}"
 
-echo "Verify current branch is $(BRANCH_NAME)"
+echo "Verify current branch is ${BRANCH_NAME}"
 git status
 
 # Install pre-commit as needed for the git commit further below
