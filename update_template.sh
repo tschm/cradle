@@ -49,7 +49,7 @@ main() {
 
   # Download templates
   info "Downloading templates..."
-  curl -sSL -o templates.zip "$REPO_URL/archive/main.zip" || die "Download failed"
+  curl -sSL -o templates.zip "$REPO_URL/archive/refs/heads/main.zip" || die "Download failed"
 
   # Extract templates
   info "Extracting..."
