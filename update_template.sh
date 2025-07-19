@@ -82,9 +82,6 @@ cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
 echo "🗑️ Removing temporary directory..."
 rm -rf "${TEMP_DIR}"
 
-echo "🔍 Status of current branch..."
-git status
-
 # Install pre-commit as needed for the git commit further below
 echo "🔧 Installing pre-commit hooks..."
 uv pip install pre-commit
@@ -109,6 +106,9 @@ else
     echo "⚠️ Could not commit changes."
   fi
 fi
+
+echo "🔍 Status of current branch..."
+git status
 
 ## Return to original branch
 echo "🔙 Returning to original branch..."
