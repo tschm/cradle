@@ -96,14 +96,7 @@ fi
 
 # ---- Copy Files ----
 info "Copying template files..."
-info "Synchronizing template files..."
-if ! rsync -rlptD \
-    --exclude='.git/' \
-    --exclude='*.swp' \
-    --delete \
-    "$EXTRACTED_DIR/" .; then
-    die "Failed to synchronize template files"
-fi
+cp -Rf "$EXTRACTED_DIR/." . || die "Failed to copy template files."
 
 # ---- Commit Changes ----
 info "Checking for file changes..."
@@ -122,4 +115,3 @@ git push -u origin "$BRANCH_NAME" || echo "⚠️ Could not push to remote."
 # ---- Final Status ----
 git status
 echo "✨ Done!"
-
