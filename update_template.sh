@@ -34,7 +34,7 @@ command -v curl >/dev/null || die "🌐 curl is not installed."
 command -v unzip >/dev/null || die "📂 unzip is not installed."
 command -v git >/dev/null || die "🔄 git is not installed."
 
-echo "Check in a repo"
+echo "🔍 Check in a repo"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "🚫 Not inside a Git repository."
 
 
@@ -82,14 +82,14 @@ cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
 echo "🗑️ Removing temporary directory..."
 rm -rf "${TEMP_DIR}"
 
-echo "Verify current branch is ${BRANCH_NAME}..."
+echo "🔍 Status of current branch..."
 git status
 
 # Install pre-commit as needed for the git commit further below
 echo "🔧 Installing pre-commit hooks..."
 uv pip install pre-commit
 
-echo "git diff-index?"
+echo "🔄 Checking for changes..."
 git diff-index --quiet HEAD --
 
 # Commit changes if there are any
@@ -111,6 +111,7 @@ else
 fi
 
 ## Return to original branch
+echo "🔙 Returning to original branch..."
 if git rev-parse --quiet --verify main >/dev/null; then
   git checkout --quiet main
 else
