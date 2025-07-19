@@ -108,15 +108,19 @@ else
   if git commit -m "Update configuration templates from ${REPO_URL}"; then
     echo "✅ Changes committed."
     # Only push if commit succeeded
-    if git push origin "${BRANCH_NAME}"; then
-      echo "📤 Pushed changes to ${BRANCH_NAME}."
-    else
-      echo "⚠️ Could not push changes (remote not configured?)."
-    fi
+    #if git push origin "${BRANCH_NAME}"; then
+    #  echo "📤 Pushed changes to ${BRANCH_NAME}."
+    #else
+    #  echo "⚠️ Could not push changes (remote not configured?)."
+    #fi
   else
     echo "⚠️ Could not commit changes."
   fi
 fi
+
+# Always push the branch to ensure it exists on GitHub
+echo "🚀 Ensuring branch '${BRANCH_NAME}' is pushed to GitHub..."
+git push -u origin "${BRANCH_NAME}" || echo "⚠️ Could not push '${BRANCH_NAME}' to remote."
 
 echo "🔍 Status of current branch..."
 git status
