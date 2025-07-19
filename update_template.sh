@@ -84,10 +84,22 @@ rm -rf "${TEMP_DIR}"
 
 # Install pre-commit as needed for the git commit further below
 echo "🔧 Installing pre-commit hooks..."
+# install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# make a virtual environment
+uv venv --clear --python 3.12
+# install pre-commit there
 uv pip install pre-commit
 
 echo "🔄 Checking for changes..."
 git diff-index --quiet HEAD --
+
+# Verify we are on the correct branch before committing
+echo "🔍 Verifying current branch is ${BRANCH_NAME}..."
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ "${CURRENT_BRANCH}" != "${BRANCH_NAME}" ]]; then
+  die "❌ Expected to be on branch ${BRANCH_NAME}, but currently on ${CURRENT_BRANCH}"
+fi
 
 # Commit changes if there are any
 if git diff-index --quiet HEAD --; then
