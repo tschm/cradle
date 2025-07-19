@@ -30,16 +30,16 @@ success() {
   echo -e "${GREEN}✅ $*${NC}"
 }
 
-prompt_confirm() {
-  while true; do
-    read -rp "$1 [y/N] " reply
-    case "$reply" in
-      [yY][eE][sS]|[yY]) return 0 ;;
-      [nN][oO]|[nN]|"") return 1 ;;
-      *) echo "Please answer yes or no." ;;
-    esac
-  done
-}
+#prompt_confirm() {
+#  while true; do
+#    read -rp "$1 [y/N] " reply
+#    case "$reply" in
+#      [yY][eE][sS]|[yY]) return 0 ;;
+#      [nN][oO]|[nN]|"") return 1 ;;
+#      *) echo "Please answer yes or no." ;;
+#    esac
+#  done
+#}
 
 # ---- Main Script ----
 main() {
@@ -60,14 +60,14 @@ main() {
   [ -d "$EXTRACTED_DIR" ] || die "Invalid template structure"
 
   # Preview changes
-  info "Files available for update:"
-  rsync -avun "$EXTRACTED_DIR/" ./
+  #info "Files available for update:"
+  #rsync -avun "$EXTRACTED_DIR/" ./
 
   #find "$EXTRACTED_DIR" -type f -printf "  - %P\n"
 
-  if ! prompt_confirm "Continue? (Will only update existing files)"; then
-    die "Aborted by user"
-  fi
+  #if ! prompt_confirm "Continue? (Will only update existing files)"; then
+  #  die "Aborted by user"
+  #fi
 
   # Safe copy (only updates existing files)
   updated=0
