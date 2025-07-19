@@ -61,7 +61,7 @@ main() {
   done < <(find "$EXTRACTED_DIR" -type f -print0)
 
   success "Done. $updated files updated."
-  echo "Note: No files were deleted or newly created."
+  echo "Note: No files were deleted"
 }
 
 # Cleanup
