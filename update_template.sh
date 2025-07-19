@@ -43,7 +43,7 @@ if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
   git checkout --quiet "${BRANCH_NAME}"
 else
   echo "🌱 Creating and checking out new branch ${BRANCH_NAME}..."
-  git checkout --quiet -b "${BRANCH_NAME}"
+  git checkout -b "${BRANCH_NAME}"
 fi
 
 # ---- Download Templates ----
