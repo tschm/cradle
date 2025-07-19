@@ -68,9 +68,6 @@ else
   git checkout --quiet -b "${BRANCH_NAME}"
 fi
 
-echo "Verify current branch is $(BRANCH_NAME)"
-git status
-
 # Copy new files (preserving existing files with --ignore-existing)
 echo "📋 Copying template files to current directory..."
 cp -fR "${TEMP_DIR}/.config-templates-main/." . || {
@@ -86,6 +83,9 @@ git status
 # Install pre-commit as needed for the git commit further below
 echo "🔧 Installing pre-commit hooks..."
 uv pip install pre-commit
+
+echo "git diff-index?"
+git diff-index --quiet HEAD --
 
 # Commit changes if there are any
 if git diff-index --quiet HEAD --; then
