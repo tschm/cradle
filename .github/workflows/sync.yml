@@ -34,4 +34,3 @@ jobs:
           body: |
             This PR updates config files from [tschm/.config-templates](https://github.com/tschm/.config-templates).
           delete-branch: true
-
