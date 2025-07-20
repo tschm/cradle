@@ -3,7 +3,6 @@ name: SYNC
 on:
   workflow_dispatch
 
-
 permissions:
   contents: write  # Needed to create releases
 
@@ -15,14 +14,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Sync config templates
-        uses: tschm/.config-templates@main
+        uses: tschm/.config-templates@v0.1.5
         with:
           branch: sync/update-configs
           commit-message: sync config files from .config-templates
 
       # Override the token for create-pull-request action using the PAT secret
       - name: Create Pull Request (override token)
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.PAT_TOKEN }}          # Use PAT token here
           commit-message:
