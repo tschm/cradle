@@ -29,8 +29,9 @@ runs:
       TARGET_BRANCH: ${{ github.event.inputs.target-branch || 'draft' }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # Don't do a fresh checkout as this would overwrite header.txt
+      #- name: Checkout repository
+      #  uses: actions/checkout@v4
 
       - name: Install Tectonic
         working-directory: ${{ env.TEX_FOLDER }}
