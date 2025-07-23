@@ -1,65 +1,60 @@
 # GitHub Action to compile LaTeX documents and deploy them
-# This action compiles LaTeX files to PDF using Tectonic and can deploy them to GitHub Pages
 name: Compile and Deploy LaTeX Documents
 
 description: "Advanced LaTeX document compilation with error handling, GitHub Pages deployment, and release creation"
 
 inputs:
-    target-branch:
-      description: "Branch to deploy compiled PDF to"
-      required: false
-      default: "draft"
-    tex-folder:
-      description: "Folder containing the LaTeX file"
-      required: false
-      default: "paper"
-    tex-file:
-      description: "Main LaTeX file to compile (e.g. document.tex)"
-      required: false
-      default: "document.tex"
+  target-branch:
+    description: "Branch to deploy compiled PDF to"
+    required: false
+    default: "draft"
+  tex-folder:
+    description: "Folder containing the LaTeX file"
+    required: false
+    default: "paper"
+  tex-file:
+    description: "Main LaTeX file to compile (e.g. document.tex)"
+    required: false
+    default: "document.tex"
 
 runs:
-  using: "composite"  # Composite actions combine multiple steps
+  using: "composite"
   steps:
-    runs-on: ubuntu-latest
+    - name: Set environment variables
+      shell: bash
+      run: |
+        echo "TEX_FOLDER=${{ inputs.tex-folder }}" >> $GITHUB_ENV
+        echo "TEX_FILE=${{ inputs.tex-file }}" >> $GITHUB_ENV
+        echo "TARGET_BRANCH=${{ inputs.target-branch }}" >> $GITHUB_ENV
 
-    env:
-      TEX_FOLDER: ${{ github.event.inputs.tex-folder || 'paper' }}
-      TEX_FILE: ${{ github.event.inputs.tex-file || 'document.tex' }}
-      TARGET_BRANCH: ${{ github.event.inputs.target-branch || 'draft' }}
+    - name: Install Tectonic
+      working-directory: ${{ env.TEX_FOLDER }}
+      shell: bash
+      run: |
+        curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+        ./tectonic --version
 
-    steps:
-      # Don't do a fresh checkout as this would overwrite header.txt
-      #- name: Checkout repository
-      #  uses: actions/checkout@v4
+    - name: Compile LaTeX document
+      working-directory: ${{ env.TEX_FOLDER }}
+      shell: bash
+      run: |
+        mkdir -p compiled
+        echo "Compiling $TEX_FILE"
+        ./tectonic "$TEX_FILE" --outdir compiled
+        tree compiled
 
-      - name: Install Tectonic
-        working-directory: ${{ env.TEX_FOLDER }}
-        run: |
-          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-          ./tectonic --version
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: ${{ env.TARGET_BRANCH }}
+        folder: ${{ env.TEX_FOLDER }}/compiled
+        commit-message: "Compiled PDF from ${{ env.TEX_FOLDER }}/${{ env.TEX_FILE }}"
+        clean: true
+        single-commit: false
 
-      - name: Compile LaTeX document
-        working-directory: ${{ env.TEX_FOLDER }}
-        run: |
-          mkdir -p compiled
-          echo "Compiling $TEX_FILE"
-          ./tectonic "$TEX_FILE" --outdir compiled
-          tree compiled
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: ${{ env.TARGET_BRANCH }}
-          folder: ${{ env.TEX_FOLDER }}/compiled
-          commit-message: "Compiled PDF from ${{ env.TEX_FOLDER }}/${{ env.TEX_FILE }}"
-          clean: true
-          single-commit: false
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: latex
-          path: |
-            ${{ env.TEX_FOLDER }}/compiled
-          retention-days: 7
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: latex
+        path: ${{ env.TEX_FOLDER }}/compiled
+        retention-days: 7
