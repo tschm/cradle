@@ -66,5 +66,5 @@ def test_latex_action_structure(action_path):
     assert compile_step is not None, "Action must have a Compile LaTeX document step"
 
     # Check step details
-    assert "curl" in install_step["run"], "Install step must use curl to install Tectonic"
+    assert "wtfjoke/setup-tectonic" in install_step["uses"], "Install step must use wtfjoke/setup-tectonic"
     assert "tectonic" in compile_step["run"], "Compile step must use tectonic"

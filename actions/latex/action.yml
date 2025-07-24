@@ -39,7 +39,11 @@ runs:
     #    ./tectonic "${{ env.TEX_FILE }}" --outdir compiled
     #    tree compiled
 
-    - uses: wtfjoke/setup-tectonic@v3
+    - name: Install Tectonic
+      uses: wtfjoke/setup-tectonic@v3
 
-    - run: tectonic ${{ env.TEX_FILE }} --outdir compiled
-
+    - name: Compile LaTeX document
+      shell: bash
+      run: |
+        mkdir -p compiled
+        tectonic ${{ env.TEX_FILE }} --outdir compiled
