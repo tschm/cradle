@@ -104,6 +104,7 @@ def test_create_project_success(mock_exit, mock_rprint, mock_get_all_templates, 
             [
                 call("[bold]Creating project 'test-project' from template 'package'...[/bold]"),
                 call("[bold]Using template URL: https://github.com/tschm/package[/bold]"),
+                call("[bold green]Copying template to 'test-project'...[/bold green]"),
                 call("[bold green]Project created successfully at 'test-project'![/bold green]"),
             ]
         )
@@ -217,6 +218,7 @@ def test_create_project_copier_error(mock_exit, mock_rprint, mock_get_all_templa
             [
                 call("[bold]Creating project 'test-project' from template 'package'...[/bold]"),
                 call("[bold]Using template URL: https://github.com/tschm/package[/bold]"),
+                call("[bold green]Copying template to 'test-project'...[/bold green]"),
                 call("[bold red]Error creating project: Copier error[/bold red]"),
             ]
         )
