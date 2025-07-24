@@ -40,5 +40,6 @@ runs:
     #    tree compiled
 
     - uses: wtfjoke/setup-tectonic@v3
-      run: tectonic ${{ env.TEX_FILE }} --outdir compiled
+
+    - run: tectonic ${{ env.TEX_FILE }} --outdir compiled
 
