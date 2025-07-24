@@ -93,6 +93,7 @@ def create_project(
     try:
         rprint(f"[bold]Creating project '{project_name}' from template '{template}'...[/bold]")
         rprint(f"[bold]Using template URL: {template_url}[/bold]")
+        rprint(f"[bold green]Copying template to '{output_dir}'...[/bold green]")
 
         # Run copier with the template URL
         copier.run_copy(
