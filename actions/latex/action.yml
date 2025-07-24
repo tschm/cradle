@@ -4,10 +4,6 @@ name: Compile and Deploy LaTeX Documents
 description: "Advanced LaTeX document compilation with error handling, GitHub Pages deployment, and release creation"
 
 inputs:
-  #target-branch:
-  #  description: "Branch to deploy compiled PDF to"
-  #  required: false
-  #  default: "draft"
   tex-folder:
     description: "Folder containing the LaTeX file"
     required: false
@@ -40,26 +36,12 @@ runs:
       run: |
         mkdir -p compiled
         echo "Compiling $TEX_FILE"
-        ./tectonic "$TEX_FILE" --outdir compiled
+        ./tectonic "${{ env.TEX_FILE }}" --outdir compiled
         tree compiled
-
-    #- name: Deploy to GitHub Pages
-    #  uses: JamesIves/github-pages-deploy-action@v4
-    #  with:
-    #    branch: ${{ env.TARGET_BRANCH }}
-    #    folder: ${{ env.TEX_FOLDER }}/compiled
-    #    commit-message: "Compiled PDF from ${{ env.TEX_FOLDER }}/${{ env.TEX_FILE }}"
-    #    clean: true
-    #    single-commit: false
-    #- name: Upload artifact
-    #  uses: actions/upload-pages-artifact@v3
-    #  with:
-    #    # Upload compiled document
-    #    path: ${{ env.TEX_FOLDER }}/compiled
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: latex
-        path: ${{ env.TEX_FOLDER }}/compiled
+        path: ${{ env.TEX_FOLDER }}/compiled/*.pdf
         retention-days: 1
