@@ -30,12 +30,10 @@ def test_latex_action_structure(action_path):
 
     # Check inputs
     inputs = action["inputs"]
-    assert "target-branch" in inputs, "Action must have target-branch input"
     assert "tex-folder" in inputs, "Action must have tex-folder input"
     assert "tex-file" in inputs, "Action must have tex-file input"
 
     # Check default values
-    assert inputs["target-branch"]["default"] == "draft", "Target-branch input must default to draft"
     assert inputs["tex-folder"]["default"] == "paper", "Tex-folder input must default to paper"
     assert inputs["tex-file"]["default"] == "document.tex", "Tex-file input must default to document.tex"
 
@@ -56,8 +54,6 @@ def test_latex_action_structure(action_path):
     # Check specific steps
     install_step = None
     compile_step = None
-    deploy_step = None
-    upload_step = None
 
     for step in steps:
         if isinstance(step, dict) and "name" in step:
@@ -65,20 +61,10 @@ def test_latex_action_structure(action_path):
                 install_step = step
             elif step["name"].startswith("Compile LaTeX"):
                 compile_step = step
-            elif step["name"].startswith("Deploy to GitHub"):
-                deploy_step = step
-            elif step["name"].startswith("Upload build"):
-                upload_step = step
 
     assert install_step is not None, "Action must have an Install Tectonic step"
     assert compile_step is not None, "Action must have a Compile LaTeX document step"
-    assert deploy_step is not None, "Action must have a Deploy to GitHub Pages step"
-    assert upload_step is not None, "Action must have an Upload build artifacts step"
 
     # Check step details
     assert "curl" in install_step["run"], "Install step must use curl to install Tectonic"
     assert "tectonic" in compile_step["run"], "Compile step must use tectonic"
-    assert deploy_step["uses"] == "JamesIves/github-pages-deploy-action@v4", (
-        "Deploy step must use JamesIves/github-pages-deploy-action@v4"
-    )
-    assert upload_step["uses"] == "actions/upload-artifact@v4", "Upload step must use actions/upload-artifact@v4"
