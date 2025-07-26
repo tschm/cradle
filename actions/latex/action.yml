@@ -21,23 +21,6 @@ runs:
       run: |
         echo "TEX_FOLDER=${{ inputs.tex-folder }}" >> $GITHUB_ENV
         echo "TEX_FILE=${{ inputs.tex-file }}" >> $GITHUB_ENV
-        echo "TARGET_BRANCH=${{ inputs.target-branch }}" >> $GITHUB_ENV
-
-    #- name: Install Tectonic
-    #  working-directory: ${{ env.TEX_FOLDER }}
-    #  shell: bash
-    #  run: |
-    #    curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
-    #    ./tectonic --version
-
-    #- name: Compile LaTeX document
-    #  working-directory: ${{ env.TEX_FOLDER }}
-    #  shell: bash
-    #  run: |
-    #    mkdir -p compiled
-    #    echo "Compiling $TEX_FILE"
-    #    ./tectonic "${{ env.TEX_FILE }}" --outdir compiled
-    #    tree compiled
 
     - name: Install Tectonic
       uses: wtfjoke/setup-tectonic@v3
