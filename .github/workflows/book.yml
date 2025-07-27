@@ -10,7 +10,6 @@
 #
 # Components:
 #   - 📚 Parse .env file for configuration
-#   - 📓 Process Marimo notebooks
 #   - 📖 Generate API documentation with pdoc
 #   - 🧪 Run tests and generate coverage reports
 #   - 🚀 Deploy combined documentation to GitHub Pages
