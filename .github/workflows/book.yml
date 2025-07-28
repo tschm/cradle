@@ -10,6 +10,7 @@
 #
 # Components:
 #   - 📚 Parse .env file for configuration
+#   - 📓 Process Marimo notebooks
 #   - 📖 Generate API documentation with pdoc
 #   - 🧪 Run tests and generate coverage reports
 #   - 🚀 Deploy combined documentation to GitHub Pages
@@ -48,6 +49,17 @@ jobs:
           set +a
         shell: bash
 
+  marimo:
+    if: github.repository != 'tschm/.config-templates'
+    runs-on: "ubuntu-latest"
+    needs: parse-env
+    permissions:
+      contents: read
+    steps:
+      - uses: jebel-quant/marimushka@v0.1.4
+        with:
+          notebooks: ${{ needs.parse-env.outputs.marimo-folder }}
+
   pdoc:
     if: github.repository != 'tschm/.config-templates'
     runs-on: "ubuntu-latest"
@@ -80,7 +92,7 @@ jobs:
   book:
     if: github.repository != 'tschm/.config-templates'
     runs-on: "ubuntu-latest"
-    needs: [test, pdoc, parse-env]
+    needs: [test, pdoc, marimo, parse-env]
 
     environment:
       name: github-pages  # 👈 this is the critical missing piece
@@ -97,5 +109,6 @@ jobs:
             {
               "API": "./pdoc/index.html",
               "Coverage": "./tests/html-coverage/index.html",
-              "Test Report": "./tests/html-report/report.html"
+              "Test Report": "./tests/html-report/report.html",
+              "Notebooks": "./marimushka/index.html"
             }
