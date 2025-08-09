@@ -68,19 +68,13 @@ jobs:
       - name: Build
         if: hashFiles('pyproject.toml') != ''
         run: |
-          pip install --upgrade pip
-          pip install hatch
-
           version=${{ github.event.inputs.tag }}
           version=${version#v}
           echo "Setting version to $version"
           sed -i.bak "s/^version = .*/version = \"$version\"/" pyproject.toml
           rm pyproject.toml.bak
 
-          hatch build
-
-          echo "Uploading dist/"
-          #tar -cf dist.tar dist
+          make build
 
       - name: Upload dist artifact
         # not tested at runtime!
