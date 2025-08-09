@@ -19,33 +19,15 @@ permissions:
     contents: read
 
 jobs:
-  parse-env:
-    if: github.repository != 'tschm/.config-templates'
-    runs-on: ubuntu-latest
-    outputs:
-      source-folder: ${{ steps.export.outputs.SOURCE_FOLDER }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Parse .env and export variables
-        id: export
-        run: |
-          set -a
-          source .env
-          echo "SOURCE_FOLDER=$SOURCE_FOLDER" >> "$GITHUB_OUTPUT"
-          set +a
-        shell: bash
-
   # Job: Dependencies
   # Purpose: Checks the project's dependency health using deptry
   Analysis:
-    if: github.repository != 'tschm/.config-templates'
     runs-on: ubuntu-latest
-    needs: parse-env
 
     steps:
+      # Check out the repository code
+      - uses: actions/checkout@v4
+
       - name: Run deptry
-        if: hashFiles('pyproject.toml') != ''
-        uses: tschm/cradle/actions/deptry@v0.3.06
-        with:
-          source-folder: ${{ needs.parse-env.outputs.source-folder }}
+        run: |
+          make deptry
