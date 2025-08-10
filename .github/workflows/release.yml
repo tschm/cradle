@@ -60,10 +60,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-            python-version: '3.13'
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      #- name: Set up Python
+      #  uses: actions/setup-python@v5
+      #  with:
+      #      python-version: '3.13'
 
       - name: Build
         if: hashFiles('pyproject.toml') != ''
@@ -74,7 +77,7 @@ jobs:
           sed -i.bak "s/^version = .*/version = \"$version\"/" pyproject.toml
           rm pyproject.toml.bak
 
-          make build
+          task build:build -s
 
       - name: Upload dist artifact
         # not tested at runtime!

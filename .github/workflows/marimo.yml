@@ -56,10 +56,21 @@ jobs:
       # Check out the repository code
       - uses: actions/checkout@v4
 
+      # install uv
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      # install task
+      - name: Install task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       # Install Python dependencies
       - name: Install uv, uvx and the environment
         run: |
-          make install
+          task build:install -s
         shell: bash
 
       # Execute the notebook with the appropriate runner based on its content
@@ -67,4 +78,3 @@ jobs:
         run: |
           uv run "${{ matrix.notebook }}"
         shell: bash
-
