@@ -27,10 +27,20 @@ jobs:
       # Check out the repository code
       - uses: actions/checkout@v4
 
+      # install uv and task
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Lint
         run: |
-          make lint
+          task quality:lint
 
       - name: Format
         run: |
-          make fmt
+          task quality:fmt

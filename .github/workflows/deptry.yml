@@ -19,15 +19,39 @@ permissions:
     contents: read
 
 jobs:
-  # Job: Dependencies
-  # Purpose: Checks the project's dependency health using deptry
-  Analysis:
+  check_pyproject:
+    name: Check pyproject.toml presence
     runs-on: ubuntu-latest
-
+    outputs:
+      pyproject_exists: ${{ steps.check_file.outputs.exists }}
     steps:
-      # Check out the repository code
       - uses: actions/checkout@v4
 
-      - name: Run deptry
+      - name: Check for pyproject.toml
+        id: check_file
         run: |
-          make deptry
+          if [ -f "pyproject.toml" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  deptry_analysis:
+    name: Run deptry if pyproject.toml exists
+    needs: check_pyproject
+    runs-on: ubuntu-latest
+    if: needs.check_pyproject.outputs.pyproject_exists == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run deptry
+        run: task quality:deptry

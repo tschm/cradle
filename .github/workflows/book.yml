@@ -18,7 +18,8 @@
 name: "BOOK"
 
 on:
-  push
+  push:
+    branches: [ main ]
 
 jobs:
   book:
@@ -29,6 +30,7 @@ jobs:
       name: github-pages  # 👈 this is the critical missing piece
 
     permissions:
+      contents: read
       pages: write            # Permission to deploy to Pages
       id-token: write         # Permission to verify deployment origin
 
@@ -36,21 +38,30 @@ jobs:
       # Check out the repository code
       - uses: actions/checkout@v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: "Make the docs"
         run: |
-          make docs
+          task docs:docs
 
       - name: "Make the tests"
         run: |
-          make tests
+          task docs:test
 
       - name: "Make the notebooks"
         run: |
-          make marimushka
+          task docs:marimushka
 
       - name: "Make the book"
         run: |
-          make book
+          task docs:book
 
       # Step 4: Display the structure of the artifacts directory
       # This helps with debugging by showing what files were generated
