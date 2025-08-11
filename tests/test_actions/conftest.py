@@ -14,7 +14,7 @@ import pytest
 @pytest.fixture
 def repo_root():
     """Return the path to the repository root."""
-    return os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+    return os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 
 @pytest.fixture
