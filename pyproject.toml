@@ -24,7 +24,7 @@ dev = [
     "pytest==8.4.1",
     "pre-commit==4.2.0",
     "pytest-mock==3.14.1",
-    "marimo==0.14.16"
+    "marimo==0.14.17"
 ]
 
 # Entry points for command-line scripts
