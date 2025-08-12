@@ -24,7 +24,7 @@ runs:
     # Step 1: Check out the repository code
     # This ensures we have the latest code from the specified ref
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4  # Official GitHub checkout action
+      uses: actions/checkout@v5  # Official GitHub checkout action
 
     # Step 2: Set up Python with the uv package manager
     # This installs Python and uv for faster dependency management
