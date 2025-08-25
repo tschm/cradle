@@ -45,7 +45,7 @@ runs:
         python-version: 3.12
         ignore-empty-workdir: true
         enable-cache: false
-        version: '0.8.12'
+        version: '0.8.13'
 
     # Step 2: Download all artifacts from previous jobs
     # This automatically retrieves artifacts uploaded by jobs specified in the 'needs' field
