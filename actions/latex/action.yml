@@ -23,7 +23,7 @@ runs:
         echo "TEX_FILE=${{ inputs.tex-file }}" >> $GITHUB_ENV
 
     - name: Install Tectonic
-      uses: wtfjoke/setup-tectonic@v3
+      uses: wtfjoke/setup-tectonic@v4
 
     - name: Compile LaTeX document
       shell: bash
