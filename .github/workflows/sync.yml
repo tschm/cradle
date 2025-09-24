@@ -59,4 +59,3 @@ jobs:
             Makefile
             ruff.toml
             Taskfile.yml
-          delete-branch: true
