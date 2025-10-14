@@ -29,7 +29,7 @@ runs:
     # Step 2: Set up Python with the uv package manager
     # This installs Python and uv for faster dependency management
     - name: Set up Python ${{ inputs.python-version }}
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      uses: astral-sh/setup-uv@v7  # Official action for setting up uv
       with:
         python-version: ${{ inputs.python-version }}  # Use the specified Python version
 
