@@ -58,7 +58,7 @@ runs:
     # Step 6: Create a GitHub release with the built artifacts
     # This creates a release on GitHub and attaches the distribution files
     - name: Create GitHub release with artifacts
-      uses: softprops/action-gh-release@v2.4.0  # Third-party release action
+      uses: softprops/action-gh-release@v2.4.1  # Third-party release action
       with:
         token: ${{ inputs.github_token }}  # Token for authentication
         tag_name: ${{ inputs.tag }}  # Use the provided tag
