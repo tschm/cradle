@@ -40,7 +40,7 @@ runs:
     # Step 1: Set up the Python environment with uv (faster alternative to pip)
     # This step installs Python 3.12 and the uv package manager
     - name: Set up Python 3.12
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      uses: astral-sh/setup-uv@v7  # Official action for setting up uv
       with:
         python-version: 3.12
         ignore-empty-workdir: true

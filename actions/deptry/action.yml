@@ -25,7 +25,7 @@ runs:
     # Step 2: Set up the Python environment with uv
     # This installs the uv package manager which provides the uvx command
     - name: Set up uv/uvx
-      uses: astral-sh/setup-uv@v6  # Official action for setting up uv
+      uses: astral-sh/setup-uv@v7  # Official action for setting up uv
       # Default settings are used for uv setup
 
     # Step 3: Run deptry to analyze dependencies
