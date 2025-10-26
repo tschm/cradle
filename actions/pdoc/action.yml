@@ -37,7 +37,7 @@ runs:
     # Step 2: Upload the generated documentation as an artifact
     # This makes the documentation available for download from the GitHub Actions UI
     - name: Upload documentation
-      uses: actions/upload-artifact@v4  # Official artifact upload action
+      uses: actions/upload-artifact@v5  # Official artifact upload action
       with:
         name: pdoc  # Name of the artifact
         path: artifacts/pdoc  # Path to the documentation files
