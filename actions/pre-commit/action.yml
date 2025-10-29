@@ -22,7 +22,7 @@ runs:
     - name: Install Node 22
       uses: actions/setup-node@v5  # Official Node.js setup action
       with:
-        node-version: '22'  # Use Node.js version 22
+        node-version: '24'  # Use Node.js version 22
 
     # Step 3: Run all pre-commit hooks on all files
     # This executes all hooks defined in .pre-commit-config.yaml
