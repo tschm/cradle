@@ -49,7 +49,7 @@ def test_pre_commit_action_structure(action_path):
     # Check step details
     assert checkout_step["uses"] == "actions/checkout@v5", "Checkout step must use actions/checkout@v4"
     assert node_step["uses"] == "actions/setup-node@v5", "Node step must use actions/setup-node@v4"
-    assert node_step["with"]["node-version"] == "22", "Node step must use Node.js version 22"
+    assert node_step["with"]["node-version"] == "24", "Node step must use Node.js version 22"
     assert pre_commit_step["uses"] == "pre-commit/action@v3.0.1", "Pre-commit step must use pre-commit/action@v3.0.1"
     assert pre_commit_step["with"]["extra_args"] == "--verbose --all-files", (
         "Pre-commit step must run on all files with verbose output"
