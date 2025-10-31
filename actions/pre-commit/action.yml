@@ -20,7 +20,7 @@ runs:
     # Step 2: Set up Node.js environment
     # This is required for some pre-commit hooks that use Node.js
     - name: Install Node 22
-      uses: actions/setup-node@v5  # Official Node.js setup action
+      uses: actions/setup-node@v6  # Official Node.js setup action
       with:
         node-version: '24'  # Use Node.js version 22
 
