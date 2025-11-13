@@ -21,7 +21,7 @@ repository = "https://github.com/tschm/cradle"
 [project.optional-dependencies]
 dev = [
     "pytest-cov==7.0.0",
-    "pytest==8.4.2",
+    "pytest==9.0.1",
     "pre-commit==4.4.0",
     "pytest-mock==3.15.1",
     "marimo==0.17.7"
