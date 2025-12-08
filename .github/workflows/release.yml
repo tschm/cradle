@@ -318,7 +318,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ steps.get-python.outputs.python-version }}
+          python-version: ${{ fromJSON(steps.get-python.outputs.python-version) }}
 
       - name: Generate Devcontainer Link
         id: devcontainer_link
