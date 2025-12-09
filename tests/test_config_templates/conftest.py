@@ -1,6 +1,8 @@
 """Pytest configuration and fixtures for setting up a mock git repository with versioning and GPG signing."""
 
+import logging
 import os
+import pathlib
 import shutil
 import subprocess
 
@@ -74,6 +76,25 @@ def main():
 if __name__ == "__main__":
     main()
 """
+
+
+@pytest.fixture(scope="session")
+def root():
+    """Return the repository root directory as a pathlib.Path.
+
+    Used by tests to locate files and scripts relative to the project root.
+    """
+    return pathlib.Path(__file__).parent.parent.parent
+
+
+@pytest.fixture(scope="session")
+def logger():
+    """Provide a session-scoped logger for tests.
+
+    Returns:
+        logging.Logger: Logger configured for the test session.
+    """
+    return logging.getLogger(__name__)
 
 
 @pytest.fixture
