@@ -1,7 +1,7 @@
 # Project metadata and package information
 [project]
 name = "qCradle"
-version = "0.0.0"
+version = "0.4.0"
 description = "CLI to create repos"
 readme = "README.md"
 authors = [{ name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com" }]
