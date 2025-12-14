@@ -1,5 +1,12 @@
 """Hello World."""
 
+# /// script
+# dependencies = [
+#     "marimo==0.18.4"
+# ]
+#
+# ///
+
 import marimo
 
 __generated_with = "0.13.15"
