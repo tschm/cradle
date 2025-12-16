@@ -69,7 +69,7 @@ runs:
     # Step 4: Upload test results as artifacts
     # This makes the reports available for download from the GitHub Actions UI
     - name: Upload test results
-      uses: actions/upload-artifact@v5  # Official artifact upload action
+      uses: actions/upload-artifact@v6  # Official artifact upload action
       with:
         name: tests  # Name of the artifact
         path: artifacts/tests  # Path to the files to upload
