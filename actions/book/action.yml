@@ -50,7 +50,7 @@ runs:
     # Step 2: Download all artifacts from previous jobs
     # This automatically retrieves artifacts uploaded by jobs specified in the 'needs' field
     - name: Download all artifacts
-      uses: actions/download-artifact@v6  # Official GitHub artifact download action
+      uses: actions/download-artifact@v7  # Official GitHub artifact download action
       with:
         path: artifacts  # Directory where artifacts will be downloaded
 
