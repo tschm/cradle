@@ -116,6 +116,8 @@ def create_project(
         git branch -M main
         git remote add origin git@github.com:{user_name}/{project_name}.git
         git push -u origin main
+        uvx rhiza validate
+        uvx rhiza materialize
         """)
 
     except Exception as e:
