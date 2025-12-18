@@ -196,8 +196,8 @@ post-release: install-uv ## perform post-release tasks
 	fi
 
 ##@ Meta
-sync: ## sync with template repository as defined in .github/template.yml
-	@UVX_BIN rhisa inject .
+sync: install-uv ## sync with template repository as defined in .github/template.yml
+	@${UVX_BIN} rhiza materialize .
 
 help: ## Display this help message
 	+@printf "$(BOLD)Usage:$(RESET)\n"
