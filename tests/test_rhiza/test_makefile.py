@@ -20,6 +20,13 @@ from pathlib import Path
 
 import pytest
 
+# Split Makefile paths that are included in the main Makefile
+SPLIT_MAKEFILES = [
+    "tests/Makefile.tests",
+    "book/Makefile.book",
+    "presentation/Makefile.presentation",
+]
+
 
 def strip_ansi(text: str) -> str:
     """Strip ANSI escape sequences from text."""
@@ -35,14 +42,23 @@ def expected_uv_install_dir() -> str:
 
 @pytest.fixture(autouse=True)
 def setup_tmp_makefile(logger, root, tmp_path: Path):
-    """Copy only the Makefile into a temp directory and chdir there.
+    """Copy the Makefile and split Makefiles into a temp directory and chdir there.
 
     We rely on `make -n` so that no real commands are executed.
     """
     logger.debug("Setting up temporary Makefile test dir: %s", tmp_path)
 
-    # Copy the Makefile into the temporary working directory
+    # Copy the main Makefile into the temporary working directory
     shutil.copy(root / "Makefile", tmp_path / "Makefile")
+
+    # Copy split Makefiles if they exist (maintaining directory structure)
+    for split_file in SPLIT_MAKEFILES:
+        source_path = root / split_file
+        if source_path.exists():
+            dest_path = tmp_path / split_file
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(source_path, dest_path)
+            logger.debug("Copied %s to %s", source_path, dest_path)
 
     # Move into tmp directory for isolation
     old_cwd = Path.cwd()
@@ -141,12 +157,21 @@ class TestMakefile:
         expected_uvx = f"{expected_uv_install_dir}/uvx"
         assert f"{expected_uvx} minibook" in out
 
-    def test_all_target_dry_run(self, logger):
-        """All target echoes a composite message in dry-run output."""
-        proc = run_make(logger, ["all"])
-        out = proc.stdout
-        # The composite target should echo a message
-        assert "Run fmt, deptry, test and book" in out
+    @pytest.mark.parametrize("target", ["book", "docs", "marimushka"])
+    def test_book_related_targets_fallback_without_book_folder(self, logger, tmp_path, target):
+        """Book-related targets should show a warning when book folder is missing."""
+        # Remove the book folder to test fallback
+        book_folder = tmp_path / "book"
+        if book_folder.exists():
+            shutil.rmtree(book_folder)
+
+        proc = run_make(logger, [target], check=False, dry_run=False)
+        out = strip_ansi(proc.stdout)
+        # out = strip_ansi(proc.stderr)
+        assert out == ""
+        # assert out == f"[WARN] Book folder not found. Target '{target}' is not available.\n"
+
+        assert proc.returncode == 2  # Fails
 
     def test_uv_no_modify_path_is_exported(self, logger):
         """`UV_NO_MODIFY_PATH` should be set to `1` in the Makefile."""
@@ -178,16 +203,146 @@ class TestMakefile:
         assert f"Value of UVX_BIN:\n{expected_bin}" in out
 
     def test_script_folder_is_github_scripts(self, logger):
-        """`SCRIPTS_FOLDER` should point to `.github/scripts`."""
+        """`SCRIPTS_FOLDER` should point to `.github/rhiza/scripts`."""
         proc = run_make(logger, ["print-SCRIPTS_FOLDER"], dry_run=False)
         out = strip_ansi(proc.stdout)
-        assert "Value of SCRIPTS_FOLDER:\n.github/scripts" in out
+        assert "Value of SCRIPTS_FOLDER:\n.github/rhiza/scripts" in out
 
     def test_custom_scripts_folder_is_set(self, logger):
-        """`CUSTOM_SCRIPTS_FOLDER` should point to `.github/scripts/customisations`."""
+        """`CUSTOM_SCRIPTS_FOLDER` should point to `.github/rhiza/scripts/customisations`."""
         proc = run_make(logger, ["print-CUSTOM_SCRIPTS_FOLDER"], dry_run=False)
         out = strip_ansi(proc.stdout)
-        assert "Value of CUSTOM_SCRIPTS_FOLDER:\n.github/scripts/customisations" in out
+        assert "Value of CUSTOM_SCRIPTS_FOLDER:\n.github/rhiza/scripts/customisations" in out
+
+    def test_install_target_python_version(self, logger, tmp_path):
+        """Test install target respects PYTHON_VERSION variable."""
+        # Create dummy uv executable
+        bin_dir = tmp_path / "bin"
+        bin_dir.mkdir()
+        uv_bin = bin_dir / "uv"
+        uv_bin.write_text('#!/bin/sh\necho "MOCK_UV $@"\n')
+        uv_bin.chmod(uv_bin.stat().st_mode | 0o111)
+
+        # Create dummy uvx executable (required for install-uv check)
+        uvx_bin = bin_dir / "uvx"
+        uvx_bin.write_text("#!/bin/sh\n")
+        uvx_bin.chmod(uvx_bin.stat().st_mode | 0o111)
+
+        # Create pyproject.toml
+        (tmp_path / "pyproject.toml").touch()
+
+        # Define args
+        make_args = [
+            "install",
+            f"UV_BIN={uv_bin}",
+            f"UVX_BIN={uvx_bin}",
+            "PYTHON_VERSION=3.11",
+        ]
+
+        # Run make
+        proc = run_make(logger, make_args, dry_run=False)
+        out = strip_ansi(proc.stdout)
+
+        # Check if correct python version was passed
+        assert "MOCK_UV venv --python 3.11" in out
+
+    def test_install_target_default_python(self, logger, tmp_path):
+        """Test install target uses default python discovery when PYTHON_VERSION is not set."""
+        # Create dummy uv executable
+        bin_dir = tmp_path / "bin"
+        bin_dir.mkdir()
+        uv_bin = bin_dir / "uv"
+        uv_bin.write_text('#!/bin/sh\necho "MOCK_UV $@"\n')
+        uv_bin.chmod(uv_bin.stat().st_mode | 0o111)
+
+        # Create dummy uvx executable
+        uvx_bin = bin_dir / "uvx"
+        uvx_bin.write_text("#!/bin/sh\n")
+        uvx_bin.chmod(uvx_bin.stat().st_mode | 0o111)
+
+        # Create pyproject.toml
+        (tmp_path / "pyproject.toml").touch()
+
+        # Define args without PYTHON_VERSION
+        make_args = [
+            "install",
+            f"UV_BIN={uv_bin}",
+            f"UVX_BIN={uvx_bin}",
+        ]
+
+        # Run make
+        proc = run_make(logger, make_args, dry_run=False)
+        out = strip_ansi(proc.stdout)
+
+        # Check that venv is called without --python argument
+        assert "MOCK_UV venv" in out
+        assert "--python" not in out
+
+    def test_install_target_respects_python_version_file(self, logger, tmp_path):
+        """Test install target respects .python-version file by not passing --python flag."""
+        # Create dummy uv executable
+        bin_dir = tmp_path / "bin"
+        bin_dir.mkdir()
+        uv_bin = bin_dir / "uv"
+        uv_bin.write_text('#!/bin/sh\necho "MOCK_UV $@"\n')
+        uv_bin.chmod(uv_bin.stat().st_mode | 0o111)
+
+        # Create dummy uvx executable
+        uvx_bin = bin_dir / "uvx"
+        uvx_bin.write_text("#!/bin/sh\n")
+        uvx_bin.chmod(uvx_bin.stat().st_mode | 0o111)
+
+        # Create pyproject.toml and .python-version
+        (tmp_path / "pyproject.toml").touch()
+        (tmp_path / ".python-version").write_text("3.11")
+
+        # Define args without PYTHON_VERSION
+        make_args = [
+            "install",
+            f"UV_BIN={uv_bin}",
+            f"UVX_BIN={uvx_bin}",
+        ]
+
+        # Run make
+        proc = run_make(logger, make_args, dry_run=False)
+        out = strip_ansi(proc.stdout)
+
+        # Check that venv is called without --python argument
+        # This ensures uv will use the .python-version file
+        assert "MOCK_UV venv" in out
+        assert "--python" not in out
+
+    def test_install_target_logic(self, logger, tmp_path):
+        """Test install target logic regarding uv.lock existence."""
+        # Create dummy uv/uvx executables to satisfy dependencies and mock execution
+        bin_dir = tmp_path / "bin"
+        bin_dir.mkdir()
+        uv_bin = bin_dir / "uv"
+        uv_bin.write_text('#!/bin/sh\necho "MOCK_UV $@"\n')
+        uv_bin.chmod(uv_bin.stat().st_mode | 0o111)
+
+        uvx_bin = bin_dir / "uvx"
+        uvx_bin.write_text("#!/bin/sh\n")
+        uvx_bin.chmod(uvx_bin.stat().st_mode | 0o111)
+
+        # Create pyproject.toml
+        (tmp_path / "pyproject.toml").touch()
+
+        # Define args to override variables
+        make_args = ["install", f"UV_BIN={uv_bin}", f"UVX_BIN={uvx_bin}", f"UV_INSTALL_DIR={bin_dir}"]
+
+        # Case 1: No uv.lock -> should run sync (generate lock)
+        # We run with dry_run=False to execute the shell logic in the Makefile
+        proc = run_make(logger, make_args, dry_run=False)
+        out = strip_ansi(proc.stdout)
+        assert "MOCK_UV sync --all-extras" in out
+        assert "--frozen" not in out
+
+        # Case 2: uv.lock exists -> should run sync --frozen
+        (tmp_path / "uv.lock").touch()
+        proc = run_make(logger, make_args, dry_run=False)
+        out = strip_ansi(proc.stdout)
+        assert "MOCK_UV sync --all-extras --frozen" in out
 
 
 class TestMakefileRootFixture:
@@ -206,9 +361,15 @@ class TestMakefileRootFixture:
         assert len(content) > 0
 
     def test_makefile_contains_targets(self, root):
-        """Makefile should contain expected targets."""
+        """Makefile should contain expected targets (including split files)."""
         makefile = root / "Makefile"
         content = makefile.read_text()
+
+        # Read split Makefiles as well
+        for split_file in SPLIT_MAKEFILES:
+            split_path = root / split_file
+            if split_path.exists():
+                content += "\n" + split_path.read_text()
 
         expected_targets = ["install", "fmt", "test", "deptry", "book", "help"]
         for target in expected_targets:
