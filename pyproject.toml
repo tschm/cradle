@@ -5,7 +5,7 @@ version = "0.4.1"
 description = "CLI to create repos"
 readme = "README.md"
 authors = [{ name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com" }]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "typer>=0.9.0",
     "copier>=9.8.0",
@@ -18,15 +18,17 @@ dependencies = [
 repository = "https://github.com/tschm/cradle"
 
 # Optional dependencies for development
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "pytest-cov>=7.0",
-    "pytest-html>=4.0",
-    "pytest>=9.0",
-    "pre-commit==4.5.1",
+    #"pytest-cov>=7.0",
+    #"pytest-html>=4.0",
+    #"pytest>=9.0",
+    #"pre-commit==4.5.1",
     "pytest-mock==3.15.1",
     "marimo==0.18.4",
-    "python-dotenv==1.2.1"
+    "numpy>=2.4",
+    "plotly>=6.5",
+    "pandas>=2.3"
 ]
 
 # Entry points for command-line scripts
@@ -50,11 +52,6 @@ include = [
     "demo.png",
     "src/cradle",
 ]
-
-# Deptry dependency checker configuration
-[tool.deptry]
-# see https://deptry.com/usage/#pep-621-dev-dependency-groups
-pep621_dev_dependency_groups = ["dev"]
 
 [tool.deptry.package_module_name_map]
 pyyaml = ["yaml"]
