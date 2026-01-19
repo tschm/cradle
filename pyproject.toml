@@ -50,3 +50,10 @@ include = [
 
 [tool.deptry.package_module_name_map]
 pyyaml = ["yaml"]
+typer = ["typer"]
+copier = ["copier"]
+rich = ["rich"]
+marimo = ["marimo"]
+numpy = ["numpy"]
+plotly = ["plotly"]
+pandas = ["pandas"]
