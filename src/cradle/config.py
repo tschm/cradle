@@ -5,9 +5,9 @@ which contains information about available template repositories.
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 # Default configuration directory
 CONFIG_DIR = Path.home() / ".cradle"
@@ -42,17 +42,17 @@ def _ensure_config_file() -> None:
             yaml.dump(DEFAULT_CONFIG, f)
 
 
-def _read_config(config_file=None) -> dict[str, Any]:
+def _read_config(config_file: Path | None = None) -> dict[str, Any]:
     """Read the configuration file."""
     if config_file is None:
         _ensure_config_file()
         config_file = CONFIG_FILE
 
     with open(config_file) as f:
-        return yaml.safe_load(f)
+        return cast(dict[str, Any], yaml.safe_load(f))
 
 
-def get_all_templates(config_file=None) -> dict[str, dict[str, Any]]:
+def get_all_templates(config_file: Path | None = None) -> dict[str, dict[str, Any]]:
     """Get information about all templates."""
     config = _read_config(config_file)
-    return config.get("templates", {})
+    return cast(dict[str, dict[str, Any]], config.get("templates", {}))
