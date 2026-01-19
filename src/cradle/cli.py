@@ -21,7 +21,7 @@ console = Console()
 
 
 @app.command("list")
-def list_templates():
+def list_templates() -> None:
     """List all available templates."""
     template_configs = get_all_templates()
     template_names = sorted(template_configs.keys())
@@ -58,7 +58,7 @@ def create_project(
         "-v",
         help="Visibility of the GitHub repository: private, public, or internal",
     ),
-):
+) -> None:
     """Create a new project from a template."""
     template_configs = get_all_templates()
     available_templates = sorted(template_configs.keys())
@@ -126,7 +126,7 @@ def create_project(
 
 
 @app.callback()
-def callback():
+def callback() -> None:
     """Cradle CLI - A command-line interface for generating projects using Copier templates.
 
     Templates are defined in a configuration file (~/.cradle/config.yaml) that maps
@@ -135,6 +135,6 @@ def callback():
     pass
 
 
-def main():
+def main() -> None:
     """Entry point for the CLI."""
     app()  # pragma: no cover
