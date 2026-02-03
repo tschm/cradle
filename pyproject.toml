@@ -20,7 +20,7 @@ repository = "https://github.com/tschm/cradle"
 # Dependencies for development
 [dependency-groups]
 dev = [
-    "marimo==0.19.6",
+    "marimo==0.19.7",
     "numpy>=2.4",
     "plotly>=6.5",
     "pandas>=2.3"
