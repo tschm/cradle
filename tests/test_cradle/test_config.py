@@ -12,7 +12,7 @@ from cradle.config import CONFIG_DIR, CONFIG_FILE, DEFAULT_CONFIG, _ensure_confi
 
 def test_config_constants():
     """Test that the config constants are correctly defined."""
-    assert CONFIG_DIR == Path.home() / ".cradle"
+    assert Path.home() / ".cradle" == CONFIG_DIR
     assert CONFIG_FILE == CONFIG_DIR / "config.yaml"
     assert "templates" in DEFAULT_CONFIG
     assert "experiments" in DEFAULT_CONFIG["templates"]

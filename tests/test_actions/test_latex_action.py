@@ -44,10 +44,7 @@ def test_latex_action_structure(action_path):
 
     # The LaTeX action has a nested steps structure
     # First, check if steps is a dictionary with a 'steps' key (incorrect structure)
-    if isinstance(runs["steps"], dict) and "steps" in runs["steps"]:
-        steps = runs["steps"]["steps"]
-    else:
-        steps = runs["steps"]
+    steps = runs["steps"]["steps"] if isinstance(runs["steps"], dict) and "steps" in runs["steps"] else runs["steps"]
 
     assert len(steps) >= 3, "Action must have at least 3 steps"
 
