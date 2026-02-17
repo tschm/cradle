@@ -1,7 +1,7 @@
 # Rhiza Template History
 # This file lists all files managed by the Rhiza template.
 # Template repository: jebel-quant/rhiza
-# Template branch: main
+# Template branch: v0.8.0
 #
 # Files under template control:
 .editorconfig
@@ -15,13 +15,11 @@
 .github/hooks/session-end.sh
 .github/hooks/session-start.sh
 .github/workflows/copilot-setup-steps.yml
-.github/workflows/renovate_rhiza_sync.yml
+.github/workflows/rhiza_benchmarks.yml
 .github/workflows/rhiza_book.yml
 .github/workflows/rhiza_ci.yml
 .github/workflows/rhiza_codeql.yml
 .github/workflows/rhiza_deptry.yml
-.github/workflows/rhiza_marimo.yml
-.github/workflows/rhiza_mypy.yml
 .github/workflows/rhiza_pre-commit.yml
 .github/workflows/rhiza_release.yml
 .github/workflows/rhiza_security.yml
@@ -29,6 +27,7 @@
 .github/workflows/rhiza_validate.yml
 .gitignore
 .pre-commit-config.yaml
+.python-version
 .rhiza/.cfg.toml
 .rhiza/.env
 .rhiza/.gitignore
@@ -47,23 +46,17 @@
 .rhiza/make.d/bootstrap.mk
 .rhiza/make.d/custom-env.mk
 .rhiza/make.d/custom-task.mk
-.rhiza/make.d/docker.mk
 .rhiza/make.d/docs.mk
 .rhiza/make.d/github.mk
-.rhiza/make.d/lfs.mk
-.rhiza/make.d/marimo.mk
-.rhiza/make.d/presentation.mk
 .rhiza/make.d/quality.mk
 .rhiza/make.d/releasing.mk
 .rhiza/make.d/test.mk
 .rhiza/requirements/README.md
 .rhiza/requirements/docs.txt
-.rhiza/requirements/marimo.txt
 .rhiza/requirements/tests.txt
 .rhiza/requirements/tools.txt
 .rhiza/rhiza.mk
-.rhiza/scripts/release.sh
-.rhiza/template-bundles.yml
+.rhiza/scripts/.gitkeep
 .rhiza/templates/minibook/custom.html.jinja2
 .rhiza/tests/README.md
 .rhiza/tests/api/conftest.py
@@ -76,7 +69,6 @@
 .rhiza/tests/integration/test_lfs.py
 .rhiza/tests/integration/test_marimushka.py
 .rhiza/tests/integration/test_notebook_execution.py
-.rhiza/tests/integration/test_release.py
 .rhiza/tests/integration/test_sbom.py
 .rhiza/tests/integration/test_test_mk.py
 .rhiza/tests/integration/test_virtual_env_unexport.py
@@ -92,7 +84,18 @@
 .rhiza/tests/utils/test_git_repo_fixture.py
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
+LICENSE
 Makefile
-book/marimo/notebooks/rhiza.py
+docs/ARCHITECTURE.md
+docs/BOOK.md
+docs/CUSTOMIZATION.md
+docs/DEMO.md
+docs/GLOSSARY.md
+docs/QUICK_REFERENCE.md
+docs/SECURITY.md
+docs/TESTS.md
+pytest.ini
 renovate.json
 ruff.toml
+tests/benchmarks/conftest.py
+tests/benchmarks/test_benchmarks.py
