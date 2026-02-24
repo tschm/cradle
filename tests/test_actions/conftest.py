@@ -3,6 +3,10 @@
 This module provides fixtures for accessing GitHub Actions in the repository,
 including paths to the repository root, actions directory, and action.yml files.
 These fixtures simplify path handling in the test files.
+
+Security Notes:
+- S101 (assert usage): Asserts are appropriate in test code for validating conditions
+- S603/S607 (subprocess usage): Any subprocess calls use controlled inputs in test environments
 """
 
 import glob
