@@ -4,8 +4,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PyPI version](https://badge.fury.io/py/qCradle.svg)](https://badge.fury.io/py/qCradle)
-[![Coverage Status](https://coveralls.io/repos/github/tschm/cradle/badge.png?branch=main)](https://coveralls.io/github/tschm/cradle?branch=main)
-[![ci](https://github.com/tschm/cradle/actions/workflows/ci.yml/badge.svg)](https://github.com/tschm/cradle/actions/workflows/rhiza_ci.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/tschm/cradle/badge)](https://www.codefactor.io/repository/github/tschm/cradle)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://github.com/renovatebot/renovate)
 
