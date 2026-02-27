@@ -7,7 +7,7 @@ which contains information about available template repositories.
 from pathlib import Path
 from typing import Any, cast
 
-import yaml  # type: ignore[import-untyped]
+import yaml
 
 # Default configuration directory
 CONFIG_DIR = Path.home() / ".cradle"
