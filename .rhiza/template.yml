@@ -5,6 +5,4 @@ templates:
   - core
   - github
   - legal
-  - book
-  - tests
   - renovate
