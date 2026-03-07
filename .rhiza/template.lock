@@ -10,7 +10,6 @@ templates:
   - core
   - github
   - renovate
-  - legal
 files:
   - .rhiza/rhiza.mk
   - .rhiza/.cfg.toml
@@ -68,9 +67,5 @@ files:
   - .github/hooks/session-end.sh
   - .github/secret_scanning.yml
   - renovate.json
-  - LICENSE
-  - CONTRIBUTING.md
-  - CODE_OF_CONDUCT.md
-  - SECURITY.md
-synced_at: '2026-03-07T12:46:34Z'
+synced_at: '2026-03-07T12:48:23Z'
 strategy: merge
