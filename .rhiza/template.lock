@@ -9,8 +9,8 @@ exclude: []
 templates:
   - core
   - github
-  - legal
   - renovate
+  - legal
 files:
   - .rhiza/rhiza.mk
   - .rhiza/.cfg.toml
@@ -67,10 +67,10 @@ files:
   - .github/hooks/hooks.json
   - .github/hooks/session-end.sh
   - .github/secret_scanning.yml
+  - renovate.json
   - LICENSE
   - CONTRIBUTING.md
   - CODE_OF_CONDUCT.md
   - SECURITY.md
-  - renovate.json
-synced_at: '2026-03-07T12:04:11Z'
+synced_at: '2026-03-07T12:06:51Z'
 strategy: merge

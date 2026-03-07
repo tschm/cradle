@@ -4,5 +4,6 @@ template-branch: "v0.8.6"
 templates:
   - core
   - github
-  - legal
   - renovate
+  - legal
+
