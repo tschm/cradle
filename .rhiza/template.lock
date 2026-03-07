@@ -67,10 +67,5 @@ files:
   - .github/hooks/hooks.json
   - .github/hooks/session-end.sh
   - .github/secret_scanning.yml
-  - renovate.json
-  - LICENSE
-  - CONTRIBUTING.md
-  - CODE_OF_CONDUCT.md
-  - SECURITY.md
-synced_at: '2026-03-07T12:07:59Z'
+synced_at: '2026-03-07T12:27:02Z'
 strategy: merge
