@@ -7,10 +7,10 @@ readme = "README.md"
 authors = [{ name = "Thomas Schmelzer", email = "thomas.schmelzer@gmail.com" }]
 requires-python = ">=3.11"
 dependencies = [
-    "typer>=0.9.0",
-    "copier>=9.8.0",
-    "rich>=13.7.0",
-    "pyyaml==6.0.3"
+#    "typer>=0.9.0",
+#    "copier>=9.8.0",
+#    "rich>=13.7.0",
+#    "pyyaml==6.0.3"
 ]
 
 # URLs related to the project
@@ -18,42 +18,42 @@ dependencies = [
 repository = "https://github.com/tschm/cradle"
 
 # Dependencies for development
-[dependency-groups]
-dev = [
-    "marimo==0.20.4",
-    "numpy>=2.4",
-    "plotly>=6.5",
-    "pandas>=2.3"
-]
+#[dependency-groups]
+#dev = [
+#    "marimo==0.20.4",
+#    "numpy>=2.4",
+#    "plotly>=6.5",
+#    "pandas>=2.3"
+#]
 
 # Entry points for command-line scripts
-[project.scripts]
-qcradle = "cradle.cli:main"
+#[project.scripts]
+#qcradle = "cradle.cli:main"
 
 # Build system configuration
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+#[build-system]
+#requires = ["hatchling"]
+#build-backend = "hatchling.build"
 
 # Hatch wheel build configuration
-[tool.hatch.build.targets.wheel]
-packages = ["src/cradle"]
+#[tool.hatch.build.targets.wheel]
+#packages = ["src/cradle"]
 
 # Hatch build configuration - files to include in the package
-[tool.hatch.build]
-include = [
-    "LICENSE",    # Ensure the LICENSE file is included in your package
-    "README.md",
-    "demo.png",
-    "src/cradle",
-]
+#[tool.hatch.build]
+#include = [
+#    "LICENSE",    # Ensure the LICENSE file is included in your package
+#    "README.md",
+#    "demo.png",
+#    "src/cradle",
+#]
 
-[tool.deptry.package_module_name_map]
-pyyaml = ["yaml"]
-typer = ["typer"]
-copier = ["copier"]
-rich = ["rich"]
-marimo = ["marimo"]
-numpy = ["numpy"]
-plotly = ["plotly"]
-pandas = ["pandas"]
+#[tool.deptry.package_module_name_map]
+#pyyaml = ["yaml"]
+#typer = ["typer"]
+#copier = ["copier"]
+#rich = ["rich"]
+#marimo = ["marimo"]
+#numpy = ["numpy"]
+#plotly = ["plotly"]
+#pandas = ["pandas"]
