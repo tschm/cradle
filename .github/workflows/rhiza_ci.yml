@@ -70,11 +70,6 @@ jobs:
           version: "0.10.8"
           python-version: ${{ matrix.python-version }}
 
-      - name: Configure git auth for private packages
-        uses: ./.github/actions/configure-git-auth
-        with:
-          token: ${{ secrets.GH_PAT }}
-
       - name: Run tests
         env:
           UV_EXTRA_INDEX_URL: ${{ secrets.UV_EXTRA_INDEX_URL }}
