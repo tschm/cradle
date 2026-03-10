@@ -22,7 +22,11 @@ class TestRootFixture:
     def test_root_contains_expected_directories(self, root):
         """Root should contain all expected project directories."""
         required_dirs = [".rhiza"]
-        optional_dirs = ["src", "tests", "book"]  # src/ is optional (rhiza itself doesn't have one)
+        optional_dirs = [
+            "src",
+            "tests",
+            "book",
+        ]  # src/ is optional (rhiza itself doesn't have one)
 
         for dirname in required_dirs:
             assert (root / dirname).exists(), f"Required directory {dirname} not found"

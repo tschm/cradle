@@ -16,7 +16,9 @@ def test_book_action_structure(action_path):
     book_action_path = action_path("book")
 
     # Ensure the file exists
-    assert os.path.exists(book_action_path), f"Action file not found at {book_action_path}"
+    assert os.path.exists(book_action_path), (
+        f"Action file not found at {book_action_path}"
+    )
 
     # Load the action.yml file
     with open(book_action_path) as f:
@@ -48,20 +50,35 @@ def test_book_action_structure(action_path):
     assert len(steps) >= 6, "Action must have at least 6 steps"
 
     # Check specific steps
-    python_step = next((step for step in steps if step.get("name", "").startswith("Set up Python")), None)
+    python_step = next(
+        (step for step in steps if step.get("name", "").startswith("Set up Python")),
+        None,
+    )
     assert python_step is not None, "Action must have a Python setup step"
 
-    download_step = next((step for step in steps if step.get("name", "").startswith("Download all")), None)
+    download_step = next(
+        (step for step in steps if step.get("name", "").startswith("Download all")),
+        None,
+    )
     assert download_step is not None, "Action must have a download artifacts step"
 
-    create_step = next((step for step in steps if step.get("name", "").startswith("Create minibook")), None)
+    create_step = next(
+        (step for step in steps if step.get("name", "").startswith("Create minibook")),
+        None,
+    )
     assert create_step is not None, "Action must have a create minibook step"
 
-    inspect_step = next((step for step in steps if step.get("name", "").startswith("Inspect")), None)
+    inspect_step = next(
+        (step for step in steps if step.get("name", "").startswith("Inspect")), None
+    )
     assert inspect_step is not None, "Action must have an inspect artifacts step"
 
-    upload_step = next((step for step in steps if step.get("name", "").startswith("Upload")), None)
+    upload_step = next(
+        (step for step in steps if step.get("name", "").startswith("Upload")), None
+    )
     assert upload_step is not None, "Action must have an upload step"
 
-    deploy_step = next((step for step in steps if step.get("name", "").startswith("Deploy")), None)
+    deploy_step = next(
+        (step for step in steps if step.get("name", "").startswith("Deploy")), None
+    )
     assert deploy_step is not None, "Action must have a deploy step"

@@ -13,7 +13,9 @@ def test_pyproject_has_requires_python(root):
         pyproject = tomllib.load(f)
 
     assert "project" in pyproject, "[project] section missing from pyproject.toml"
-    assert "requires-python" in pyproject["project"], "requires-python missing from [project] section"
+    assert "requires-python" in pyproject["project"], (
+        "requires-python missing from [project] section"
+    )
 
     requires_python = pyproject["project"]["requires-python"]
     assert isinstance(requires_python, str), "requires-python must be a string"
@@ -90,11 +92,15 @@ def test_no_duplicate_packages_across_requirements(root):
 
     # Find duplicates (excluding allowed ones)
     duplicates = {
-        pkg: files for pkg, files in package_locations.items() if len(files) > 1 and pkg not in allowed_duplicates
+        pkg: files
+        for pkg, files in package_locations.items()
+        if len(files) > 1 and pkg not in allowed_duplicates
     }
 
     if duplicates:
-        duplicate_list = [f"{pkg} ({', '.join(files)})" for pkg, files in duplicates.items()]
+        duplicate_list = [
+            f"{pkg} ({', '.join(files)})" for pkg, files in duplicates.items()
+        ]
         msg = f"Packages found in multiple requirements files: {', '.join(duplicate_list)}"
         raise AssertionError(msg)
 
@@ -108,4 +114,6 @@ def test_dotenv_in_test_requirements(root):
         content = f.read().lower()
 
     # Check for python-dotenv (case-insensitive)
-    assert "python-dotenv" in content, "python-dotenv not found in tests.txt (required by test suite)"
+    assert "python-dotenv" in content, (
+        "python-dotenv not found in tests.txt (required by test suite)"
+    )

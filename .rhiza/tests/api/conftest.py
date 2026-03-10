@@ -76,7 +76,9 @@ def setup_tmp_makefile(logger, root, tmp_path: Path):
         env_content = "CUSTOM_SCRIPTS_FOLDER=.rhiza/customisations/scripts\n"
         (tmp_path / ".rhiza" / ".env").write_text(env_content)
 
-    logger.debug("Copied Makefile from %s to %s", root / "Makefile", tmp_path / "Makefile")
+    logger.debug(
+        "Copied Makefile from %s to %s", root / "Makefile", tmp_path / "Makefile"
+    )
 
     # Copy split Makefiles if they exist (maintaining directory structure)
     for split_file in SPLIT_MAKEFILES:

@@ -16,7 +16,9 @@ def test_coverage_action_structure(action_path):
     coverage_action_path = action_path("coverage")
 
     # Ensure the file exists
-    assert os.path.exists(coverage_action_path), f"Action file not found at {coverage_action_path}"
+    assert os.path.exists(coverage_action_path), (
+        f"Action file not found at {coverage_action_path}"
+    )
 
     # Load the action.yml file
     with open(coverage_action_path) as f:
@@ -34,8 +36,12 @@ def test_coverage_action_structure(action_path):
     assert "source-folder" in inputs, "Action must have source-folder input"
 
     # Check required inputs
-    assert inputs["tests-folder"]["required"] is True, "Tests-folder input must be required"
-    assert inputs["source-folder"]["required"] is True, "Source-folder input must be required"
+    assert inputs["tests-folder"]["required"] is True, (
+        "Tests-folder input must be required"
+    )
+    assert inputs["source-folder"]["required"] is True, (
+        "Source-folder input must be required"
+    )
 
     # Check runs section
     runs = action["runs"]
@@ -47,8 +53,24 @@ def test_coverage_action_structure(action_path):
     assert len(steps) >= 2, "Action must have at least 2 steps"
 
     # Check specific steps
-    run_tests_step = next((step for step in steps if step.get("name", "").startswith("Run tests with coverage")), None)
+    run_tests_step = next(
+        (
+            step
+            for step in steps
+            if step.get("name", "").startswith("Run tests with coverage")
+        ),
+        None,
+    )
     assert run_tests_step is not None, "Action must have a run tests with coverage step"
 
-    upload_results_step = next((step for step in steps if step.get("name", "").startswith("Upload test results")), None)
-    assert upload_results_step is not None, "Action must have an upload test results step"
+    upload_results_step = next(
+        (
+            step
+            for step in steps
+            if step.get("name", "").startswith("Upload test results")
+        ),
+        None,
+    )
+    assert upload_results_step is not None, (
+        "Action must have an upload test results step"
+    )

@@ -15,7 +15,13 @@ def test_gh_targets_exist(logger):
     result = run_make(logger, ["help"], dry_run=False)
     output = result.stdout
 
-    expected_targets = ["gh-install", "view-prs", "view-issues", "failed-workflows", "whoami"]
+    expected_targets = [
+        "gh-install",
+        "view-prs",
+        "view-issues",
+        "failed-workflows",
+        "whoami",
+    ]
 
     for target in expected_targets:
         assert target in output, f"Target {target} not found in help output"

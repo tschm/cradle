@@ -57,7 +57,9 @@ def test_sbom_generation_json(git_repo, logger):
 
     # Verify primary component (metadata.component) is present for NTIA compliance
     assert "metadata" in sbom_data, "SBOM missing metadata field"
-    assert "component" in sbom_data["metadata"], "SBOM missing primary component (metadata.component)"
+    assert "component" in sbom_data["metadata"], (
+        "SBOM missing primary component (metadata.component)"
+    )
     primary = sbom_data["metadata"]["component"]
     assert primary.get("name"), "Primary component missing name"
     assert primary.get("version"), "Primary component missing version"

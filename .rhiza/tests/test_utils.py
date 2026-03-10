@@ -30,7 +30,11 @@ def strip_ansi(text: str) -> str:
 
 
 def run_make(
-    logger, args: list[str] | None = None, check: bool = True, dry_run: bool = True, env: dict[str, str] | None = None
+    logger,
+    args: list[str] | None = None,
+    check: bool = True,
+    dry_run: bool = True,
+    env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess:
     """Run `make` with optional arguments and return the completed process.
 

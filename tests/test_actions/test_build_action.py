@@ -16,7 +16,9 @@ def test_build_action_structure(action_path):
     build_action_path = action_path("build")
 
     # Ensure the file exists
-    assert os.path.exists(build_action_path), f"Action file not found at {build_action_path}"
+    assert os.path.exists(build_action_path), (
+        f"Action file not found at {build_action_path}"
+    )
 
     # Load the action.yml file
     with open(build_action_path) as f:
@@ -43,20 +45,40 @@ def test_build_action_structure(action_path):
     assert len(steps) >= 6, "Action must have at least 6 steps"
 
     # Check specific steps
-    checkout_step = next((step for step in steps if step.get("name", "").startswith("Checkout")), None)
+    checkout_step = next(
+        (step for step in steps if step.get("name", "").startswith("Checkout")), None
+    )
     assert checkout_step is not None, "Action must have a checkout step"
 
-    python_step = next((step for step in steps if step.get("name", "").startswith("Set up Python")), None)
+    python_step = next(
+        (step for step in steps if step.get("name", "").startswith("Set up Python")),
+        None,
+    )
     assert python_step is not None, "Action must have a Python setup step"
 
-    version_step = next((step for step in steps if step.get("name", "").startswith("Update version")), None)
+    version_step = next(
+        (step for step in steps if step.get("name", "").startswith("Update version")),
+        None,
+    )
     assert version_step is not None, "Action must have a version update step"
 
-    build_step = next((step for step in steps if step.get("name", "").startswith("Build package")), None)
+    build_step = next(
+        (step for step in steps if step.get("name", "").startswith("Build package")),
+        None,
+    )
     assert build_step is not None, "Action must have a build step"
 
-    upload_step = next((step for step in steps if step.get("name", "").startswith("Upload")), None)
+    upload_step = next(
+        (step for step in steps if step.get("name", "").startswith("Upload")), None
+    )
     assert upload_step is not None, "Action must have an upload step"
 
-    release_step = next((step for step in steps if step.get("name", "").startswith("Create GitHub release")), None)
+    release_step = next(
+        (
+            step
+            for step in steps
+            if step.get("name", "").startswith("Create GitHub release")
+        ),
+        None,
+    )
     assert release_step is not None, "Action must have a release step"

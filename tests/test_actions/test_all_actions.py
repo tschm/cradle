@@ -20,9 +20,13 @@ def test_all_actions_exist(all_action_paths):
         action_name = os.path.basename(os.path.dirname(action_path))
         # Handle special case for pre-commit action (hyphen in name)
         if action_name == "pre-commit":
-            test_file = os.path.join(os.path.dirname(__file__), "test_pre_commit_action.py")
+            test_file = os.path.join(
+                os.path.dirname(__file__), "test_pre_commit_action.py"
+            )
         else:
-            test_file = os.path.join(os.path.dirname(__file__), f"test_{action_name}_action.py")
+            test_file = os.path.join(
+                os.path.dirname(__file__), f"test_{action_name}_action.py"
+            )
         assert os.path.exists(test_file), f"No test file found for {action_name} action"
 
 
@@ -50,7 +54,9 @@ def _test_action_basic_structure(action_path):
 
     # Check runs section
     runs = action["runs"]
-    assert runs["using"] == "composite", f"{action_name} action must be a composite action"
+    assert runs["using"] == "composite", (
+        f"{action_name} action must be a composite action"
+    )
     assert "steps" in runs, f"{action_name} action must have steps"
 
     # Check steps
@@ -78,7 +84,9 @@ def _test_action_description_quality(action_path):
     # Check description quality
     assert "description" in action, f"{action_name} action must have a description"
     description = action["description"]
-    assert len(description) >= 10, f"{action_name} action description must be at least 10 characters"
+    assert len(description) >= 10, (
+        f"{action_name} action description must be at least 10 characters"
+    )
     assert description.strip() == description, (
         f"{action_name} action description must not have leading/trailing whitespace"
     )
@@ -108,14 +116,18 @@ def _test_action_inputs_documentation(action_path):
     # Check inputs documentation
     inputs = action["inputs"]
     for input_name, input_config in inputs.items():
-        assert "description" in input_config, f"{action_name} action input {input_name} must have a description"
+        assert "description" in input_config, (
+            f"{action_name} action input {input_name} must have a description"
+        )
         description = input_config["description"]
         assert len(description) >= 5, (
             f"{action_name} action input {input_name} description must be at least 5 characters"
         )
 
         # Check if required is specified
-        assert "required" in input_config, f"{action_name} action input {input_name} must specify if it's required"
+        assert "required" in input_config, (
+            f"{action_name} action input {input_name} must specify if it's required"
+        )
 
         # If not required, should have a default value
         if input_config["required"] is False:

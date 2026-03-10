@@ -16,7 +16,9 @@ def test_latex_action_structure(action_path):
     latex_action_path = action_path("latex")
 
     # Ensure the file exists
-    assert os.path.exists(latex_action_path), f"Action file not found at {latex_action_path}"
+    assert os.path.exists(latex_action_path), (
+        f"Action file not found at {latex_action_path}"
+    )
 
     # Load the action.yml file
     with open(latex_action_path) as f:
@@ -34,8 +36,12 @@ def test_latex_action_structure(action_path):
     assert "tex-file" in inputs, "Action must have tex-file input"
 
     # Check default values
-    assert inputs["tex-folder"]["default"] == "paper", "Tex-folder input must default to paper"
-    assert inputs["tex-file"]["default"] == "document.tex", "Tex-file input must default to document.tex"
+    assert inputs["tex-folder"]["default"] == "paper", (
+        "Tex-folder input must default to paper"
+    )
+    assert inputs["tex-file"]["default"] == "document.tex", (
+        "Tex-file input must default to document.tex"
+    )
 
     # Check runs section
     runs = action["runs"]
@@ -44,7 +50,11 @@ def test_latex_action_structure(action_path):
 
     # The LaTeX action has a nested steps structure
     # First, check if steps is a dictionary with a 'steps' key (incorrect structure)
-    steps = runs["steps"]["steps"] if isinstance(runs["steps"], dict) and "steps" in runs["steps"] else runs["steps"]
+    steps = (
+        runs["steps"]["steps"]
+        if isinstance(runs["steps"], dict) and "steps" in runs["steps"]
+        else runs["steps"]
+    )
 
     assert len(steps) >= 3, "Action must have at least 3 steps"
 
@@ -63,5 +73,7 @@ def test_latex_action_structure(action_path):
     assert compile_step is not None, "Action must have a Compile LaTeX document step"
 
     # Check step details
-    assert "wtfjoke/setup-tectonic" in install_step["uses"], "Install step must use wtfjoke/setup-tectonic"
+    assert "wtfjoke/setup-tectonic" in install_step["uses"], (
+        "Install step must use wtfjoke/setup-tectonic"
+    )
     assert "tectonic" in compile_step["run"], "Compile step must use tectonic"

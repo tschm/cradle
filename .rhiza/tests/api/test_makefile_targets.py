@@ -272,7 +272,9 @@ if "bump" in args:
         uvx_bin = mock_bin / "uvx"
 
         # Run make bump with dry_run=False to actually execute the shell commands
-        result = run_make(logger, ["bump", f"UV_BIN={uv_bin}", f"UVX_BIN={uvx_bin}"], dry_run=False)
+        result = run_make(
+            logger, ["bump", f"UV_BIN={uv_bin}", f"UVX_BIN={uvx_bin}"], dry_run=False
+        )
 
         # Verify that the mock tools were called
         assert "[MOCK] uvx rhiza-tools>=0.3.3 bump" in result.stdout
@@ -295,7 +297,9 @@ if "bump" in args:
         uv_bin = mock_bin / "uv"
         uvx_bin = mock_bin / "uvx"
 
-        result = run_make(logger, ["bump", f"UV_BIN={uv_bin}", f"UVX_BIN={uvx_bin}"], dry_run=False)
+        result = run_make(
+            logger, ["bump", f"UV_BIN={uv_bin}", f"UVX_BIN={uvx_bin}"], dry_run=False
+        )
 
         # Check for warning message
         assert "No pyproject.toml found, skipping bump" in result.stdout

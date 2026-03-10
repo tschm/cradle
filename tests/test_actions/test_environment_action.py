@@ -16,7 +16,9 @@ def test_environment_action_structure(action_path):
     environment_action_path = action_path("environment")
 
     # Ensure the file exists
-    assert os.path.exists(environment_action_path), f"Action file not found at {environment_action_path}"
+    assert os.path.exists(environment_action_path), (
+        f"Action file not found at {environment_action_path}"
+    )
 
     # Load the action.yml file
     with open(environment_action_path) as f:
@@ -31,7 +33,9 @@ def test_environment_action_structure(action_path):
     # Check inputs
     inputs = action["inputs"]
     assert "python-version" in inputs, "Action must have python-version input"
-    assert "use-requirements-txt" in inputs, "Action must have use-requirements-txt input"
+    assert "use-requirements-txt" in inputs, (
+        "Action must have use-requirements-txt input"
+    )
     assert "requirements-path" in inputs, "Action must have requirements-path input"
 
     # Check runs section
@@ -44,10 +48,15 @@ def test_environment_action_structure(action_path):
     assert len(steps) >= 3, "Action must have at least 3 steps"
 
     # Check specific steps
-    checkout_step = next((step for step in steps if step.get("name", "").startswith("Checkout")), None)
+    checkout_step = next(
+        (step for step in steps if step.get("name", "").startswith("Checkout")), None
+    )
     assert checkout_step is not None, "Action must have a checkout step"
 
-    python_step = next((step for step in steps if step.get("name", "").startswith("Set up Python")), None)
+    python_step = next(
+        (step for step in steps if step.get("name", "").startswith("Set up Python")),
+        None,
+    )
     assert python_step is not None, "Action must have a Python setup step"
 
     # Check conditional steps for requirements.txt and pyproject.toml
@@ -55,7 +64,8 @@ def test_environment_action_structure(action_path):
         (
             step
             for step in steps
-            if step.get("if", "").find("use-requirements-txt") != -1 and step.get("if", "").find("true") != -1
+            if step.get("if", "").find("use-requirements-txt") != -1
+            and step.get("if", "").find("true") != -1
         ),
         None,
     )
@@ -65,7 +75,8 @@ def test_environment_action_structure(action_path):
         (
             step
             for step in steps
-            if step.get("if", "").find("use-requirements-txt") != -1 and step.get("if", "").find("false") != -1
+            if step.get("if", "").find("use-requirements-txt") != -1
+            and step.get("if", "").find("false") != -1
         ),
         None,
     )

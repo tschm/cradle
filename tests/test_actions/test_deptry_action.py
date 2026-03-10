@@ -16,7 +16,9 @@ def test_deptry_action_structure(action_path):
     deptry_action_path = action_path("deptry")
 
     # Ensure the file exists
-    assert os.path.exists(deptry_action_path), f"Action file not found at {deptry_action_path}"
+    assert os.path.exists(deptry_action_path), (
+        f"Action file not found at {deptry_action_path}"
+    )
 
     # Load the action.yml file
     with open(deptry_action_path) as f:
@@ -34,7 +36,9 @@ def test_deptry_action_structure(action_path):
     assert "options" in inputs, "Action must have options input"
 
     # Check required inputs
-    assert inputs["source-folder"]["required"] is True, "Source-folder input must be required"
+    assert inputs["source-folder"]["required"] is True, (
+        "Source-folder input must be required"
+    )
 
     # Check runs section
     runs = action["runs"]
@@ -46,16 +50,28 @@ def test_deptry_action_structure(action_path):
     assert len(steps) >= 3, "Action must have at least 3 steps"
 
     # Check specific steps
-    checkout_step = next((step for step in steps if step.get("name", "").startswith("Checkout")), None)
+    checkout_step = next(
+        (step for step in steps if step.get("name", "").startswith("Checkout")), None
+    )
     assert checkout_step is not None, "Action must have a checkout step"
 
-    uv_step = next((step for step in steps if step.get("name", "").startswith("Set up uv")), None)
+    uv_step = next(
+        (step for step in steps if step.get("name", "").startswith("Set up uv")), None
+    )
     assert uv_step is not None, "Action must have a uv setup step"
 
-    deptry_step = next((step for step in steps if step.get("name", "").startswith("Run Deptry")), None)
+    deptry_step = next(
+        (step for step in steps if step.get("name", "").startswith("Run Deptry")), None
+    )
     assert deptry_step is not None, "Action must have a run deptry step"
 
     # Check deptry command
-    assert deptry_step["run"].find("uvx deptry") != -1, "Deptry step must use uvx deptry command"
-    assert deptry_step["run"].find("${{ inputs.source-folder }}") != -1, "Deptry step must use source-folder input"
-    assert deptry_step["run"].find("${{ inputs.options }}") != -1, "Deptry step must use options input"
+    assert deptry_step["run"].find("uvx deptry") != -1, (
+        "Deptry step must use uvx deptry command"
+    )
+    assert deptry_step["run"].find("${{ inputs.source-folder }}") != -1, (
+        "Deptry step must use source-folder input"
+    )
+    assert deptry_step["run"].find("${{ inputs.options }}") != -1, (
+        "Deptry step must use options input"
+    )
