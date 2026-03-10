@@ -49,9 +49,13 @@ def _find_packages(src_path: Path):
             yield package_dir
 
 
-def test_doctests(logger, root, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
+def test_doctests(
+    logger, root, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+):
     """Run doctests for each package directory."""
-    values = dotenv_values(root / RHIZA_ENV_PATH) if (root / RHIZA_ENV_PATH).exists() else {}
+    values = (
+        dotenv_values(root / RHIZA_ENV_PATH) if (root / RHIZA_ENV_PATH).exists() else {}
+    )
     source_folder = values.get("SOURCE_FOLDER", "src")
     src_path = root / source_folder
 
@@ -76,7 +80,9 @@ def test_doctests(logger, root, monkeypatch: pytest.MonkeyPatch, capsys: pytest.
             logger.info("Discovered package: %s", package_name)
             try:
                 modules = list(_iter_modules_from_path(logger, package_dir, src_path))
-                logger.debug("%d module(s) found in package %s", len(modules), package_name)
+                logger.debug(
+                    "%d module(s) found in package %s", len(modules), package_name
+                )
 
                 for module in modules:
                     logger.debug("Running doctests for module: %s", module.__name__)
@@ -85,7 +91,9 @@ def test_doctests(logger, root, monkeypatch: pytest.MonkeyPatch, capsys: pytest.
                         results = doctest.testmod(
                             module,
                             verbose=False,
-                            optionflags=(doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE),
+                            optionflags=(
+                                doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
+                            ),
                         )
                     total_tests += results.attempted
 
@@ -97,17 +105,28 @@ def test_doctests(logger, root, monkeypatch: pytest.MonkeyPatch, capsys: pytest.
                             results.attempted,
                         )
                         total_failures += results.failed
-                        failed_modules.append((module.__name__, results.failed, results.attempted))
+                        failed_modules.append(
+                            (module.__name__, results.failed, results.attempted)
+                        )
                     else:
-                        logger.debug("Doctests passed for %s (%d test(s))", module.__name__, results.attempted)
+                        logger.debug(
+                            "Doctests passed for %s (%d test(s))",
+                            module.__name__,
+                            results.attempted,
+                        )
 
             except ImportError as e:
-                warnings.warn(f"Could not import package {package_name}: {e}", stacklevel=2)
+                warnings.warn(
+                    f"Could not import package {package_name}: {e}", stacklevel=2
+                )
                 logger.warning("Could not import package %s: %s", package_name, e)
                 continue
 
     if failed_modules:
-        formatted = "\n".join(f"  {name}: {failed}/{attempted} failed" for name, failed, attempted in failed_modules)
+        formatted = "\n".join(
+            f"  {name}: {failed}/{attempted} failed"
+            for name, failed, attempted in failed_modules
+        )
         msg = (
             f"Doctest summary: {total_tests} tests across {len(failed_modules)} module(s)\n"
             f"Failures: {total_failures}\n"

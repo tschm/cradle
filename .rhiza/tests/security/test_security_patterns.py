@@ -64,7 +64,9 @@ class TestSecurityConfiguration:
 
         content = ruff_config.read_text()
         # Check that "S" is in either select or extend-select
-        assert '"S"' in content or "'S'" in content, "Ruff security checks (S) should be enabled in ruff.toml"
+        assert '"S"' in content or "'S'" in content, (
+            "Ruff security checks (S) should be enabled in ruff.toml"
+        )
 
     def test_bandit_configured_in_precommit(self) -> None:
         """Verify that Bandit is configured in pre-commit hooks.
@@ -78,7 +80,9 @@ class TestSecurityConfiguration:
         assert precommit_config.exists(), ".pre-commit-config.yaml not found"
 
         content = precommit_config.read_text()
-        assert "bandit" in content.lower(), "Bandit should be configured in pre-commit hooks"
+        assert "bandit" in content.lower(), (
+            "Bandit should be configured in pre-commit hooks"
+        )
 
     def test_security_policy_exists(self) -> None:
         """Verify that a SECURITY.md file exists at the repository root.
@@ -92,7 +96,9 @@ class TestSecurityConfiguration:
         github_security = repo_root / ".github" / "SECURITY.md"
         docs_security = repo_root / "docs" / "SECURITY.md"
 
-        assert root_security.exists() or github_security.exists() or docs_security.exists(), (
+        assert (
+            root_security.exists() or github_security.exists() or docs_security.exists()
+        ), (
             "No SECURITY.md found. Create SECURITY.md in the repository root, "
             ".github/, or docs/ to publish a responsible disclosure policy."
         )
@@ -152,7 +158,12 @@ class TestSecurityConfiguration:
             content = conftest.read_text()
             # Check for security-related comments or docstrings
             has_security_docs = (
-                "S101" in content or "S603" in content or "S607" in content or "security" in content.lower()
+                "S101" in content
+                or "S603" in content
+                or "S607" in content
+                or "security" in content.lower()
             )
 
-            assert has_security_docs, f"{conftest} should document security exceptions (S101/S603/S607)"
+            assert has_security_docs, (
+                f"{conftest} should document security exceptions (S101/S603/S607)"
+            )

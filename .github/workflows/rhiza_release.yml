@@ -124,11 +124,6 @@ jobs:
         with:
           version: "0.10.8"
 
-      - name: Configure git auth for private packages
-        uses: ./.github/actions/configure-git-auth
-        with:
-          token: ${{ secrets.GH_PAT }}
-
       - name: Verify version matches tag
         if: hashFiles('pyproject.toml') != ''
         run: |
@@ -290,99 +285,12 @@ jobs:
           repository-url: ${{ vars.PYPI_REPOSITORY_URL }}
           password: ${{ secrets.PYPI_TOKEN }}
 
-  devcontainer:
-    name: Publish Devcontainer Image
-    runs-on: ubuntu-latest
-    environment: release
-    needs: [tag, build, draft-release]
-    outputs:
-      should_publish: ${{ steps.check_publish.outputs.should_publish }}
-      image_name: ${{ steps.image_name.outputs.image_name }}
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v6.0.2
-        with:
-          fetch-depth: 0
-
-      - name: Check if devcontainer should be published
-        id: check_publish
-        env:
-          PUBLISH_DEVCONTAINER: ${{ vars.PUBLISH_DEVCONTAINER }}
-        run: |
-          if [[ "$PUBLISH_DEVCONTAINER" == "true" ]] && [[ -d ".devcontainer" ]]; then
-            echo "should_publish=true" >> "$GITHUB_OUTPUT"
-            echo "🚀 Will build and publish devcontainer image"
-          else
-            echo "should_publish=false" >> "$GITHUB_OUTPUT"
-            echo "⏭️  Skipping devcontainer publish (PUBLISH_DEVCONTAINER not true or .devcontainer missing)"
-          fi
-
-      - name: Set registry
-        if: steps.check_publish.outputs.should_publish == 'true'
-        id: registry
-        run: |
-          REGISTRY="${{ vars.DEVCONTAINER_REGISTRY }}"
-          if [ -z "$REGISTRY" ]; then
-            REGISTRY="ghcr.io"
-          fi
-          echo "registry=$REGISTRY" >> "$GITHUB_OUTPUT"
-
-      - name: Login to Container Registry
-        if: steps.check_publish.outputs.should_publish == 'true'
-        uses: docker/login-action@v4.0.0
-        with:
-          registry: ${{ steps.registry.outputs.registry }}
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get lowercase repository owner
-        if: steps.check_publish.outputs.should_publish == 'true'
-        id: repo_owner
-        run: echo "owner_lc=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
-
-      - name: Get Image Name
-        if: steps.check_publish.outputs.should_publish == 'true'
-        id: image_name
-        run: |
-          # Check if custom name is provided, otherwise use default
-          if [ -z "${{ vars.DEVCONTAINER_IMAGE_NAME }}" ]; then
-            REPO_NAME_LC=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
-            # Sanitize repo name: replace invalid characters with hyphens
-            # Docker image names must match [a-z0-9]+([._-][a-z0-9]+)*
-            # Replace leading dots and multiple consecutive separators
-            REPO_NAME_SANITIZED=$(echo "$REPO_NAME_LC" | sed 's/^[._-]*//; s/[._-][._-]*/-/g')
-            IMAGE_NAME="$REPO_NAME_SANITIZED/devcontainer"
-            echo "Using default image name component: $IMAGE_NAME"
-          else
-            IMAGE_NAME="${{ vars.DEVCONTAINER_IMAGE_NAME }}"
-            echo "Using custom image name component: $IMAGE_NAME"
-          fi
-
-          # Validate the image component matches [a-z0-9]+([._-][a-z0-9]+)* with optional / separators
-          if ! echo "$IMAGE_NAME" | grep -qE '^[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*$'; then
-            echo "::error::Invalid image name component: $IMAGE_NAME"
-            echo "::error::Each component must match [a-z0-9]+([._-][a-z0-9]+)* separated by /"
-            exit 1
-          fi
-
-          IMAGE_NAME="${{ steps.registry.outputs.registry }}/${{ steps.repo_owner.outputs.owner_lc }}/$IMAGE_NAME"
-          echo "✅ Final image name: $IMAGE_NAME"
-          echo "image_name=$IMAGE_NAME" >> "$GITHUB_OUTPUT"
-
-      - name: Build and Publish Devcontainer Image
-        if: steps.check_publish.outputs.should_publish == 'true'
-        uses: devcontainers/ci@v0.3
-        with:
-          configFile: .devcontainer/devcontainer.json
-          push: always
-          imageName: ${{ steps.image_name.outputs.image_name }}
-          imageTag: ${{ needs.tag.outputs.tag }}
 
   finalise-release:
     name: Finalise Release
     runs-on: ubuntu-latest
-    needs: [tag, pypi, devcontainer]
-    if: needs.pypi.result == 'success' || needs.devcontainer.result == 'success'
+    needs: [tag, pypi]
+    if: needs.pypi.result == 'success'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6.0.2
@@ -403,19 +311,6 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v6.2.0
-
-      - name: Generate Devcontainer Link
-        id: devcontainer_link
-        if: needs.devcontainer.outputs.should_publish == 'true' && needs.devcontainer.result == 'success'
-        run: |
-          FULL_IMAGE="${{ needs.devcontainer.outputs.image_name }}:${{ needs.tag.outputs.tag }}"
-          {
-            echo "message<<EOF"
-            echo "### Devcontainer Image"
-            echo ""
-            echo "\`$FULL_IMAGE\`"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
 
       - name: Generate PyPI Link
         id: pypi_link
@@ -449,6 +344,5 @@ jobs:
           draft: false
           append_body: true
           body: |
-            ${{ steps.devcontainer_link.outputs.message }}
             ${{ steps.pypi_link.outputs.message }}
 

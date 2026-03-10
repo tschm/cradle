@@ -68,19 +68,27 @@ def setup_sync_env(logger, root, tmp_path: Path):
 
     # Copy .rhiza-version if it exists
     if (root / ".rhiza" / ".rhiza-version").exists():
-        shutil.copy(root / ".rhiza" / ".rhiza-version", tmp_path / ".rhiza" / ".rhiza-version")
+        shutil.copy(
+            root / ".rhiza" / ".rhiza-version", tmp_path / ".rhiza" / ".rhiza-version"
+        )
 
     # Create a minimal, deterministic .rhiza/.env for tests
     env_content = "CUSTOM_SCRIPTS_FOLDER=.rhiza/customisations/scripts\n"
     (tmp_path / ".rhiza" / ".env").write_text(env_content)
 
-    logger.debug("Copied Makefile from %s to %s", root / "Makefile", tmp_path / "Makefile")
+    logger.debug(
+        "Copied Makefile from %s to %s", root / "Makefile", tmp_path / "Makefile"
+    )
 
     # Create a minimal .rhiza/template.yml
-    (tmp_path / ".rhiza" / "template.yml").write_text("repository: Jebel-Quant/rhiza\nref: v0.7.1\n")
+    (tmp_path / ".rhiza" / "template.yml").write_text(
+        "repository: Jebel-Quant/rhiza\nref: v0.7.1\n"
+    )
 
     # Sort out pyproject.toml
-    (tmp_path / "pyproject.toml").write_text('[project]\nname = "test-project"\nversion = "0.1.0"\n')
+    (tmp_path / "pyproject.toml").write_text(
+        '[project]\nname = "test-project"\nversion = "0.1.0"\n'
+    )
 
     # Move into tmp directory for isolation
     old_cwd = Path.cwd()

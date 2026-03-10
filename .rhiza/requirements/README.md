@@ -5,8 +5,6 @@ This folder contains the development dependencies for the Rhiza project, organiz
 ## Files
 
 - **tests.txt** - Testing dependencies (pytest, pytest-cov, pytest-html)
-- **marimo.txt** - Marimo notebook dependencies
-- **docs.txt** - Documentation generation dependencies (pdoc)
 - **tools.txt** - Development tools (pre-commit, python-dotenv)
 
 ## Usage
@@ -17,8 +15,6 @@ To install specific requirement files manually:
 
 ```bash
 uv pip install -r .rhiza/requirements/tests.txt
-uv pip install -r .rhiza/requirements/marimo.txt
-uv pip install -r .rhiza/requirements/docs.txt
 uv pip install -r .rhiza/requirements/tools.txt
 ```
 

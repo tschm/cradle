@@ -155,7 +155,9 @@ def git_repo(root, tmp_path, monkeypatch):
     remote_dir.mkdir()
     subprocess.run([GIT, "init", "--bare", str(remote_dir)], check=True)  # nosec B603
     # Ensure the remote's default HEAD points to master for predictable behavior
-    subprocess.run([GIT, "symbolic-ref", "HEAD", "refs/heads/master"], cwd=remote_dir, check=True)  # nosec B603
+    subprocess.run(
+        [GIT, "symbolic-ref", "HEAD", "refs/heads/master"], cwd=remote_dir, check=True
+    )  # nosec B603
 
     # 2. Clone to local
     subprocess.run([GIT, "clone", str(remote_dir), str(local_dir)], check=True)  # nosec B603

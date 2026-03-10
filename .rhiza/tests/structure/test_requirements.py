@@ -39,7 +39,11 @@ class TestRequirementsFolder:
             filepath = requirements_dir / filename
             content = filepath.read_text()
             # Filter out comments and empty lines
-            lines = [line.strip() for line in content.splitlines() if line.strip() and not line.strip().startswith("#")]
+            lines = [
+                line.strip()
+                for line in content.splitlines()
+                if line.strip() and not line.strip().startswith("#")
+            ]
             assert len(lines) > 0, f"{filename} should contain at least one dependency"
 
     def test_readme_exists_in_requirements_folder(self, root):

@@ -57,7 +57,9 @@ def test_notebook_execution(notebook_path: Path):
     else:
         uvx_cmd = shutil.which("uvx")
         if uvx_cmd is None:
-            pytest.skip("uvx not found (neither ./bin/uvx nor uvx on PATH); skipping marimo notebook tests")
+            pytest.skip(
+                "uvx not found (neither ./bin/uvx nor uvx on PATH); skipping marimo notebook tests"
+            )
 
     cmd = [
         uvx_cmd,
@@ -72,7 +74,9 @@ def test_notebook_execution(notebook_path: Path):
         "/dev/null",  # We don't need the actual HTML output
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True, cwd=notebook_path.parent)  # nosec
+    result = subprocess.run(
+        cmd, capture_output=True, text=True, cwd=notebook_path.parent
+    )  # nosec
 
     # Ensure process exit code indicates success
     assert result.returncode == 0, (

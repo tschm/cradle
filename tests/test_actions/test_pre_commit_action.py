@@ -16,7 +16,9 @@ def test_pre_commit_action_structure(action_path):
     pre_commit_action_path = action_path("pre-commit")
 
     # Ensure the file exists
-    assert os.path.exists(pre_commit_action_path), f"Action file not found at {pre_commit_action_path}"
+    assert os.path.exists(pre_commit_action_path), (
+        f"Action file not found at {pre_commit_action_path}"
+    )
 
     # Load the action.yml file
     with open(pre_commit_action_path) as f:
@@ -37,20 +39,40 @@ def test_pre_commit_action_structure(action_path):
     assert len(steps) >= 3, "Action must have at least 3 steps"
 
     # Check specific steps
-    checkout_step = next((step for step in steps if step.get("name", "").startswith("Checkout")), None)
+    checkout_step = next(
+        (step for step in steps if step.get("name", "").startswith("Checkout")), None
+    )
     assert checkout_step is not None, "Action must have a checkout step"
 
-    node_step = next((step for step in steps if step.get("name", "").startswith("Install Node")), None)
+    node_step = next(
+        (step for step in steps if step.get("name", "").startswith("Install Node")),
+        None,
+    )
     assert node_step is not None, "Action must have a Node.js setup step"
 
-    pre_commit_step = next((step for step in steps if step.get("uses", "").startswith("pre-commit/action")), None)
+    pre_commit_step = next(
+        (
+            step
+            for step in steps
+            if step.get("uses", "").startswith("pre-commit/action")
+        ),
+        None,
+    )
     assert pre_commit_step is not None, "Action must have a pre-commit step"
 
     # Check step details
-    assert checkout_step["uses"] == "actions/checkout@v6", "Checkout step must use actions/checkout@v4"
-    assert node_step["uses"] == "actions/setup-node@v6", "Node step must use actions/setup-node@v6"
-    assert node_step["with"]["node-version"] == "24", "Node step must use Node.js version 22"
-    assert pre_commit_step["uses"] == "pre-commit/action@v3.0.1", "Pre-commit step must use pre-commit/action@v3.0.1"
+    assert checkout_step["uses"] == "actions/checkout@v6", (
+        "Checkout step must use actions/checkout@v4"
+    )
+    assert node_step["uses"] == "actions/setup-node@v6", (
+        "Node step must use actions/setup-node@v6"
+    )
+    assert node_step["with"]["node-version"] == "24", (
+        "Node step must use Node.js version 22"
+    )
+    assert pre_commit_step["uses"] == "pre-commit/action@v3.0.1", (
+        "Pre-commit step must use pre-commit/action@v3.0.1"
+    )
     assert pre_commit_step["with"]["extra_args"] == "--verbose --all-files", (
         "Pre-commit step must run on all files with verbose output"
     )

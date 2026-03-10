@@ -16,7 +16,9 @@ def test_docker_action_structure(action_path):
     docker_action_path = action_path("docker")
 
     # Ensure the file exists
-    assert os.path.exists(docker_action_path), f"Action file not found at {docker_action_path}"
+    assert os.path.exists(docker_action_path), (
+        f"Action file not found at {docker_action_path}"
+    )
 
     # Load the action.yml file
     with open(docker_action_path) as f:
@@ -40,12 +42,20 @@ def test_docker_action_structure(action_path):
 
     # Check required inputs
     assert inputs["tag"]["required"] is True, "Tag input must be required"
-    assert inputs["github_token"]["required"] is True, "GitHub token input must be required"
-    assert inputs["github_actor"]["required"] is True, "GitHub actor input must be required"
-    assert inputs["github_repository"]["required"] is True, "GitHub repository input must be required"
+    assert inputs["github_token"]["required"] is True, (
+        "GitHub token input must be required"
+    )
+    assert inputs["github_actor"]["required"] is True, (
+        "GitHub actor input must be required"
+    )
+    assert inputs["github_repository"]["required"] is True, (
+        "GitHub repository input must be required"
+    )
 
     # Check default values
-    assert inputs["registry"]["default"] == "ghcr.io", "Registry input must default to ghcr.io"
+    assert inputs["registry"]["default"] == "ghcr.io", (
+        "Registry input must default to ghcr.io"
+    )
     assert inputs["dockerfiles"]["default"] == "docker/Dockerfile", (
         "Dockerfiles input must default to docker/Dockerfile"
     )
@@ -60,17 +70,25 @@ def test_docker_action_structure(action_path):
     assert len(steps) >= 3, "Action must have at least 3 steps"
 
     # Check specific steps
-    login_step = next((step for step in steps if step.get("name", "").startswith("Log in")), None)
+    login_step = next(
+        (step for step in steps if step.get("name", "").startswith("Log in")), None
+    )
     assert login_step is not None, "Action must have a login step"
 
-    build_step = next((step for step in steps if step.get("name", "").startswith("Build")), None)
+    build_step = next(
+        (step for step in steps if step.get("name", "").startswith("Build")), None
+    )
     assert build_step is not None, "Action must have a build step"
 
-    push_step = next((step for step in steps if step.get("name", "").startswith("Push")), None)
+    push_step = next(
+        (step for step in steps if step.get("name", "").startswith("Push")), None
+    )
     assert push_step is not None, "Action must have a push step"
 
     # Check step details
-    assert login_step["uses"] == "redhat-actions/podman-login@v1", "Login step must use redhat-actions/podman-login@v1"
+    assert login_step["uses"] == "redhat-actions/podman-login@v1", (
+        "Login step must use redhat-actions/podman-login@v1"
+    )
     assert build_step["uses"] == "redhat-actions/buildah-build@v2", (
         "Build step must use redhat-actions/buildah-build@v2"
     )

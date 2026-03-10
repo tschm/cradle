@@ -71,8 +71,18 @@ def setup_api_env(logger, root, tmp_path: Path):
     # Initialize git repo for rhiza tools (required for sync/validate)
     subprocess.run([GIT, "init"], cwd=tmp_path, check=True, capture_output=True)  # nosec
     # Configure git user for commits if needed (some rhiza checks might need commits)
-    subprocess.run([GIT, "config", "user.email", "you@example.com"], cwd=tmp_path, check=True, capture_output=True)  # nosec
-    subprocess.run([GIT, "config", "user.name", "Rhiza Test"], cwd=tmp_path, check=True, capture_output=True)  # nosec
+    subprocess.run(
+        [GIT, "config", "user.email", "you@example.com"],
+        cwd=tmp_path,
+        check=True,
+        capture_output=True,
+    )  # nosec
+    subprocess.run(
+        [GIT, "config", "user.name", "Rhiza Test"],
+        cwd=tmp_path,
+        check=True,
+        capture_output=True,
+    )  # nosec
     # Add origin remote to simulate being in the rhiza repo (triggers the skip logic in rhiza.mk)
     subprocess.run(
         [GIT, "remote", "add", "origin", "https://github.com/jebel-quant/rhiza.git"],
