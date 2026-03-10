@@ -124,7 +124,7 @@ The Copilot coding agent environment is automatically configured via official Gi
 
 These files must exist on the default branch. The agent does not need to run any setup commands manually.
 
-For DevContainers and Codespaces, the `.devcontainer/` configuration and `bootstrap.sh` handle setup automatically. See `docs/DEVCONTAINER.md` for details.
+
 
 ## Project Structure
 
@@ -179,6 +179,5 @@ For more details, see `docs/GH_AW.md`.
 
 - `Makefile`: Main entry point for tasks.
 - `pyproject.toml`: Project configuration and dependencies.
-- `.devcontainer/bootstrap.sh`: Bootstrap script for dev containers.
 - `.github/workflows/copilot-setup-steps.yml`: Agent environment setup (runs before agent starts).
 - `.github/hooks/hooks.json`: Agent session hooks (quality gates).

@@ -144,74 +144,12 @@ else
 fi
 
 # ============================================================================
-# Test Suite: bootstrap.sh
-# ============================================================================
-echo -e "${YELLOW}Testing: bootstrap.sh${NC}"
-
-# Test 6: Script has proper shebang
-first_line=$(head -n 1 "$REPO_ROOT/.devcontainer/bootstrap.sh")
-assert_equal "#!/bin/bash" "$first_line" "bootstrap.sh has bash shebang"
-
-# Test 7: Script uses strict mode
-if grep -q "set -euo pipefail" "$REPO_ROOT/.devcontainer/bootstrap.sh"; then
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_PASSED=$((TESTS_PASSED + 1))
-    if [ "$VERBOSE" = true ]; then
-        echo -e "${GREEN}✓${NC} PASS: bootstrap.sh uses strict error handling"
-    fi
-else
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_FAILED=$((TESTS_FAILED + 1))
-    echo -e "${RED}✗${NC} FAIL: bootstrap.sh missing 'set -euo pipefail'"
-fi
-
-# Test 8: Script has error handler function
-if grep -q "error_with_recovery" "$REPO_ROOT/.devcontainer/bootstrap.sh"; then
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_PASSED=$((TESTS_PASSED + 1))
-    if [ "$VERBOSE" = true ]; then
-        echo -e "${GREEN}✓${NC} PASS: bootstrap.sh has error_with_recovery function"
-    fi
-else
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_FAILED=$((TESTS_FAILED + 1))
-    echo -e "${RED}✗${NC} FAIL: bootstrap.sh missing error_with_recovery function"
-fi
-
-# Test 9: Script includes remediation messages
-if grep -q "Remediation\|Suggested fix" "$REPO_ROOT/.devcontainer/bootstrap.sh"; then
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_PASSED=$((TESTS_PASSED + 1))
-    if [ "$VERBOSE" = true ]; then
-        echo -e "${GREEN}✓${NC} PASS: bootstrap.sh includes remediation messages"
-    fi
-else
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_FAILED=$((TESTS_FAILED + 1))
-    echo -e "${RED}✗${NC} FAIL: bootstrap.sh missing remediation messages"
-fi
-
-# Test 10: Script handles .python-version file
-if grep -q ".python-version" "$REPO_ROOT/.devcontainer/bootstrap.sh"; then
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_PASSED=$((TESTS_PASSED + 1))
-    if [ "$VERBOSE" = true ]; then
-        echo -e "${GREEN}✓${NC} PASS: bootstrap.sh checks for .python-version"
-    fi
-else
-    TESTS_RUN=$((TESTS_RUN + 1))
-    TESTS_FAILED=$((TESTS_FAILED + 1))
-    echo -e "${RED}✗${NC} FAIL: bootstrap.sh doesn't check .python-version"
-fi
-
-# ============================================================================
 # Test Suite: Shell script syntax validation
 # ============================================================================
 echo -e "${YELLOW}Testing: Syntax validation${NC}"
 
-# Test 11-13: Validate syntax of all shell scripts
+# Test 6-7: Validate syntax of all shell scripts
 for script in \
-    "$REPO_ROOT/.devcontainer/bootstrap.sh" \
     "$REPO_ROOT/.github/hooks/session-start.sh" \
     "$REPO_ROOT/.github/hooks/session-end.sh"
 do
