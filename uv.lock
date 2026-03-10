@@ -12,7 +12,7 @@ resolution-markers = [
 
 [[package]]
 name = "cradle"
-version = "0.4.2"
+version = "0.5.0"
 source = { virtual = "." }
 
 [package.metadata]
