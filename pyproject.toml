@@ -37,7 +37,7 @@ build-backend = "hatchling.build"
 
 # Hatch wheel build configuration
 [tool.hatch.build.targets.wheel]
-packages = ["src/cradle"]
+packages = ["cradle"]
 
 # Hatch build configuration - files to include in the package
 [tool.hatch.build]
@@ -45,7 +45,7 @@ include = [
     "LICENSE",    # Ensure the LICENSE file is included in your package
     "README.md",
     "demo.png",
-    "src/cradle",
+    "cradle",
 ]
 
 [tool.deptry.package_module_name_map]
