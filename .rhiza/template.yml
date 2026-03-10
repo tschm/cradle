@@ -8,3 +8,6 @@ templates:
   - book
   - tests
   - renovate
+
+exclude:
+  - .github/workflows/rhiza_benchmarks.yml
