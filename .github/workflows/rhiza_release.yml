@@ -290,7 +290,7 @@ jobs:
     name: Finalise Release
     runs-on: ubuntu-latest
     needs: [tag, pypi]
-    if: needs.pypi.result == 'success' || needs.devcontainer.result == 'success'
+    if: needs.pypi.result == 'success'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6.0.2
@@ -344,6 +344,5 @@ jobs:
           draft: false
           append_body: true
           body: |
-            ${{ steps.devcontainer_link.outputs.message }}
             ${{ steps.pypi_link.outputs.message }}
 
